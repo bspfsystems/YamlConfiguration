@@ -1,4 +1,6 @@
 /*
+ * This file is part of YamlConfigurtion.
+ * 
  * Implementation of SnakeYAML to be easy to use with files.
  * 
  * Copyright (C) 2020  Matt Ciolkosz (https://github.com/mciolkosz)
@@ -20,7 +22,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package org.bspfsystems.yamlconfiguration.configuration;
 
 import java.util.ArrayList;

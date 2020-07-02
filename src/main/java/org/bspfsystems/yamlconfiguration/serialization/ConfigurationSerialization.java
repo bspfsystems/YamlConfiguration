@@ -1,4 +1,6 @@
 /*
+ * This file is part of YamlConfigurtion.
+ * 
  * Implementation of SnakeYAML to be easy to use with files.
  * 
  * Copyright (C) 2020  Matt Ciolkosz (https://github.com/mciolkosz)
