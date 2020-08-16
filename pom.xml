@@ -3,8 +3,8 @@
   ~ 
   ~ Implementation of SnakeYAML to be easy to use with files.
   ~
-  ~ Copyright (C) 2014-2020 SpigotMC Pty. Ltd. (https://www.spigotmc.org)
-  ~ Copyright (C) 2020  Matt Ciolkosz (https://github.com/mciolkosz)
+  ~ Copyright (C) 2014-2020 SpigotMC Pty. Ltd. (https://www.spigotmc.org/)
+  ~ Copyright (C) 2020  BSPF Systems, LLC (https://github.com/bspfsystems/)
   ~ 
   ~ Many of the files in this project are sourced from the Bukkit API as
   ~ part of the SpigotMC project (https://hub.spigotmc.org/stash/).
@@ -28,15 +28,15 @@
   
   <groupId>org.bspfsystems</groupId>
   <artifactId>yamlconfiguration</artifactId>
-  <version>1.0.1</version>
+  <version>1.0.2</version>
   <packaging>jar</packaging>
   
   <name>YamlConfiguration</name>
   <description>Implementation of SnakeYAML to be easy to use with files.</description>
-  <url>https://github.com/bspfsystems/YamlConfiguration</url>
+  <url>https://github.com/bspfsystems/YamlConfiguration/</url>
   <organization>
     <name>BSPF Systems</name>
-    <url>https://github.com/bspfsystems</url>
+    <url>https://github.com/bspfsystems/</url>
   </organization>
   
   <licenses>
@@ -56,9 +56,9 @@
   </developers>
   
   <scm>
-    <connection>scm:git:git@github.com/bspfsystems/YamlConfiguration.git</connection>
-    <developerConnection>scm:git:git@github.com/bspfsystems/YamlConfiguration.git</developerConnection>
-    <url>git@github.com/bspfsystems/YamlConfiguration.git</url>
+    <connection>scm:git:git@github.com:bspfsystems/YamlConfiguration.git</connection>
+    <developerConnection>scm:git:git@github.com:bspfsystems/YamlConfiguration.git</developerConnection>
+    <url>git@github.com:bspfsystems/YamlConfiguration.git</url>
   </scm>
   
   <repositories>

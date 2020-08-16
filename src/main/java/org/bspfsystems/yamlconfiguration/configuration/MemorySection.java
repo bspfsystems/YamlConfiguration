@@ -3,8 +3,8 @@
  * 
  * Implementation of SnakeYAML to be easy to use with files.
  * 
- * Copyright (C) 2020  Matt Ciolkosz (https://github.com/mciolkosz)
- * Copyright (C) 2014-2020 SpigotMC Pty. Ltd. (https://www.spigotmc.org)
+ * Copyright (C) 2014-2020 SpigotMC Pty. Ltd. (https://www.spigotmc.org/)
+ * Copyright (C) 2020 BSPF Systems, LLC (https://github.com/bspfsystems/)
  * 
  * Many of the files in this project are sourced from the Bukkit API as
  * part of the SpigotMC project (https://hub.spigotmc.org/stash/).
@@ -22,6 +22,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 package org.bspfsystems.yamlconfiguration.configuration;
 
 import java.util.ArrayList;
