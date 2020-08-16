@@ -28,7 +28,7 @@
   
   <groupId>org.bspfsystems</groupId>
   <artifactId>yamlconfiguration</artifactId>
-  <version>1.0.2</version>
+  <version>1.0.3</version>
   <packaging>jar</packaging>
   
   <name>YamlConfiguration</name>
@@ -111,7 +111,7 @@
           <appendAssemblyId>false</appendAssemblyId>
           <archive>
             <manifest>
-              <mainClass>fully.qualified.MainClass</mainClass>
+              <mainClass>org.bspfsystems.yamlconfiguration.file.YamlConfiguration.java</mainClass>
             </manifest>
           </archive>
           <descriptorRefs>
