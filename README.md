@@ -80,4 +80,4 @@ To create a new YamlConfiguration in your project, please include the following 
 YamlConfiguration config = new YamlConfiguration;
 ```
 
-For more documentation on how to use the config that you just created, please checkout the [Javadocs](https://bspfsystems.org/docs/yamlconfiguration/latest/).
+For more documentation on how to use the config that you just created, please checkout the [Javadocs](https://bspfsystems.org/YamlConfiguration/).
