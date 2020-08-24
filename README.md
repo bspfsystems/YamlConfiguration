@@ -81,3 +81,11 @@ YamlConfiguration config = new YamlConfiguration;
 ```
 
 For more documentation on how to use the config that you just created, please checkout the [Javadocs](https://bspfsystems.org/YamlConfiguration/).
+
+## Support / Issues
+
+Issues can be reported [here](https://github.com/bspfsystems/YamlConfiguration/issues/).
+
+## Licensing
+
+This project is licensed under the GNU General Public License, version 3. A copy of the license can be obtained from [this repository](LICENSE) or from the [Free Software Foundation's site](http://www.gnu.org/licenses/gpl-3.0.en.html).
