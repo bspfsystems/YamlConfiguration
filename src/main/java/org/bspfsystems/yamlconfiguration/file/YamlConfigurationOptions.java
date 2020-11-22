@@ -83,7 +83,7 @@ public final class YamlConfigurationOptions extends FileConfigurationOptions {
      * @return How much to indent by
      */
 	public int indent() {
-		return indent;
+		return this.indent;
 	}
 	
 	/**
@@ -91,15 +91,15 @@ public final class YamlConfigurationOptions extends FileConfigurationOptions {
      * <p>
      * The minimum value this may be is 2, and the maximum is 9.
      *
-     * @param value New indent
+     * @param indent New indent
      * @return This object, for chaining
      */
 	@NotNull
 	public YamlConfigurationOptions indent(final int indent) {
-		if(indent < 2) {
+		if (indent < 2) {
 			throw new IllegalArgumentException("Indent must be at least 2 characters.");
 		}
-		if(indent > 9) {
+		if (indent > 9) {
 			throw new IllegalArgumentException("Indent cannot be greater than 9 characters.");
 		}
 		this.indent = indent;

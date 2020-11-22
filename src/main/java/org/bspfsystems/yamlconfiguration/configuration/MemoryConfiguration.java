@@ -60,49 +60,33 @@ public class MemoryConfiguration extends MemorySection implements Configuration 
 	
 	@Override
 	public void addDefault(@NotNull String path, @Nullable Object value) {
-		
-		if(path == null) {
-			throw new IllegalArgumentException("Path may not be null.");
+		if (this.defs == null) {
+			this.defs = new MemoryConfiguration();
 		}
-		if(defs == null) {
-			defs = new MemoryConfiguration();
-		}
-		defs.set(path, value);
+		this.defs.set(path, value);
 	}
 	
 	@Override
 	public void addDefaults(@NotNull final Map<String, Object> defs) {
-		
-		if(defs == null) {
-			throw new IllegalArgumentException("Defaults may not be null.");
-		}
-		for(Map.Entry<String, Object> entry : defs.entrySet()) {
-			addDefault(entry.getKey(), entry.getValue());
+		for (final Map.Entry<String, Object> entry : defs.entrySet()) {
+			this.addDefault(entry.getKey(), entry.getValue());
 		}
 	}
 	
 	@Override
 	public void addDefaults(@NotNull final Configuration defs) {
-		
-		if(defs == null) {
-			throw new IllegalArgumentException("Defaults may not be null.");
-		}
-		addDefaults(defs.getValues(true));
+		this.addDefaults(defs.getValues(true));
 	}
 	
 	@Override
 	public void setDefaults(@NotNull final Configuration defs) {
-		
-		if(defs == null) {
-			throw new IllegalArgumentException("Defaults may not be null.");
-		}
 		this.defs = defs;
 	}
 	
 	@Nullable
 	@Override
 	public Configuration getDefaults() {
-		return defs;
+		return this.defs;
 	}
 	
 	@Nullable
@@ -114,9 +98,9 @@ public class MemoryConfiguration extends MemorySection implements Configuration 
 	@NotNull
 	@Override
 	public MemoryConfigurationOptions options() {
-		if(options == null) {
-			options = new MemoryConfigurationOptions(this);
+		if (this.options == null) {
+			this.options = new MemoryConfigurationOptions(this);
 		}
-		return options;
+		return this.options;
 	}
 }

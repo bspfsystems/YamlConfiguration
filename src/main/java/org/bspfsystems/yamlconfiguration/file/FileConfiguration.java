@@ -60,7 +60,7 @@ public abstract class FileConfiguration extends MemoryConfiguration {
      * Creates an empty {@link FileConfiguration} using the specified {@link
      * Configuration} as a source for all default values.
      *
-     * @param defaults Default value provider
+     * @param defs Default value provider
      */
 	public FileConfiguration(@Nullable final Configuration defs) {
 		super(defs);
@@ -82,21 +82,16 @@ public abstract class FileConfiguration extends MemoryConfiguration {
      * @throws IllegalArgumentException Thrown when file is null.
      */
 	public void save(@NotNull final File file) throws IOException {
-		
-		if(file == null) {
-			throw new IllegalArgumentException("File cannot be null.");
-		}
-		if(!file.exists()) {
+		if (!file.exists()) {
 			file.createNewFile();
 		}
 		
-		final String data = saveToString();
+		final String data = this.saveToString();
 		final Writer writer = new OutputStreamWriter(new FileOutputStream(file), StandardCharsets.UTF_8.name());
 		
 		try {
 			writer.write(data);
-		}
-		finally {
+		} finally {
 			writer.close();
 		}
 	}
@@ -111,17 +106,13 @@ public abstract class FileConfiguration extends MemoryConfiguration {
      * This method will save using the system default encoding, or possibly
      * using UTF8.
      *
-     * @param file File to save to.
+     * @param path File to save to.
      * @throws IOException Thrown when the given file cannot be written to for
      *     any reason.
      * @throws IllegalArgumentException Thrown when file is null.
      */
-	public void save(@NotNull final String fileName) throws IOException {
-		
-		if(fileName == null) {
-			throw new IllegalArgumentException("File name cannot be null.");
-		}
-		save(new File(fileName));
+	public void save(@NotNull final String path) throws IOException {
+		this.save(new File(path));
 	}
 	
 	/**
@@ -133,23 +124,18 @@ public abstract class FileConfiguration extends MemoryConfiguration {
 	public abstract String saveToString();
 	
 	/**
-     * Loads this {@link FileConfiguration} from the specified location.
-     * <p>
-     * All the values contained within this configuration will be removed,
-     * leaving only settings and defaults, and the new values will be loaded
-     * from the given file.
-     * <p>
-     * If the file cannot be loaded for any reason, an exception will be
-     * thrown.
-     *
-     * @param file File to load from.
-     * @throws FileNotFoundException Thrown when the given file cannot be
-     *     opened.
-     * @throws IOException Thrown when the given file cannot be read.
-     * @throws InvalidConfigurationException Thrown when the given file is not
-     *     a valid Configuration.
-     * @throws IllegalArgumentException Thrown when file is null.
-     */
+	 * Loads this {@link FileConfiguration} from the specified reader.
+	 * <p>
+	 * All the values contained within this configuration will be removed,
+	 * leaving only settings and defaults, and the new values will be loaded
+	 * from the given stream.
+	 *
+	 * @param reader the reader to load from
+	 * @throws IOException thrown when underlying reader throws an IOException
+	 * @throws InvalidConfigurationException thrown when the reader does not
+	 *      represent a valid Configuration
+	 * @throws IllegalArgumentException thrown when reader is null
+	 */
 	public void load(@NotNull Reader reader) throws IOException, InvalidConfigurationException {
 		
 		final BufferedReader bufferedReader = reader instanceof BufferedReader ? (BufferedReader) reader : new BufferedReader(reader);
@@ -161,33 +147,33 @@ public abstract class FileConfiguration extends MemoryConfiguration {
 				builder.append(line);
 				builder.append('\n');
 			}
-		}
-		finally {
+		} finally {
 			bufferedReader.close();
 		}
 		
-		loadFromString(builder.toString());
+		this.loadFromString(builder.toString());
 	}
 	
 	/**
-     * Loads this {@link FileConfiguration} from the specified reader.
-     * <p>
-     * All the values contained within this configuration will be removed,
-     * leaving only settings and defaults, and the new values will be loaded
-     * from the given stream.
-     *
-     * @param reader the reader to load from
-     * @throws IOException thrown when underlying reader throws an IOException
-     * @throws InvalidConfigurationException thrown when the reader does not
-     *      represent a valid Configuration
-     * @throws IllegalArgumentException thrown when reader is null
-     */
+	 * Loads this {@link FileConfiguration} from the specified location.
+	 * <p>
+	 * All the values contained within this configuration will be removed,
+	 * leaving only settings and defaults, and the new values will be loaded
+	 * from the given file.
+	 * <p>
+	 * If the file cannot be loaded for any reason, an exception will be
+	 * thrown.
+	 *
+	 * @param file File to load from.
+	 * @throws FileNotFoundException Thrown when the given file cannot be
+	 *     opened.
+	 * @throws IOException Thrown when the given file cannot be read.
+	 * @throws InvalidConfigurationException Thrown when the given file is not
+	 *     a valid Configuration.
+	 * @throws IllegalArgumentException Thrown when file is null.
+	 */
 	public void load(@NotNull File file) throws FileNotFoundException, IOException, InvalidConfigurationException {
-		
-		if(file == null) {
-			throw new IllegalArgumentException("File cannot be null.");
-		}
-		load(new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8.name()));
+		this.load(new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8.name()));
 	}
 	
 	/**
@@ -200,7 +186,7 @@ public abstract class FileConfiguration extends MemoryConfiguration {
      * If the file cannot be loaded for any reason, an exception will be
      * thrown.
      *
-     * @param file File to load from.
+     * @param fileName File to load from.
      * @throws FileNotFoundException Thrown when the given file cannot be
      *     opened.
      * @throws IOException Thrown when the given file cannot be read.
@@ -209,11 +195,7 @@ public abstract class FileConfiguration extends MemoryConfiguration {
      * @throws IllegalArgumentException Thrown when file is null.
      */
 	public void load(@NotNull String fileName) throws FileNotFoundException, IOException, InvalidConfigurationException {
-		
-		if(fileName == null) {
-			throw new IllegalArgumentException("File name cannot be null.");
-		}
-		load(new File(fileName));
+		this.load(new File(fileName));
 	}
 	
 	/**
@@ -226,7 +208,7 @@ public abstract class FileConfiguration extends MemoryConfiguration {
      * <p>
      * If the string is invalid in any way, an exception will be thrown.
      *
-     * @param contents Contents of a Configuration to load.
+     * @param data Contents of a Configuration to load.
      * @throws InvalidConfigurationException Thrown if the specified string is
      *     invalid.
      * @throws IllegalArgumentException Thrown if contents is null.
@@ -234,29 +216,24 @@ public abstract class FileConfiguration extends MemoryConfiguration {
 	public abstract void loadFromString(@NotNull String data) throws InvalidConfigurationException;
 	
 	/**
-     * Loads this {@link FileConfiguration} from the specified string, as
-     * opposed to from file.
-     * <p>
-     * All the values contained within this configuration will be removed,
-     * leaving only settings and defaults, and the new values will be loaded
-     * from the given string.
-     * <p>
-     * If the string is invalid in any way, an exception will be thrown.
-     *
-     * @param contents Contents of a Configuration to load.
-     * @throws InvalidConfigurationException Thrown if the specified string is
-     *     invalid.
-     * @throws IllegalArgumentException Thrown if contents is null.
-     */
+	 * Compiles the header for this {@link FileConfiguration} and returns the
+	 * result.
+	 * <p>
+	 * This will use the header from {@link #options()} -&gt; {@link
+	 * FileConfigurationOptions#header()}, respecting the rules of {@link
+	 * FileConfigurationOptions#copyHeader()} if set.
+	 *
+	 * @return Compiled header
+	 */
 	@NotNull
 	protected abstract String buildHeader();
 	
 	@NotNull
 	@Override
 	public FileConfigurationOptions options() {
-		if(options == null) {
-			options = new FileConfigurationOptions(this);
+		if (this.options == null) {
+			this.options = new FileConfigurationOptions(this);
 		}
-		return (FileConfigurationOptions) options;
+		return (FileConfigurationOptions) this.options;
 	}
 }

@@ -64,14 +64,14 @@ public final class YamlConfiguration extends FileConfiguration {
 	@Override
 	public String saveToString() {
 		
-		yamlOptions.setIndent(options().indent());
-		yamlOptions.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
-		yamlRepresenter.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
+		this.yamlOptions.setIndent(options().indent());
+		this.yamlOptions.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
+		this.yamlRepresenter.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
 		
 		final String header = buildHeader();
-		String dump = yaml.dump(getValues(false));
+		String dump = this.yaml.dump(this.getValues(false));
 		
-		if(dump.equals(BLANK_CONFIG)) {
+		if (dump.equals(YamlConfiguration.BLANK_CONFIG)) {
 			dump = "";
 		}
 		
@@ -81,41 +81,34 @@ public final class YamlConfiguration extends FileConfiguration {
 	@Override
 	public void loadFromString(@NotNull final String data) throws InvalidConfigurationException {
 		
-		if(data == null) {
-			throw new IllegalArgumentException("Data cannot be null.");
-		}
-		
 		final Map<?, ?> map;
 		try {
-			map = (Map<?, ?>) yaml.load(data);
-		}
-		catch(YAMLException e) {
+			map = (Map<?, ?>) this.yaml.load(data);
+		} catch (YAMLException e) {
 			throw new InvalidConfigurationException(e);
-		}
-		catch(ClassCastException e) {
+		} catch (ClassCastException e) {
 			throw new InvalidConfigurationException("Top level is not a Map.", e);
 		}
 		
-		final String header = parseHeader(data);
-		if(header.length() > 0) {
-			options().header(header);
+		final String header = this.parseHeader(data);
+		if (header.length() > 0) {
+			this.options().header(header);
 		}
 		
-		if(map != null) {
-			convertMapsToSections(map, this);
+		if (map != null) {
+			this.convertMapsToSections(map, this);
 		}
 	}
 	
 	protected void convertMapsToSections(@NotNull final Map<?, ?> map, @NotNull final ConfigurationSection section) {
 		
-		for(final Map.Entry<?, ?> entry : map.entrySet()) {
+		for (final Map.Entry<?, ?> entry : map.entrySet()) {
 			final String key = entry.getKey().toString();
 			final Object value = entry.getValue();
 			
-			if(value instanceof Map) {
+			if (value instanceof Map) {
 				convertMapsToSections((Map<?, ?>) value, section.createSection(key));
-			}
-			else {
+			} else {
 				section.set(key, value);
 			}
 		}
@@ -130,23 +123,21 @@ public final class YamlConfiguration extends FileConfiguration {
 		boolean readingHeader = true;
 		boolean foundHeader = false;
 		
-		for(int index = 0; index < lines.length && readingHeader; index++) {
+		for (int index = 0; index < lines.length && readingHeader; index++) {
 			
 			final String line = lines[index];
-			if(line.startsWith(COMMENT_PREFIX)) {
+			if (line.startsWith(YamlConfiguration.COMMENT_PREFIX)) {
 				
-				if(index > 0) {
+				if (index > 0) {
 					builder.append("\n");
 				}
-				if(line.length() > COMMENT_PREFIX.length()) {
-					builder.append(line.substring(COMMENT_PREFIX.length()));
+				if (line.length() > YamlConfiguration.COMMENT_PREFIX.length()) {
+					builder.append(line.substring(YamlConfiguration.COMMENT_PREFIX.length()));
 				}
 				foundHeader = true;
-			}
-			else if(foundHeader && line.length() == 0) {
+			} else if (foundHeader && line.length() == 0) {
 				builder.append("\n");
-			}
-			else if(foundHeader) {
+			} else if (foundHeader) {
 				readingHeader = false;
 			}
 		}
@@ -158,22 +149,22 @@ public final class YamlConfiguration extends FileConfiguration {
 	@Override
 	protected String buildHeader() {
 		
-		final String header = options().header();
-		if(options().copyHeader()) {
+		final String header = this.options().header();
+		if (this.options().copyHeader()) {
 			
-			final Configuration def = getDefaults();
-			if(def != null && def instanceof FileConfiguration) {
+			final Configuration def = this.getDefaults();
+			if (def instanceof FileConfiguration) {
 				
 				final FileConfiguration fileDef = (FileConfiguration) def;
 				final String defHeader = fileDef.buildHeader();
 				
-				if(defHeader != null && defHeader.length() > 0) {
+				if (defHeader.length() > 0) {
 					return defHeader;
 				}
 			}
 		}
 		
-		if(header == null) {
+		if (header == null) {
 			return "";
 		}
 		
@@ -181,12 +172,12 @@ public final class YamlConfiguration extends FileConfiguration {
 		final String[] lines = header.split("\r?\n", -1);
 		
 		boolean startedHeader = false;
-		for(int index = lines.length; index >= 0; index--) {
+		for (int index = lines.length - 1; index >= 0; index--) {
 			
 			builder.insert(0, "\n");
-			if(startedHeader || lines[index].length() != 0) {
+			if (startedHeader || lines[index].length() != 0) {
 				builder.insert(0, lines[index]);
-				builder.insert(0, COMMENT_PREFIX);
+				builder.insert(0, YamlConfiguration.COMMENT_PREFIX);
 				startedHeader = true;
 			}
 		}
@@ -197,10 +188,10 @@ public final class YamlConfiguration extends FileConfiguration {
 	@NotNull
 	@Override
 	public YamlConfigurationOptions options() {
-		if(options == null) {
-			options = new YamlConfigurationOptions(this);
+		if (this.options == null) {
+			this.options = new YamlConfigurationOptions(this);
 		}
-		return (YamlConfigurationOptions) options;
+		return (YamlConfigurationOptions) this.options;
 	}
 	
 	/**
@@ -219,15 +210,10 @@ public final class YamlConfiguration extends FileConfiguration {
 	@NotNull
 	public static YamlConfiguration loadConfiguration(@NotNull final File file) {
 		
-		if(file == null) {
-			throw new IllegalArgumentException("File cannot be null.");
-		}
-		
 		final YamlConfiguration config = new YamlConfiguration();
 		try {
 			config.load(file);
-		}
-		catch(IOException | InvalidConfigurationException e) {
+		} catch (IOException | InvalidConfigurationException e) {
 			Logger.getLogger(YamlConfiguration.class.getName()).log(Level.SEVERE, "Cannot load config from file: " + file, e);
 		}
 		
@@ -248,15 +234,10 @@ public final class YamlConfiguration extends FileConfiguration {
 	@NotNull
 	public static YamlConfiguration loadConfiguration(@NotNull final Reader reader) {
 		
-		if(reader == null) {
-			throw new IllegalArgumentException("Reader cannot be null.");
-		}
-		
 		final YamlConfiguration config = new YamlConfiguration();
 		try {
 			config.load(reader);
-		}
-		catch(IOException | InvalidConfigurationException e) {
+		} catch (IOException | InvalidConfigurationException e) {
 			Logger.getLogger(YamlConfiguration.class.getName()).log(Level.SEVERE, "Cannot load config from reader.", e);
 		}
 		

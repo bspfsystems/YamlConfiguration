@@ -48,22 +48,21 @@ public final class YamlConstructor extends SafeConstructor {
 		@Override
 		public Object construct(@NotNull final Node node) {
 			
-			if(node.isTwoStepsConstruction()) {
+			if (node.isTwoStepsConstruction()) {
 				throw new YAMLException("Unexpected referential mapping structure. Node: " + node);
 			}
 			
 			final Map<?, ?> raw = (Map<?, ?>) super.construct(node);
-			if(raw.containsKey(ConfigurationSerialization.SERIALIZED_TYPE_KEY)) {
+			if (raw.containsKey(ConfigurationSerialization.SERIALIZED_TYPE_KEY)) {
 				
 				final Map<String, Object> typed = new LinkedHashMap<String, Object>(raw.size());
-				for(final Map.Entry<?, ?> entry : raw.entrySet()) {
+				for (final Map.Entry<?, ?> entry : raw.entrySet()) {
 					typed.put(entry.getKey().toString(), entry.getValue());
 				}
 				
 				try {
 					return ConfigurationSerialization.deserializeObject(typed);
-				}
-				catch(IllegalArgumentException e) {
+				} catch (IllegalArgumentException e) {
 					throw new YAMLException("Could not deserialize object.", e);
 				}
 			}
@@ -73,7 +72,7 @@ public final class YamlConstructor extends SafeConstructor {
 		
 		@Override
 		public void construct2ndStep(@NotNull final Node node, @NotNull final Object object) {
-			throw new YAMLException("Unexpected referntial mapping struture. Node: " + node);
+			throw new YAMLException("Unexpected referential mapping structure. Node: " + node);
 		}
 	}
 	

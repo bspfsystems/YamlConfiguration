@@ -60,7 +60,7 @@ public class MemorySection implements ConfigurationSection {
      */
 	protected MemorySection() {
 		
-		if(!(this instanceof Configuration)) {
+		if (!(this instanceof Configuration)) {
 			throw new IllegalStateException("Cannot construct a root MemorySection when this is not a Configuration.");
 		}
 		
@@ -83,13 +83,7 @@ public class MemorySection implements ConfigurationSection {
      */
 	protected MemorySection(@NotNull final ConfigurationSection parent, @NotNull final String path) {
 		
-		if(parent == null) {
-			throw new IllegalArgumentException("Parent cannot be null.");
-		}
-		if(path == null) {
-			throw new IllegalArgumentException("Path cannot be null.");
-		}
-		if(parent.getRoot() == null) {
+		if (parent.getRoot() == null) {
 			throw new IllegalArgumentException("Path cannot be orphaned.");
 		}
 		
@@ -106,17 +100,17 @@ public class MemorySection implements ConfigurationSection {
 	public Set<String> getKeys(final boolean deep) {
 		
 		final Set<String> result = new LinkedHashSet<String>();
-		final Configuration root = getRoot();
+		final Configuration root = this.getRoot();
 		
-		if(root != null && root.options().copyDefaults()) {
+		if (root != null && root.options().copyDefaults()) {
 			
-			final ConfigurationSection defs = getDefaultSection();
-			if(defs != null) {
+			final ConfigurationSection defs = this.getDefaultSection();
+			if (defs != null) {
 				result.addAll(defs.getKeys(deep));
 			}
 		}
 		
-		mapChildrenKeys(result, this, deep);
+		this.mapChildrenKeys(result, this, deep);
 		return result;
 	}
 	
@@ -125,54 +119,54 @@ public class MemorySection implements ConfigurationSection {
 	public Map<String, Object> getValues(final boolean deep) {
 		
 		final Map<String, Object> result = new LinkedHashMap<String, Object>();
-		final Configuration root = getRoot();
+		final Configuration root = this.getRoot();
 		
-		if(root != null && root.options().copyDefaults()) {
+		if (root != null && root.options().copyDefaults()) {
 			
-			final ConfigurationSection defs = getDefaultSection();
-			if(defs != null) {
+			final ConfigurationSection defs = this.getDefaultSection();
+			if (defs != null) {
 				result.putAll(defs.getValues(deep));
 			}
 		}
 		
-		mapChildrenValues(result, this, deep);
+		this.mapChildrenValues(result, this, deep);
 		return result;
 	}
 	
 	@NotNull
 	@Override
 	public String getCurrentPath() {
-		return fullPath;
+		return this.fullPath;
 	}
 	
 	@NotNull
 	@Override
 	public String getName() {
-		return path;
+		return this.path;
 	}
 	
 	@Nullable
 	@Override
 	public Configuration getRoot() {
-		return root;
+		return this.root;
 	}
 	
 	@Nullable
 	@Override
 	public ConfigurationSection getParent() {
-		return parent;
+		return this.parent;
 	}
 	
 	@Nullable
 	@Override
 	public ConfigurationSection getDefaultSection() {
 		
-		final Configuration root = getRoot();
+		final Configuration root = this.getRoot();
 		final Configuration defs = root == null ? null : root.getDefaults();
 		
-		if(defs != null) {
-			if(defs.isConfigurationSection(getCurrentPath())) {
-				return defs.getConfigurationSection(getCurrentPath());
+		if (defs != null) {
+			if (defs.isConfigurationSection(this.getCurrentPath())) {
+				return defs.getConfigurationSection(this.getCurrentPath());
 			}
 		}
 		
@@ -182,34 +176,26 @@ public class MemorySection implements ConfigurationSection {
 	@Override
 	public void addDefault(@NotNull final String path, @Nullable final Object value) {
 		
-		if(path == null) {
-			throw new IllegalArgumentException("Path cannot be null.");
-		}
-		
-		final Configuration root = getRoot();
-		if(root == null) {
+		final Configuration root = this.getRoot();
+		if (root == null) {
 			throw new IllegalStateException("Cannot add defaults without a root.");
 		}
-		if(root == this) {
+		if (root == this) {
 			throw new UnsupportedOperationException("Unsupported addDefault(String, Object) implementation.");
 		}
 		
-		root.addDefault(createPath(this, path), value);
+		root.addDefault(MemorySection.createPath(this, path), value);
 	}
 	
 	@NotNull
 	@Override
 	public ConfigurationSection createSection(@NotNull final String path) {
-		
-		if(path == null) {
-			throw new IllegalArgumentException("Cannot set to an empty path.");
-		}
-		if(path.isEmpty()) {
+		if (path.isEmpty()) {
 			throw new IllegalArgumentException("Cannot set to an empty path.");
 		}
 		
-		final Configuration root = getRoot();
-		if(root == null) {
+		final Configuration root = this.getRoot();
+		if (root == null) {
 			throw new IllegalStateException("Cannot create section without a root.");
 		}
 		
@@ -218,22 +204,21 @@ public class MemorySection implements ConfigurationSection {
 		int tail;
 		
 		ConfigurationSection section = this;
-		while((lead = path.indexOf(separator, tail = lead + 1)) != -1) {
+		while ((lead = path.indexOf(separator, tail = lead + 1)) != -1) {
 			
 			final String node = path.substring(tail, lead);
 			final ConfigurationSection subSection = section.getConfigurationSection(node);
-			if(subSection == null) {
+			if (subSection == null) {
 				section = section.createSection(node);
-			}
-			else {
+			} else {
 				section = subSection;
 			}
 		}
 		
 		final String key = path.substring(tail);
-		if(section == this) {
+		if (section == this) {
 			final ConfigurationSection result = new MemorySection(this, key);
-			map.put(key, result);
+			this.map.put(key, result);
 			return result;
 		}
 		return section.createSection(key);
@@ -244,12 +229,11 @@ public class MemorySection implements ConfigurationSection {
 	public ConfigurationSection createSection(@NotNull final String path, @NotNull final Map<?, ?> map) {
 		
 		final ConfigurationSection section = createSection(path);
-		for(final Map.Entry<?, ?> entry : map.entrySet()) {
+		for (final Map.Entry<?, ?> entry : map.entrySet()) {
 			
-			if(entry.getValue() instanceof Map) {
+			if (entry.getValue() instanceof Map) {
 				section.createSection(entry.getKey().toString(), (Map<?, ?>) entry.getValue());
-			}
-			else {
+			} else {
 				section.set(entry.getKey().toString(), entry.getValue());
 			}
 		}
@@ -260,28 +244,25 @@ public class MemorySection implements ConfigurationSection {
 	@Override
 	public boolean isSet(@NotNull final String path) {
 		
-		final Configuration root = getRoot();
-		if(root == null) {
+		final Configuration root = this.getRoot();
+		if (root == null) {
 			return false;
 		}
-		if(root.options().copyDefaults()) {
-			return contains(path);
+		if (root.options().copyDefaults()) {
+			return this.contains(path);
 		}
-		return get(path, null) != null;
+		return this.get(path, null) != null;
 	}
 	
 	@Override
 	public void set(@NotNull final String path, @Nullable final Object value) {
 		
-		if(path == null) {
-			throw new IllegalArgumentException("Cannot set to an empty path.");
-		}
-		if(path.isEmpty()) {
+		if (path.isEmpty()) {
 			throw new IllegalArgumentException("Cannot set to an empty path.");
 		}
 		
-		final Configuration root = getRoot();
-		if(root == null) {
+		final Configuration root = this.getRoot();
+		if (root == null) {
 			throw new IllegalStateException("Cannot use section without a root.");
 		}
 		
@@ -290,65 +271,59 @@ public class MemorySection implements ConfigurationSection {
 		int tail;
 		
 		ConfigurationSection section = this;
-		while((lead = path.indexOf(separator, tail = lead + 1)) != -1) {
+		while ((lead = path.indexOf(separator, tail = lead + 1)) != -1) {
 			
 			final String node = path.substring(lead, tail);
 			final ConfigurationSection subSection = section.getConfigurationSection(node);
 			
-			if(subSection == null) {
-				if(value == null) {
+			if (subSection == null) {
+				if (value == null) {
 					return;
 				}
 				section = section.createSection(node);
-			}
-			else {
+			} else {
 				section = subSection;
 			}
 		}
 		
 		final String key = path.substring(tail);
-		if(section == this) {
-			if(value == null) {
-				map.remove(key);
+		if (section == this) {
+			if (value == null) {
+				this.map.remove(key);
+			} else {
+				this.map.put(key, value);
 			}
-			else {
-				map.put(key, value);
-			}
-		}
-		else {
+		} else {
 			section.set(key, value);
 		}
 	}
 	
 	@Override
 	public boolean contains(@NotNull final String path) {
-		return contains(path, false);
+		return this.contains(path, false);
 	}
 	
 	@Override
 	public boolean contains(@NotNull final String path, final boolean ignoreDefault) {
-		return ((ignoreDefault) ? get(path, null) : get(path)) != null;
+		return ((ignoreDefault) ? this.get(path, null) : this.get(path)) != null;
 	}
 	
 	@Nullable
 	@Override
 	public Object get(@NotNull final String path) {
-		return get(path, getDefault(path));
+		return this.get(path, this.getDefault(path));
 	}
 	
 	@Nullable
 	@Override
 	public Object get(@NotNull final String path, @Nullable final Object def) {
 		
-		if(path == null) { 
-			throw new IllegalArgumentException("Path cannot be null.");
-		}
-		if(path.length() == 0) {
+		if (path.length() == 0) {
 			return this;
 		}
 		
-		final Configuration root = getRoot();
-		if(root == null) {
+		final Configuration root = this.getRoot();
+		if (root == null) {
 			throw new IllegalStateException("Cannot access section without a root.");
 		}
 		
@@ -357,16 +332,16 @@ public class MemorySection implements ConfigurationSection {
 		int tail;
 		
 		ConfigurationSection section = this;
-		while((lead = path.indexOf(separator, tail = lead + 1)) != -1) {
+		while ((lead = path.indexOf(separator, tail = lead + 1)) != -1) {
 			section = section.getConfigurationSection(path.substring(tail, lead));
-			if(section == null) {
+			if (section == null) {
 				return def;
 			}
 		}
 		
 		final String key = path.substring(tail);
-		if(section == this) {
-			final Object result = map.get(key);
+		if (section == this) {
+			final Object result = this.map.get(key);
 			return result == null ? def : result;
 		}
 		return section.get(key, def);
@@ -374,244 +349,237 @@ public class MemorySection implements ConfigurationSection {
 	
 	@Override
 	public boolean isBoolean(@NotNull final String path) {
-		return get(path) instanceof Boolean;
+		return this.get(path) instanceof Boolean;
 	}
 	
 	@Override
 	public boolean getBoolean(@NotNull final String path) {
-		final Object def = getDefault(path);
-		return getBoolean(path, def instanceof Boolean ? ((Boolean) def).booleanValue() : false);
+		final Object def = this.getDefault(path);
+		return this.getBoolean(path, def instanceof Boolean && (Boolean) def);
 	}
 	
 	@Override
 	public boolean getBoolean(@NotNull final String path, final boolean def) {
-		final Object val = get(path, def);
-		return val instanceof Boolean ? ((Boolean) val).booleanValue() : def;
+		final Object val = this.get(path, def);
+		return val instanceof Boolean ? (Boolean) val : def;
 	}
 	
 	@Override
 	public boolean isByte(@NotNull final String path) {
-		return get(path) instanceof Byte;
+		return this.get(path) instanceof Byte;
 	}
 	
 	@Override
 	public byte getByte(@NotNull final String path) {
-		final Object def = getDefault(path);
-		return getByte(path, def instanceof Number ? ((Number) def).byteValue() : (byte) 0);
+		final Object def = this.getDefault(path);
+		return this.getByte(path, def instanceof Number ? ((Number) def).byteValue() : (byte) 0);
 	}
 	
 	@Override
 	public byte getByte(@NotNull final String path, final byte def) {
-		final Object val = get(path, def);
+		final Object val = this.get(path, def);
 		return val instanceof Number ? ((Number) val).byteValue() : def;
 	}
 	
 	@Override
 	public boolean isShort(@NotNull final String path) {
-		return get(path) instanceof Short;
+		return this.get(path) instanceof Short;
 	}
 	
 	@Override
 	public short getShort(@NotNull final String path) {
-		final Object def = getDefault(path);
-		return getShort(path, def instanceof Number ? ((Number) def).shortValue() : (short) 0);
+		final Object def = this.getDefault(path);
+		return this.getShort(path, def instanceof Number ? ((Number) def).shortValue() : (short) 0);
 	}
 	
 	@Override
 	public short getShort(@NotNull final String path, final short def) {
-		final Object val = get(path, def);
+		final Object val = this.get(path, def);
 		return val instanceof Number ? ((Number) val).shortValue() : def;
 	}
 	
 	@Override
 	public boolean isInt(@NotNull final String path) {
-		return get(path) instanceof Integer;
+		return this.get(path) instanceof Integer;
 	}
 	
 	@Override
 	public int getInt(@NotNull final String path) {
-		final Object def = getDefault(path);
-		return getInt(path, def instanceof Number ? ((Number) def).intValue() : 0);
+		final Object def = this.getDefault(path);
+		return this.getInt(path, def instanceof Number ? ((Number) def).intValue() : 0);
 	}
 	
 	@Override
 	public int getInt(@NotNull final String path, final int def) {
-		final Object val = get(path, def);
+		final Object val = this.get(path, def);
 		return val instanceof Number ? ((Number) val).intValue() : def;
 	}
 	
 	@Override
 	public boolean isLong(@NotNull final String path) {
-		return get(path) instanceof Long;
+		return this.get(path) instanceof Long;
 	}
 	
 	@Override
 	public long getLong(@NotNull final String path) {
-		final Object def = getDefault(path);
-		return getLong(path, def instanceof Number ? ((Long) def).longValue() : 0L);
+		final Object def = this.getDefault(path);
+		return this.getLong(path, def instanceof Number ? (Long) def : 0L);
 	}
 	
 	@Override
 	public long getLong(@NotNull final String path, final long def) {
-		final Object val = get(path, def);
-		return val instanceof Number ? ((Long) val).longValue() : def;
+		final Object val = this.get(path, def);
+		return val instanceof Number ? (Long) val : def;
 	}
 	
 	@Override
 	public boolean isFloat(@NotNull final String path) {
-		return get(path) instanceof Float;
+		return this.get(path) instanceof Float;
 	}
 	
 	@Override
 	public float getFloat(@NotNull final String path) {
-		final Object def = getDefault(path);
-		return getFloat(path, def instanceof Number ? ((Number) def).floatValue() : 0.0F);
+		final Object def = this.getDefault(path);
+		return this.getFloat(path, def instanceof Number ? ((Number) def).floatValue() : 0.0F);
 	}
 	
 	@Override
 	public float getFloat(@NotNull final String path, final float def) {
-		final Object val = get(path, def);
+		final Object val = this.get(path, def);
 		return val instanceof Number ? ((Number) val).floatValue() : def;
 	}
 	
 	@Override
 	public boolean isDouble(@NotNull final String path) {
-		return get(path) instanceof Double;
+		return this.get(path) instanceof Double;
 	}
 	
 	@Override
 	public double getDouble(@NotNull final String path) {
-		final Object def = getDefault(path);
-		return getDouble(path, def instanceof Number ? ((Number) def).doubleValue() : 0.0D);
+		final Object def = this.getDefault(path);
+		return this.getDouble(path, def instanceof Number ? ((Number) def).doubleValue() : 0.0D);
 	}
 	
 	@Override
 	public double getDouble(@NotNull final String path, final double def) {
-		final Object val = get(path, def);
+		final Object val = this.get(path, def);
 		return val instanceof Number ? ((Number) val).doubleValue() : def;
 	}
 	
 	@Override
 	public boolean isChar(@NotNull final String path) {
-		return get(path) instanceof Boolean;
+		return this.get(path) instanceof Boolean;
 	}
 	
 	@Override
 	public char getChar(@NotNull final String path) {
-		final Object def = getDefault(path);
-		return getChar(path, def instanceof Character ? ((Character) def).charValue() : '\u0000');
+		final Object def = this.getDefault(path);
+		return this.getChar(path, def instanceof Character ? (Character) def : '\u0000');
 	}
 	
 	@Override
 	public char getChar(@NotNull final String path, final char def) {
-		final Object val = get(path, def);
-		return val instanceof Character ? ((Character) val).charValue() : def;
+		final Object val = this.get(path, def);
+		return val instanceof Character ? (Character) val : def;
 	}
 	
 	@Override
 	public boolean isString(@NotNull final String path) {
-		return get(path) instanceof String;
+		return this.get(path) instanceof String;
 	}
 	
 	@Nullable
 	@Override
 	public String getString(@NotNull final String path) {
-		final Object def = getDefault(path);
-		return getString(path, def != null ? def.toString() : null);
+		final Object def = this.getDefault(path);
+		return this.getString(path, def != null ? def.toString() : null);
 	}
 	
 	@Nullable
 	@Override
 	public String getString(@NotNull final String path, @Nullable final String def) {
-		final Object val = get(path, def);
+		final Object val = this.get(path, def);
 		return val != null ? val.toString() : def;
 	}
 	
 	@Override
 	public boolean isList(@NotNull final String path) {
-		return get(path) instanceof List;
+		return this.get(path) instanceof List;
 	}
 	
 	@Nullable
 	@Override
 	public List<?> getList(@NotNull final String path) {
-		final Object def = getDefault(path);
-		return getList(path, def instanceof List ? (List<?>) def : null);
+		final Object def = this.getDefault(path);
+		return this.getList(path, def instanceof List ? (List<?>) def : null);
 	}
 	
 	@Nullable
 	@Override
 	public List<?> getList(@NotNull final String path, @Nullable final List<?> def) {
-		final Object val = get(path, def);
+		final Object val = this.get(path, def);
 		return val instanceof List ? (List<?>) val : def;
 	}
 	
 	@Override
 	public boolean isConfigurationSection(@NotNull final String path) {
-		return get(path) instanceof ConfigurationSection;
+		return this.get(path) instanceof ConfigurationSection;
 	}
 	
 	@Nullable
 	@Override
 	public ConfigurationSection getConfigurationSection(@NotNull final String path) {
 		
-		Object val = get(path, null);
-		if(val != null) {
+		Object val = this.get(path, null);
+		if (val != null) {
 			return val instanceof ConfigurationSection ? (ConfigurationSection) val : null;
 		}
 		
-		val = get(path, getDefault(path));
-		return val instanceof ConfigurationSection ? createSection(path) : null;
+		val = this.get(path, this.getDefault(path));
+		return val instanceof ConfigurationSection ? this.createSection(path) : null;
 	}
 	
 	@Nullable
 	@Override
 	public <T extends Object> T getObject(@NotNull final String path, @NotNull final Class<T> clazz) {
-		if(clazz == null) {
-			throw new IllegalArgumentException("Class cannot be null.");
-		}
-		final Object def = getDefault(path);
-		return getObject(path, clazz, def != null && clazz.isInstance(def) ? clazz.cast(def) : null);
+		final Object def = this.getDefault(path);
+		return this.getObject(path, clazz, def != null && clazz.isInstance(def) ? clazz.cast(def) : null);
 	}
 	
 	@Nullable
 	@Override
 	public <T extends Object> T getObject(@NotNull final String path, @NotNull final Class<T> clazz, @Nullable final T def) {
-		if(clazz == null) {
-			throw new IllegalArgumentException("Class cannot be null.");
-		}
-		final Object val = get(path, def);
-		return val != null && clazz.isInstance(val) ? clazz.cast(val) : def;
+		final Object val = this.get(path, def);
+		return clazz.isInstance(val) ? clazz.cast(val) : def;
 	}
 	
 	@Nullable
 	@Override
 	public <T extends ConfigurationSerializable> T getSerializable(@NotNull final String path, @NotNull final Class<T> clazz) {
-		return getObject(path, clazz);
+		return this.getObject(path, clazz);
 	}
 	
 	@Nullable
 	@Override
 	public <T extends ConfigurationSerializable> T getSerializable(@NotNull final String path, @NotNull final Class<T> clazz, @Nullable final T def) {
-		return getObject(path, clazz, def);
+		return this.getObject(path, clazz, def);
 	}
 	
 	@NotNull
 	@Override
 	public List<Boolean> getBooleanList(@NotNull final String path) {
 		
-		final List<?> list = getList(path);
-		if(list == null) {
+		final List<?> list = this.getList(path);
+		if (list == null) {
 			return new ArrayList<Boolean>(0);
 		}
 		
 		final List<Boolean> result = new ArrayList<Boolean>();
-		for(final Object object : list) {
+		for (final Object object : list) {
 			
-			if(object instanceof Boolean) {
+			if (object instanceof Boolean) {
 				result.add((Boolean) object);
-			}
-			else if(object instanceof String) {
+			} else if(object instanceof String) {
 				result.add(Boolean.valueOf((String) object));
 			}
 		}
@@ -623,35 +591,30 @@ public class MemorySection implements ConfigurationSection {
 	@Override
 	public List<Byte> getByteList(@NotNull final String path) {
 		
-		final List<?> list = getList(path);
-		if(list == null) {
+		final List<?> list = this.getList(path);
+		if (list == null) {
 			return new ArrayList<Byte>(0);
 		}
 		
 		final List<Byte> result = new ArrayList<Byte>();
-		for(final Object object : list) {
+		for (final Object object : list) {
 			
 			if(object instanceof Byte) {
 				result.add((Byte) object);
-			}
-			else if(object instanceof String) {
+			} else if (object instanceof String) {
 				try {
 					result.add(Byte.valueOf((String) object));
-				}
-				catch(NumberFormatException e) {
+				} catch (NumberFormatException e) {
 					// Ignore
 				}
-			}
-			else if(object instanceof Character) {
+			} else if (object instanceof Character) {
 				try {
-					result.add(Byte.valueOf((byte) ((Character) object).charValue()));
-				}
-				catch(ClassCastException e) {
+					result.add((byte) ((Character) object).charValue());
+				} catch (ClassCastException e) {
 					// Ignore
 				}
-			}
-			else if(object instanceof Number) {
-				result.add(Byte.valueOf(((Number) object).byteValue()));
+			} else if (object instanceof Number) {
+				result.add(((Number) object).byteValue());
 			}
 		}
 		
@@ -662,35 +625,30 @@ public class MemorySection implements ConfigurationSection {
 	@Override
 	public List<Short> getShortList(@NotNull final String path) {
 		
-		final List<?> list = getList(path);
-		if(list == null) {
+		final List<?> list = this.getList(path);
+		if (list == null) {
 			return new ArrayList<Short>(0);
 		}
 		
 		final List<Short> result = new ArrayList<Short>();
-		for(final Object object : list) {
+		for (final Object object : list) {
 			
-			if(object instanceof Short) {
+			if (object instanceof Short) {
 				result.add((Short) object);
-			}
-			else if(object instanceof String) {
+			} else if(object instanceof String) {
 				try {
 					result.add(Short.valueOf((String) object));
-				}
-				catch(NumberFormatException e) {
+				} catch (NumberFormatException e) {
 					// Ignore
 				}
-			}
-			else if(object instanceof Character) {
+			} else if (object instanceof Character) {
 				try {
-					result.add(Short.valueOf((short) ((Character) object).charValue()));
-				}
-				catch(ClassCastException e) {
+					result.add((short) ((Character) object).charValue());
+				} catch (ClassCastException e) {
 					// Ignore
 				}
-			}
-			else if(object instanceof Number) {
-				result.add(Short.valueOf(((Number) object).shortValue()));
+			} else if (object instanceof Number) {
+				result.add(((Number) object).shortValue());
 			}
 		}
 		
@@ -701,35 +659,30 @@ public class MemorySection implements ConfigurationSection {
 	@Override
 	public List<Integer> getIntList(@NotNull final String path) {
 		
-		final List<?> list = getList(path);
-		if(list == null) {
+		final List<?> list = this.getList(path);
+		if (list == null) {
 			return new ArrayList<Integer>(0);
 		}
 		
 		final List<Integer> result = new ArrayList<Integer>();
-		for(final Object object : list) {
+		for (final Object object : list) {
 			
-			if(object instanceof Integer) {
+			if (object instanceof Integer) {
 				result.add((Integer) object);
-			}
-			else if(object instanceof String) {
+			} else if(object instanceof String) {
 				try {
 					result.add(Integer.valueOf((String) object));
-				}
-				catch(NumberFormatException e) {
+				} catch (NumberFormatException e) {
 					// Ignore
 				}
-			}
-			else if(object instanceof Character) {
+			} else if (object instanceof Character) {
 				try {
-					result.add(Integer.valueOf((int) ((Character) object).charValue()));
-				}
-				catch(ClassCastException e) {
+					result.add((int) (Character) object);
+				} catch (ClassCastException e) {
 					// Ignore
 				}
-			}
-			else if(object instanceof Number) {
-				result.add(Integer.valueOf(((Number) object).intValue()));
+			} else if (object instanceof Number) {
+				result.add(((Number) object).intValue());
 			}
 		}
 		
@@ -740,35 +693,30 @@ public class MemorySection implements ConfigurationSection {
 	@Override
 	public List<Long> getLongList(@NotNull final String path) {
 		
-		final List<?> list = getList(path);
-		if(list == null) {
+		final List<?> list = this.getList(path);
+		if (list == null) {
 			return new ArrayList<Long>(0);
 		}
 		
 		final List<Long> result = new ArrayList<Long>();
-		for(final Object object : list) {
+		for (final Object object : list) {
 			
-			if(object instanceof Long) {
+			if (object instanceof Long) {
 				result.add((Long) object);
-			}
-			else if(object instanceof String) {
+			} else if (object instanceof String) {
 				try {
 					result.add(Long.valueOf((String) object));
-				}
-				catch(NumberFormatException e) {
+				} catch (NumberFormatException e) {
 					// Ignore
 				}
-			}
-			else if(object instanceof Character) {
+			} else if (object instanceof Character) {
 				try {
-					result.add(Long.valueOf((long) ((Character) object).charValue()));
-				}
-				catch(ClassCastException e) {
+					result.add((long) (Character) object);
+				} catch (ClassCastException e) {
 					// Ignore
 				}
-			}
-			else if(object instanceof Number) {
-				result.add(Long.valueOf(((Number) object).longValue()));
+			} else if (object instanceof Number) {
+				result.add(((Number) object).longValue());
 			}
 		}
 		
@@ -779,35 +727,30 @@ public class MemorySection implements ConfigurationSection {
 	@Override
 	public List<Float> getFloatList(@NotNull final String path) {
 		
-		final List<?> list = getList(path);
-		if(list == null) {
+		final List<?> list = this.getList(path);
+		if (list == null) {
 			return new ArrayList<Float>(0);
 		}
 		
 		final List<Float> result = new ArrayList<Float>();
-		for(final Object object : list) {
+		for (final Object object : list) {
 			
-			if(object instanceof Float) {
+			if (object instanceof Float) {
 				result.add((Float) object);
-			}
-			else if(object instanceof String) {
+			} else if (object instanceof String) {
 				try {
 					result.add(Float.valueOf((String) object));
-				}
-				catch(NumberFormatException e) {
+				} catch (NumberFormatException e) {
 					// Ignore
 				}
-			}
-			else if(object instanceof Character) {
+			} else if (object instanceof Character) {
 				try {
-					result.add(Float.valueOf((float) ((Character) object).charValue()));
-				}
-				catch(ClassCastException e) {
+					result.add((float) (Character) object);
+				} catch (ClassCastException e) {
 					// Ignore
 				}
-			}
-			else if(object instanceof Number) {
-				result.add(Float.valueOf(((Number) object).floatValue()));
+			} else if (object instanceof Number) {
+				result.add(((Number) object).floatValue());
 			}
 		}
 		
@@ -818,35 +761,30 @@ public class MemorySection implements ConfigurationSection {
 	@Override
 	public List<Double> getDoubleList(@NotNull final String path) {
 		
-		final List<?> list = getList(path);
-		if(list == null) {
+		final List<?> list = this.getList(path);
+		if (list == null) {
 			return new ArrayList<Double>(0);
 		}
 		
 		final List<Double> result = new ArrayList<Double>();
-		for(final Object object : list) {
+		for (final Object object : list) {
 			
-			if(object instanceof Double) {
+			if (object instanceof Double) {
 				result.add((Double) object);
-			}
-			else if(object instanceof String) {
+			} else if (object instanceof String) {
 				try {
 					result.add(Double.valueOf((String) object));
-				}
-				catch(NumberFormatException e) {
+				} catch (NumberFormatException e) {
 					// Ignore
 				}
-			}
-			else if(object instanceof Character) {
+			} else if (object instanceof Character) {
 				try {
-					result.add(Double.valueOf((double) ((Character) object).charValue()));
-				}
-				catch(ClassCastException e) {
+					result.add((double) (Character) object);
+				} catch (ClassCastException e) {
 					// Ignore
 				}
-			}
-			else if(object instanceof Number) {
-				result.add(Double.valueOf(((Number) object).doubleValue()));
+			} else if (object instanceof Number) {
+				result.add(((Number) object).doubleValue());
 			}
 		}
 		
@@ -857,20 +795,19 @@ public class MemorySection implements ConfigurationSection {
 	@Override
 	public List<Character> getCharList(@NotNull final String path) {
 		
-		final List<?> list = getList(path);
-		if(list == null) {
+		final List<?> list = this.getList(path);
+		if (list == null) {
 			return new ArrayList<Character>(0);
 		}
 		
 		final List<Character> result = new ArrayList<Character>();
-		for(final Object object : list) {
+		for (final Object object : list) {
 			
-			if(object instanceof Character) {
+			if (object instanceof Character) {
 				result.add((Character) object);
-			}
-			else if(object instanceof String) {
-				if(((String) object).length() == 1) {
-					result.add(Character.valueOf(((String) object).charAt(0)));
+			} else if (object instanceof String) {
+				if (((String) object).length() == 1) {
+					result.add(((String) object).charAt(0));
 				}
 			}
 		}
@@ -882,14 +819,14 @@ public class MemorySection implements ConfigurationSection {
 	@Override
 	public List<String> getStringList(@NotNull final String path) {
 		
-		final List<?> list = getList(path);
-		if(list == null) {
+		final List<?> list = this.getList(path);
+		if (list == null) {
 			return new ArrayList<String>(0);
 		}
 		
 		final List<String> result = new ArrayList<String>();
-		for(final Object object : list) {
-			if(object != null) {
+		for (final Object object : list) {
+			if (object != null) {
 				result.add(object.toString());
 			}
 		}
@@ -901,14 +838,14 @@ public class MemorySection implements ConfigurationSection {
 	@Override
 	public List<Map<?, ?>> getMapList(@NotNull final String path) {
 		
-		final List<?> list = getList(path);
-		if(list == null) {
+		final List<?> list = this.getList(path);
+		if (list == null) {
 			return new ArrayList<Map<?, ?>>(0);
 		}
 		
 		final List<Map<?, ?>> result = new ArrayList<Map<?, ?>>();
-		for(final Object object : list) {
-			if(object instanceof Map) {
+		for (final Object object : list) {
+			if (object instanceof Map) {
 				result.add((Map<?, ?>) object);
 			}
 		}
@@ -919,58 +856,52 @@ public class MemorySection implements ConfigurationSection {
 	@Nullable
 	protected Object getDefault(@NotNull final String path) {
 		
-		if(path == null) {
-			throw new IllegalArgumentException("Path cannot be null.");
-		}
-		
-		final Configuration root = getRoot();
+		final Configuration root = this.getRoot();
 		final Configuration defs = root == null ? null : root.getDefaults();
-		return defs == null ? null : defs.get(createPath(this, path));
+		return defs == null ? null : defs.get(MemorySection.createPath(this, path));
 	}
 	
 	protected void mapChildrenKeys(@NotNull final Set<String> output, @NotNull final ConfigurationSection section, final boolean deep) {
 		
-		if(section instanceof MemorySection) {
+		if (section instanceof MemorySection) {
 			
 			final MemorySection memorySection = (MemorySection) section;
-			for(final Map.Entry<String, Object> entry : memorySection.map.entrySet()) {
-				output.add(createPath(section, entry.getKey(), this));
+			for (final Map.Entry<String, Object> entry : memorySection.map.entrySet()) {
+				output.add(MemorySection.createPath(section, entry.getKey(), this));
 				
-				if(deep && entry.getValue() instanceof ConfigurationSection) {
-					mapChildrenKeys(output, (ConfigurationSection) entry.getValue(), deep);
+				if (deep && entry.getValue() instanceof ConfigurationSection) {
+					this.mapChildrenKeys(output, (ConfigurationSection) entry.getValue(), deep);
 				}
 			}
-		}
-		else {
+		} else {
 			
 			final Set<String> keys = section.getKeys(deep);
-			for(final String key : keys) {
-				output.add(createPath(section, key, this));
+			for (final String key : keys) {
+				output.add(MemorySection.createPath(section, key, this));
 			}
 		}
 	}
 	
 	protected void mapChildrenValues(@NotNull final Map<String, Object> output, @NotNull final ConfigurationSection section, final boolean deep) {
 		
-		if(section instanceof MemorySection) {
+		if (section instanceof MemorySection) {
 			
 			final MemorySection memorySection = (MemorySection) section;
-			for(final Map.Entry<String, Object> entry : memorySection.map.entrySet()) {
+			for (final Map.Entry<String, Object> entry : memorySection.map.entrySet()) {
 				
-				final String path = createPath(section, entry.getKey(), this);
+				final String path = MemorySection.createPath(section, entry.getKey(), this);
 				output.remove(path);
 				output.put(path, entry.getValue());
 				
-				if(deep && entry.getValue() instanceof ConfigurationSection) {
-					mapChildrenValues(output, (ConfigurationSection) entry.getValue(), deep);
+				if (deep && entry.getValue() instanceof ConfigurationSection) {
+					this.mapChildrenValues(output, (ConfigurationSection) entry.getValue(), deep);
 				}
 			}
-		}
-		else {
+		} else {
 			
 			final Map<String, Object> values = section.getValues(deep);
-			for(final Map.Entry<String, Object> entry : values.entrySet()) {
-				output.put(createPath(section, entry.getKey(), this), entry.getValue());
+			for (final Map.Entry<String, Object> entry : values.entrySet()) {
+				output.put(MemorySection.createPath(section, entry.getKey(), this), entry.getValue());
 			}
 		}
 	}
@@ -978,12 +909,12 @@ public class MemorySection implements ConfigurationSection {
 	@Override
 	public String toString() {
 		
-		final Configuration root = getRoot();
+		final Configuration root = this.getRoot();
 		final StringBuilder builder = new StringBuilder();
 		
 		builder.append(getClass().getSimpleName());
 		builder.append("[path='");
-		builder.append(getCurrentPath());
+		builder.append(this.getCurrentPath());
 		builder.append("', root='");
 		builder.append(root == null ? null : root.getClass().getSimpleName());
 		builder.append("']");
@@ -1004,7 +935,7 @@ public class MemorySection implements ConfigurationSection {
      */
 	@NotNull
 	public static String createPath(@NotNull final ConfigurationSection section, @Nullable final String key) {
-		return createPath(section, key, ((section == null) ? null : section.getRoot()));
+		return MemorySection.createPath(section, key, section.getRoot());
 	}
 	
 	/**
@@ -1022,30 +953,24 @@ public class MemorySection implements ConfigurationSection {
 	@NotNull
 	public static String createPath(@NotNull final ConfigurationSection section, @Nullable final String key, @Nullable final ConfigurationSection relative) {
 		
-		if(section == null) {
-			throw new IllegalArgumentException("Cannot create path without a section.");
-		}
-		
 		final Configuration root = section.getRoot();
-		if(root == null) {
+		if (root == null) {
 			throw new IllegalStateException("Cannot create path without a root.");
 		}
 		
 		final char separator = root.options().pathSeparator();
 		final StringBuilder builder = new StringBuilder();
 		
-		if(section != null) {
-			for(ConfigurationSection parent = section; parent != null && parent != relative; parent = parent.getParent()) {
-				
-				if(builder.length() > 0) {
-					builder.insert(0, separator);
-				}
-				builder.insert(0, parent.getName());
+		for(ConfigurationSection parent = section; parent != null && parent != relative; parent = parent.getParent()) {
+			
+			if (builder.length() > 0) {
+				builder.insert(0, separator);
 			}
+			builder.insert(0, parent.getName());
 		}
 		
-		if(key != null && key.length() > 0) {
-			if(builder.length() > 0) {
+		if (key != null && key.length() > 0) {
+			if (builder.length() > 0) {
 				builder.append(separator);
 			}
 			builder.append(key);
