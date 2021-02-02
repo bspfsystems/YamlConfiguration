@@ -34,6 +34,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.bspfsystems.yamlconfiguration.configuration.Configuration;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -44,13 +45,12 @@ public final class ConfigurationSerialization {
 	
 	public static final String SERIALIZED_TYPE_KEY = "==";
 	
-	private static Map<String, Class<? extends ConfigurationSerializable>> aliases;
+	private static final Map<String, Class<? extends ConfigurationSerializable>> ALIASES = new HashMap<String, Class<? extends ConfigurationSerializable>>();
 	
 	private final Class<? extends ConfigurationSerializable> clazz;
 	
 	protected ConfigurationSerialization(@NotNull final Class<? extends ConfigurationSerializable> clazz) {
 		this.clazz = clazz;
-		ConfigurationSerialization.aliases = new HashMap<String, Class<? extends ConfigurationSerializable>>();
 	}
 	
 	@Nullable
@@ -226,7 +226,7 @@ public final class ConfigurationSerialization {
      * @see SerializableAs
      */
 	public static void registerClass(@NotNull final Class<? extends ConfigurationSerializable> clazz, @NotNull String alias) {
-		ConfigurationSerialization.aliases.put(alias, clazz);
+		ConfigurationSerialization.ALIASES.put(alias, clazz);
 	}
 	
 	/**
@@ -235,7 +235,7 @@ public final class ConfigurationSerialization {
      * @param alias Alias to unregister
      */
 	public static void unregisterClass(@NotNull final String alias) {
-		ConfigurationSerialization.aliases.remove(alias);
+		ConfigurationSerialization.ALIASES.remove(alias);
 	}
 	
 	/**
@@ -245,7 +245,7 @@ public final class ConfigurationSerialization {
      * @param clazz Class to unregister
      */
 	public static void unregisterClass(@NotNull final Class<? extends ConfigurationSerializable> clazz) {
-		while(ConfigurationSerialization.aliases.values().remove(clazz)) {
+		while(ConfigurationSerialization.ALIASES.values().remove(clazz)) {
 			// Run the while loop.
 		}
 	}
@@ -259,7 +259,7 @@ public final class ConfigurationSerialization {
      */
 	@Nullable
 	public static Class<? extends ConfigurationSerializable> getClassByAlias(@NotNull final String alias) {
-		return ConfigurationSerialization.aliases.get(alias);
+		return ConfigurationSerialization.ALIASES.get(alias);
 	}
 	
 	/**
