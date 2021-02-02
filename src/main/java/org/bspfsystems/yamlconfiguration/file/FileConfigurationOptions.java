@@ -25,6 +25,7 @@
 
 package org.bspfsystems.yamlconfiguration.file;
 
+import org.bspfsystems.yamlconfiguration.configuration.Configuration;
 import org.bspfsystems.yamlconfiguration.configuration.MemoryConfiguration;
 import org.bspfsystems.yamlconfiguration.configuration.MemoryConfigurationOptions;
 import org.jetbrains.annotations.NotNull;
@@ -81,7 +82,7 @@ public class FileConfigurationOptions extends MemoryConfigurationOptions {
      */
 	@Nullable
 	public final String header() {
-		return header;
+		return this.header;
 	}
 	
 	/**
@@ -96,7 +97,7 @@ public class FileConfigurationOptions extends MemoryConfigurationOptions {
      * Null is a valid value which will indicate that no header is to be
      * applied.
      *
-     * @param value New header
+     * @param header New header
      * @return This object, for chaining
      */
 	@NotNull
@@ -110,7 +111,7 @@ public class FileConfigurationOptions extends MemoryConfigurationOptions {
      * <p>
      * If this is true, if a default {@link FileConfiguration} is passed to
      * {@link
-     * FileConfiguration#setDefaults(org.bukkit.configuration.Configuration)}
+     * FileConfiguration#setDefaults(Configuration)}
      * then upon saving it will use the header from that config, instead of
      * the one provided here.
      * <p>
@@ -124,7 +125,7 @@ public class FileConfigurationOptions extends MemoryConfigurationOptions {
      * @return Whether or not to copy the header
      */
 	public final boolean copyHeader() {
-		return copyHeader;
+		return this.copyHeader;
 	}
 	
 	/**
@@ -132,7 +133,7 @@ public class FileConfigurationOptions extends MemoryConfigurationOptions {
      * <p>
      * If this is true, if a default {@link FileConfiguration} is passed to
      * {@link
-     * FileConfiguration#setDefaults(org.bukkit.configuration.Configuration)}
+     * FileConfiguration#setDefaults(Configuration)}
      * then upon saving it will use the header from that config, instead of
      * the one provided here.
      * <p>
@@ -143,7 +144,7 @@ public class FileConfigurationOptions extends MemoryConfigurationOptions {
      * <p>
      * Defaults to true.
      *
-     * @param value Whether or not to copy the header
+     * @param copyHeader Whether or not to copy the header
      * @return This object, for chaining
      */
 	@NotNull
