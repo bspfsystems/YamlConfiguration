@@ -5,8 +5,8 @@ It is based off of [SpigotMC's Bukkit](https://hub.spigotmc.org/stash/projects/S
 
 ## Installation
 
-The latest release is 1.0.3.
-The latest snapshot is 1.0.3-SNAPSHOT.
+The latest release is 1.0.5.
+The latest snapshot is 1.0.5-SNAPSHOT.
 
 ##### Gradle:
 Include the following in your `build.gradle` file:
@@ -20,10 +20,7 @@ repostories {
 }
 
 dependencies {
-	compile "org.bspfsystems:yamlconfiguration:${project.yamlconfiguration_version}"
-	include("org.bspfsystems:yamlconfiguration:${project.yamlconfiguration_version}") {
-		transitive = false
-	}
+	include implementation("org.bspfsystems:yamlconfiguration:${project.yamlconfiguration_version}")
 }
 ```
 
@@ -42,7 +39,7 @@ Include the following in your `pom.xml` file:
   <dependency>
     <groupId>org.bspfsystems</groupId>
     <artifactId>yamlconfiguration</artifactId>
-    <version>1.0.3-SNAPSHOT</version>
+    <version>1.0.5-SNAPSHOT</version>
     <scope></scope>
   </dependency>
 </dependencies>
@@ -77,7 +74,7 @@ Include the following in your `pom.xml` file:
 To create a new YamlConfiguration in your project, please include the following line in your code:
 
 ```
-YamlConfiguration config = new YamlConfiguration;
+YamlConfiguration config = new YamlConfiguration();
 ```
 
 For more documentation on how to use the config that you just created, please checkout the [Javadocs](https://bspfsystems.org/docs/yamlconfiguration/).
