@@ -1,24 +1,24 @@
 /*
- * This file is part of YamlConfigurtion.
- * 
+ * This file is part of YamlConfiguration.
+ *
  * Implementation of SnakeYAML to be easy to use with files.
- * 
- * Copyright (C) 2014-2020 SpigotMC Pty. Ltd. (https://www.spigotmc.org/)
- * Copyright (C) 2020 BSPF Systems, LLC (https://github.com/bspfsystems/)
- * 
+ *
+ * Copyright (C) 2014-2021 SpigotMC Pty. Ltd. (https://www.spigotmc.org/)
+ * Copyright (C) 2020-2021 BSPF Systems, LLC (https://bspfsystems.org/)
+ *
  * Many of the files in this project are sourced from the Bukkit API as
  * part of the SpigotMC project (https://hub.spigotmc.org/stash/).
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -60,8 +60,11 @@ public final class YamlConfiguration extends FileConfiguration {
 		this.yaml = new Yaml(new YamlConstructor(), this.yamlRepresenter, this.yamlOptions);
 	}
 	
-	@NotNull
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
+	@NotNull
 	public String saveToString() {
 		
 		this.yamlOptions.setIndent(options().indent());
@@ -78,6 +81,9 @@ public final class YamlConfiguration extends FileConfiguration {
 		return header + dump;
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void loadFromString(@NotNull final String data) throws InvalidConfigurationException {
 		
@@ -95,11 +101,21 @@ public final class YamlConfiguration extends FileConfiguration {
 			this.options().header(header);
 		}
 		
+		this.map.clear();
+		
 		if (map != null) {
 			this.convertMapsToSections(map, this);
 		}
 	}
 	
+	/**
+	 * Converts the given {@link Map} data into a {@link ConfigurationSection},
+	 * loading it into the given {@link ConfigurationSection}.
+	 * 
+	 * @param map The data to convert.
+	 * @param section The {@link ConfigurationSection} that will hold the
+	 *                converted data.   
+	 */
 	protected void convertMapsToSections(@NotNull final Map<?, ?> map, @NotNull final ConfigurationSection section) {
 		
 		for (final Map.Entry<?, ?> entry : map.entrySet()) {
@@ -114,6 +130,12 @@ public final class YamlConfiguration extends FileConfiguration {
 		}
 	}
 	
+	/**
+	 * Parses the YAML header from the given data.
+	 * 
+	 * @param data The data to parse the header from.
+	 * @return The parsed header.
+	 */
 	@NotNull
 	protected String parseHeader(@NotNull final String data) {
 		
@@ -145,8 +167,11 @@ public final class YamlConfiguration extends FileConfiguration {
 		return builder.toString();
 	}
 	
-	@NotNull
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
+	@NotNull
 	protected String buildHeader() {
 		
 		final String header = this.options().header();
@@ -185,8 +210,11 @@ public final class YamlConfiguration extends FileConfiguration {
 		return builder.toString();
 	}
 	
-	@NotNull
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
+	@NotNull
 	public YamlConfigurationOptions options() {
 		if (this.options == null) {
 			this.options = new YamlConfigurationOptions(this);

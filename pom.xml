@@ -1,10 +1,10 @@
 <!--
-  ~ This file is part of YamlConfigurtion.
+  ~ This file is part of YamlConfiguration.
   ~ 
   ~ Implementation of SnakeYAML to be easy to use with files.
   ~
-  ~ Copyright (C) 2014-2020 SpigotMC Pty. Ltd. (https://www.spigotmc.org/)
-  ~ Copyright (C) 2020  BSPF Systems, LLC (https://github.com/bspfsystems/)
+  ~ Copyright (C) 2014-2021 SpigotMC Pty. Ltd. (https://www.spigotmc.org/)
+  ~ Copyright (C) 2020-2021 BSPF Systems, LLC (https://bspfsystems.org/)
   ~ 
   ~ Many of the files in this project are sourced from the Bukkit API as
   ~ part of the SpigotMC project (https://hub.spigotmc.org/stash/).
@@ -28,15 +28,15 @@
   
   <groupId>org.bspfsystems</groupId>
   <artifactId>yamlconfiguration</artifactId>
-  <version>1.0.5</version>
+  <version>1.0.6-SNAPSHOT</version>
   <packaging>jar</packaging>
   
   <name>YamlConfiguration</name>
   <description>Implementation of SnakeYAML to be easy to use with files.</description>
   <url>https://github.com/bspfsystems/YamlConfiguration/</url>
   <organization>
-    <name>BSPF Systems</name>
-    <url>https://github.com/bspfsystems/</url>
+    <name>BSPF Systems, LLC</name>
+    <url>https://bspfsystems.org/</url>
   </organization>
   
   <licenses>
@@ -48,10 +48,16 @@
   
   <developers>
     <developer>
+      <name>md_5</name>
+      <email>blog@md-5.net</email>
+      <organization>SpigotMC Pty. Ltd.</organization>
+      <organizationUrl>https://www.spigotmc.org/</organizationUrl>
+    </developer>
+    <developer>
       <name>Matt Ciolkosz</name>
       <email>mciolkosz@bspfsystems.org</email>
-      <organization>BSPF Systems</organization>
-      <organizationUrl>https://github.com/bspfsystems/</organizationUrl>
+      <organization>BSPF Systems, LLC</organization>
+      <organizationUrl>https://bspfsystems.org/</organizationUrl>
     </developer>
   </developers>
   

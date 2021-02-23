@@ -1,24 +1,24 @@
 /*
- * This file is part of YamlConfigurtion.
- * 
+ * This file is part of YamlConfiguration.
+ *
  * Implementation of SnakeYAML to be easy to use with files.
- * 
- * Copyright (C) 2014-2020 SpigotMC Pty. Ltd. (https://www.spigotmc.org/)
- * Copyright (C) 2020 BSPF Systems, LLC (https://github.com/bspfsystems/)
- * 
+ *
+ * Copyright (C) 2014-2021 SpigotMC Pty. Ltd. (https://www.spigotmc.org/)
+ * Copyright (C) 2020-2021 BSPF Systems, LLC (https://bspfsystems.org/)
+ *
  * Many of the files in this project are sourced from the Bukkit API as
  * part of the SpigotMC project (https://hub.spigotmc.org/stash/).
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -40,27 +40,43 @@ public class FileConfigurationOptions extends MemoryConfigurationOptions {
 	private String header;
 	private boolean copyHeader;
 	
+	/**
+	 * Constructs a new set of {@link FileConfigurationOptions}.
+	 *
+	 * @param configuration The {@link MemoryConfiguration} to create the
+	 *                      {@link FileConfigurationOptions} for.
+	 * @see MemoryConfigurationOptions#MemoryConfigurationOptions(MemoryConfiguration)
+	 */
 	protected FileConfigurationOptions(@NotNull final MemoryConfiguration configuration) {
 		super(configuration);
 		this.header = null;
 		this.copyHeader = true;
 	}
 	
-	@NotNull
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
+	@NotNull
 	public FileConfiguration configuration() {
 		return (FileConfiguration) super.configuration();
 	}
 	
-	@NotNull
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
+	@NotNull
 	public FileConfigurationOptions pathSeparator(final char pathSeparator) {
 		super.pathSeparator(pathSeparator);
 		return this;
 	}
 	
-	@NotNull
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
+	@NotNull
 	public FileConfigurationOptions copyDefaults(final boolean copyDefaults) {
 		super.copyDefaults(copyDefaults);
 		return this;

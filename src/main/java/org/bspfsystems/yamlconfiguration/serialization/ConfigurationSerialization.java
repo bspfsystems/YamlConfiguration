@@ -1,24 +1,24 @@
 /*
- * This file is part of YamlConfigurtion.
- * 
+ * This file is part of YamlConfiguration.
+ *
  * Implementation of SnakeYAML to be easy to use with files.
- * 
- * Copyright (C) 2014-2020 SpigotMC Pty. Ltd. (https://www.spigotmc.org/)
- * Copyright (C) 2020 BSPF Systems, LLC (https://github.com/bspfsystems/)
- * 
+ *
+ * Copyright (C) 2014-2021 SpigotMC Pty. Ltd. (https://www.spigotmc.org/)
+ * Copyright (C) 2020-2021 BSPF Systems, LLC (https://bspfsystems.org/)
+ *
  * Many of the files in this project are sourced from the Bukkit API as
  * part of the SpigotMC project (https://hub.spigotmc.org/stash/).
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -49,21 +49,32 @@ public final class ConfigurationSerialization {
 	
 	private final Class<? extends ConfigurationSerializable> clazz;
 	
+	/**
+	 * Constructs a new {@link ConfigurationSerialization} for the given
+	 * {@link ConfigurationSerializable}.
+	 * 
+	 * @param clazz The {@link ConfigurationSerializable} {@link Class}.
+	 */
 	protected ConfigurationSerialization(@NotNull final Class<? extends ConfigurationSerializable> clazz) {
 		this.clazz = clazz;
 	}
 	
+	/**
+	 * Deserializes the given {@link Map} into a
+	 * {@link ConfigurationSerializable}.
+	 * 
+	 * @param args The serialized data.
+	 * @return The deserialized {@link Object}, or <code>null</code> if the data
+	 * 		   cannot be deserialized.
+	 */
 	@Nullable
 	public ConfigurationSerializable deserialize(@NotNull final Map<String, ?> args) {
 		
 		ConfigurationSerializable result = null;
-		Method method = null;
 		
-		if (result == null) {
-			method = this.getMethod("deserialize", true);
-			if (method != null) {
-				result = this.deserializeViaMethod(method, args);
-			}
+		Method method = this.getMethod("deserialize", true);
+		if (method != null) {
+			result = this.deserializeViaMethod(method, args);
 		}
 		
 		if (result == null) {
@@ -75,7 +86,7 @@ public final class ConfigurationSerialization {
 		
 		if (result == null) {
 			final Constructor<? extends ConfigurationSerializable> constructor = this.getConstructor();
-			if( constructor != null) {
+			if (constructor != null) {
 				result = this.deserializeViaConstructor(constructor, args);
 			}
 		}
@@ -83,6 +94,14 @@ public final class ConfigurationSerialization {
 		return result;
 	}
 	
+	/**
+	 * Gets the {@link Constructor} of the {@link ConfigurationSerializable}
+	 * that performs the deserialization. If none can be found, <code>null</code>
+	 * is returned.
+	 * 
+	 * @return The {@link Constructor} that performs the deserialization, or
+	 * 		   <code>null</code> if none can be found.
+	 */
 	@Nullable
 	protected Constructor<? extends ConfigurationSerializable> getConstructor() {
 		
@@ -93,6 +112,14 @@ public final class ConfigurationSerialization {
 		}
 	}
 	
+	/**
+	 * Gets the {@link Method} of the {@link ConfigurationSerializable} that
+	 * performs the deserialization. If none can be found, <code>null</code> is
+	 * returned.
+	 *
+	 * @return The {@link Method} that performs the deserialization, or
+	 * 		   <code>null</code> if none can be found.
+	 */
 	@Nullable
 	protected Method getMethod(@NotNull final String name, final boolean isStatic) {
 		
@@ -112,6 +139,17 @@ public final class ConfigurationSerialization {
 		}
 	}
 	
+	/**
+	 * Deserializes the data in the {@link Map} via the given
+	 * {@link Constructor}. If any {@link Throwable} is thrown,
+	 * <code>null</code> will be returned.
+	 * 
+	 * @param constructor The {@link Constructor} to use to deserialize the
+	 *                    data.
+	 * @param args The data to deserialize.
+	 * @return The deserialized {@link ConfigurationSerializable}, or
+	 * 		   <code>null</code> if there is an issue.
+	 */
 	@Nullable
 	protected ConfigurationSerializable deserializeViaConstructor(@NotNull Constructor<? extends ConfigurationSerializable> constructor, @NotNull Map<String, ?> args) {
 		
@@ -124,6 +162,15 @@ public final class ConfigurationSerialization {
 		return null;
 	}
 	
+	/**
+	 * Deserializes the data in the {@link Map} via the given {@link Method}. If
+	 * any {@link Throwable} is thrown, <code>null</code> will be returned.
+	 *
+	 * @param method The {@link Method} to use to deserialize the data.
+	 * @param args The data to deserialize.
+	 * @return The deserialized {@link ConfigurationSerializable}, or
+	 * 		   <code>null</code> if there is an issue.
+	 */
 	@Nullable
 	protected ConfigurationSerializable deserializeViaMethod(@NotNull final Method method, @NotNull final Map<String, ?> args) {
 		
@@ -281,11 +328,9 @@ public final class ConfigurationSerialization {
 			}
 		}
 		
-		if (delegate == null) {
-			final SerializableAs alias = clazz.getAnnotation(SerializableAs.class);
-			if (alias != null && alias.value() != null) {
-				return alias.value();
-			}
+		final SerializableAs alias = clazz.getAnnotation(SerializableAs.class);
+		if (alias != null) {
+			return alias.value();
 		}
 		
 		return clazz.getName();
