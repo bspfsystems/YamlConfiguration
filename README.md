@@ -77,7 +77,7 @@ To create a new YamlConfiguration in your project, please include the following 
 YamlConfiguration config = new YamlConfiguration();
 ```
 
-For more documentation on how to use the config that you just created, please checkout the [Javadocs](https://bspfsystems.org/docs/yamlconfiguration/).
+For more documentation on how to use the config that you just created, please checkout the [Javadocs](https://javadoc.io/doc/org.bspfsystems/yamlconfiguration/latest/index.html). Please note that it might take 24 hours for the latest Javadocs to be available at the link if there was a recent release.
 
 ## Support / Issues
 
