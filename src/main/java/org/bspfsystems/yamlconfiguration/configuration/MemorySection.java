@@ -309,7 +309,7 @@ public class MemorySection implements ConfigurationSection {
 		ConfigurationSection section = this;
 		while ((lead = path.indexOf(separator, trail = lead + 1)) != -1) {
 			
-			final String node = path.substring(lead, trail);
+			final String node = path.substring(trail, lead);
 			final ConfigurationSection subSection = section.getConfigurationSection(node);
 			
 			if (subSection == null) {
