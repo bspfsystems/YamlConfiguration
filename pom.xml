@@ -28,7 +28,7 @@
   
   <groupId>org.bspfsystems</groupId>
   <artifactId>yamlconfiguration</artifactId>
-  <version>1.0.7-SNAPSHOT</version>
+  <version>1.0.7</version>
   <packaging>jar</packaging>
   
   <name>YamlConfiguration</name>
