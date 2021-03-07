@@ -303,13 +303,13 @@ public class MemorySection implements ConfigurationSection {
 		}
 		
 		final char separator = root.options().pathSeparator();
-		int lead = -1;
-		int tail;
+		int lead = -1;  // Leading (higher) index.
+		int trail;      // Trailing (lower) index.
 		
 		ConfigurationSection section = this;
-		while ((lead = path.indexOf(separator, tail = lead + 1)) != -1) {
+		while ((lead = path.indexOf(separator, trail = lead + 1)) != -1) {
 			
-			final String node = path.substring(lead, tail);
+			final String node = path.substring(lead, trail);
 			final ConfigurationSection subSection = section.getConfigurationSection(node);
 			
 			if (subSection == null) {
@@ -322,7 +322,7 @@ public class MemorySection implements ConfigurationSection {
 			}
 		}
 		
-		final String key = path.substring(tail);
+		final String key = path.substring(trail);
 		if (section == this) {
 			if (value == null) {
 				this.map.remove(key);
