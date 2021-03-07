@@ -6,7 +6,7 @@ It is based off of [SpigotMC's Bukkit](https://hub.spigotmc.org/stash/projects/S
 ## Installation
 
 The latest release is 1.0.8.
-The latest snapshot is 1.0.8-SNAPSHOT.
+The latest snapshot is 1.0.9-SNAPSHOT.
 
 ##### Gradle:
 Include the following in your `build.gradle` file:
@@ -39,7 +39,7 @@ Include the following in your `pom.xml` file:
   <dependency>
     <groupId>org.bspfsystems</groupId>
     <artifactId>yamlconfiguration</artifactId>
-    <version>1.0.8-SNAPSHOT</version>
+    <version>1.0.9-SNAPSHOT</version>
     <scope></scope>
   </dependency>
 </dependencies>
