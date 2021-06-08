@@ -5,7 +5,7 @@ It is based off of [SpigotMC's Bukkit](https://hub.spigotmc.org/stash/projects/S
 
 ## Installation
 
-The latest release is 1.0.8.
+The latest release is 1.0.9.
 The latest snapshot is 1.0.9-SNAPSHOT.
 
 ##### Gradle:
