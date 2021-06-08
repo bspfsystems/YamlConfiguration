@@ -3,11 +3,15 @@
   ~ 
   ~ Implementation of SnakeYAML to be easy to use with files.
   ~
+  ~ Copyright (C) 2010-2014 The Bukkit Project (https://bukkit.org/)
   ~ Copyright (C) 2014-2021 SpigotMC Pty. Ltd. (https://www.spigotmc.org/)
   ~ Copyright (C) 2020-2021 BSPF Systems, LLC (https://bspfsystems.org/)
   ~ 
   ~ Many of the files in this project are sourced from the Bukkit API as
-  ~ part of the SpigotMC project (https://hub.spigotmc.org/stash/).
+  ~ part of The Bukkit Project (https://bukkit.org/), now maintained by
+  ~ SpigotMC Pty. Ltd. (https://www.spigotmc.org/). These files can be found
+  ~ at https://github.com/Bukkit/Bukkit/ and https://hub.spigotmc.org/stash/,
+  ~ respectively.
   ~
   ~ This program is free software: you can redistribute it and/or modify
   ~ it under the terms of the GNU General Public License as published by
@@ -28,7 +32,7 @@
   
   <groupId>org.bspfsystems</groupId>
   <artifactId>yamlconfiguration</artifactId>
-  <version>1.0.8</version>
+  <version>1.0.9</version>
   <packaging>jar</packaging>
   
   <name>YamlConfiguration</name>
@@ -47,6 +51,10 @@
   </licenses>
   
   <developers>
+    <developer>
+      <organization>The Bukkit Project</organization>
+      <organizationUrl>https://bukkit.org/</organizationUrl>
+    </developer>
     <developer>
       <name>md_5</name>
       <email>blog@md-5.net</email>
@@ -78,12 +86,12 @@
     <dependency>
       <groupId>org.jetbrains</groupId>
       <artifactId>annotations</artifactId>
-      <version>20.1.0</version>
+      <version>21.0.1</version>
     </dependency>
     <dependency>
       <groupId>org.yaml</groupId>
       <artifactId>snakeyaml</artifactId>
-      <version>1.27</version>
+      <version>1.28</version>
     </dependency>
   </dependencies>
   
@@ -153,8 +161,8 @@
         <version>3.2.0</version>
         <configuration>
           <links>
-            <link>https://javadoc.io/doc/org.yaml/snakeyaml/1.26/</link>
-            <link>https://javadoc.io/doc/org.jetbrains/annotations-java5/19.0.0/</link>
+            <link>https://javadoc.io/doc/org.yaml/snakeyaml/1.28/</link>
+            <link>https://javadoc.io/doc/org.jetbrains/annotations/21.0.1/</link>
           </links>
         </configuration>
         <executions>

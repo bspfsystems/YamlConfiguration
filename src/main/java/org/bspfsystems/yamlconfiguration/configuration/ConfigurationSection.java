@@ -3,11 +3,15 @@
  *
  * Implementation of SnakeYAML to be easy to use with files.
  *
+ * Copyright (C) 2010-2014 The Bukkit Project (https://bukkit.org/)
  * Copyright (C) 2014-2021 SpigotMC Pty. Ltd. (https://www.spigotmc.org/)
  * Copyright (C) 2020-2021 BSPF Systems, LLC (https://bspfsystems.org/)
  *
  * Many of the files in this project are sourced from the Bukkit API as
- * part of the SpigotMC project (https://hub.spigotmc.org/stash/).
+ * part of The Bukkit Project (https://bukkit.org/), now maintained by
+ * SpigotMC Pty. Ltd. (https://www.spigotmc.org/). These files can be found
+ * at https://github.com/Bukkit/Bukkit/ and https://hub.spigotmc.org/stash/,
+ * respectively.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -30,6 +34,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.bspfsystems.yamlconfiguration.serialization.ConfigurationSerializable;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -279,6 +284,7 @@ public interface ConfigurationSection {
      * @param def The default value to return if the path is not found.
      * @return Requested Object.
      */
+	@Contract("_, !null -> !null")
 	@Nullable
 	Object get(@NotNull String path, @Nullable Object def);
 	
@@ -638,6 +644,7 @@ public interface ConfigurationSection {
      *     not a String.
      * @return Requested String.
      */
+	@Contract("_, !null -> !null")
 	@Nullable
 	String getString(@NotNull String path, @Nullable String def);
 	
@@ -680,6 +687,7 @@ public interface ConfigurationSection {
      *     not a List.
      * @return Requested List.
      */
+	@Contract("_, !null -> !null")
 	@Nullable
 	List<?> getList(@NotNull String path, @Nullable List<?> def);
 	
@@ -755,6 +763,7 @@ public interface ConfigurationSection {
      * the path
      * @return Requested object
      */
+	@Contract("_, _, !null -> !null")
 	@Nullable
 	<T extends Object> T getObject(@NotNull String path, @NotNull Class<T> clazz, @Nullable T def);
 	
@@ -789,6 +798,7 @@ public interface ConfigurationSection {
      * the path
      * @return Requested {@link ConfigurationSerializable} object
      */
+	@Contract("_, _, !null -> !null")
 	@Nullable
 	<T extends ConfigurationSerializable> T getSerializable(@NotNull String path, @NotNull Class<T> clazz, @Nullable T def);
 	
