@@ -1,6 +1,6 @@
 # YamlConfiguration
 
-YamlConfiguration is a library for creating .yml files for configurations to be used in Java programs.<br/>
+YamlConfiguration is a library for creating YML files for configurations to be used in Java programs.<br/>
 It is based off of [SpigotMC's Bukkit](https://hub.spigotmc.org/stash/projects/SPIGOT/repos/bukkit/browse/src/main/java/org/bukkit/configuration) configuration.
 
 ## Installation
@@ -12,7 +12,7 @@ The latest snapshot is 1.0.9-SNAPSHOT.
 Include the following in your `build.gradle` file:
 
 ```
-repostories {
+repositories {
 	mavenCentral()
 	maven {
 		url "https://oss.sonatype.org/content/repositories/snapshots/"
@@ -81,7 +81,9 @@ For more documentation on how to use the config that you just created, please ch
 
 ## Support / Issues
 
-Issues can be reported [here](https://github.com/bspfsystems/YamlConfiguration/issues/).
+This repository is a derivative of the [SpigotMC Repo's Configuration Library](https://hub.spigotmc.org/stash/projects/SPIGOT/repos/bukkit/browse/src/main/java/org/bukkit/configuration). Please check there to see if the issue in this repo is present in that repo as well. If it is, please report that using SpigotMC's issues system.
+
+If the issue is with this repository alone, or is an issue that SpigotMC has fixed but has not been fixed here, those issues can be reported [here](https://github.com/bspfsystems/YamlConfiguration/issues/).
 
 ## Licensing
 

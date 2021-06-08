@@ -3,11 +3,15 @@
  *
  * Implementation of SnakeYAML to be easy to use with files.
  *
+ * Copyright (C) 2010-2014 The Bukkit Project (https://bukkit.org/)
  * Copyright (C) 2014-2021 SpigotMC Pty. Ltd. (https://www.spigotmc.org/)
  * Copyright (C) 2020-2021 BSPF Systems, LLC (https://bspfsystems.org/)
  *
  * Many of the files in this project are sourced from the Bukkit API as
- * part of the SpigotMC project (https://hub.spigotmc.org/stash/).
+ * part of The Bukkit Project (https://bukkit.org/), now maintained by
+ * SpigotMC Pty. Ltd. (https://www.spigotmc.org/). These files can be found
+ * at https://github.com/Bukkit/Bukkit/ and https://hub.spigotmc.org/stash/,
+ * respectively.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by

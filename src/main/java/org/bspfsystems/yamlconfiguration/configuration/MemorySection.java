@@ -3,11 +3,15 @@
  *
  * Implementation of SnakeYAML to be easy to use with files.
  *
+ * Copyright (C) 2010-2014 The Bukkit Project (https://bukkit.org/)
  * Copyright (C) 2014-2021 SpigotMC Pty. Ltd. (https://www.spigotmc.org/)
  * Copyright (C) 2020-2021 BSPF Systems, LLC (https://bspfsystems.org/)
  *
  * Many of the files in this project are sourced from the Bukkit API as
- * part of the SpigotMC project (https://hub.spigotmc.org/stash/).
+ * part of The Bukkit Project (https://bukkit.org/), now maintained by
+ * SpigotMC Pty. Ltd. (https://www.spigotmc.org/). These files can be found
+ * at https://github.com/Bukkit/Bukkit/ and https://hub.spigotmc.org/stash/,
+ * respectively.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -33,6 +37,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.bspfsystems.yamlconfiguration.serialization.ConfigurationSerializable;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -363,6 +368,7 @@ public class MemorySection implements ConfigurationSection {
 	 * {@inheritDoc}
 	 */
 	@Override
+	@Contract("_, !null -> !null")
 	@Nullable
 	public Object get(@NotNull final String path, @Nullable final Object def) {
 		
@@ -625,6 +631,7 @@ public class MemorySection implements ConfigurationSection {
 	 * {@inheritDoc}
 	 */
 	@Override
+	@Contract("_, !null -> !null")
 	@Nullable
 	public String getString(@NotNull final String path, @Nullable final String def) {
 		final Object val = this.get(path, def);
@@ -653,6 +660,7 @@ public class MemorySection implements ConfigurationSection {
 	 * {@inheritDoc}
 	 */
 	@Override
+	@Contract("_, !null -> !null")
 	@Nullable
 	public List<?> getList(@NotNull final String path, @Nullable final List<?> def) {
 		final Object val = this.get(path, def);
@@ -697,6 +705,7 @@ public class MemorySection implements ConfigurationSection {
 	 * {@inheritDoc}
 	 */
 	@Override
+	@Contract("_, _, !null -> !null")
 	@Nullable
 	public <T extends Object> T getObject(@NotNull final String path, @NotNull final Class<T> clazz, @Nullable final T def) {
 		final Object val = this.get(path, def);
@@ -716,6 +725,7 @@ public class MemorySection implements ConfigurationSection {
 	 * {@inheritDoc}
 	 */
 	@Override
+	@Contract("_, _, !null -> !null")
 	@Nullable
 	public <T extends ConfigurationSerializable> T getSerializable(@NotNull final String path, @NotNull final Class<T> clazz, @Nullable final T def) {
 		return this.getObject(path, clazz, def);
