@@ -1,6 +1,6 @@
 # YamlConfiguration
 
-YamlConfiguration is a library for creating YML files for configurations to be used in Java programs.<br/>
+YamlConfiguration is a library for creating YAML files for configurations to be used in Java programs.<br/>
 It is based off of [SpigotMC's Bukkit](https://hub.spigotmc.org/stash/projects/SPIGOT/repos/bukkit/browse/src/main/java/org/bukkit/configuration) configuration.
 
 ## Installation
