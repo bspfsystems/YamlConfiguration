@@ -7,7 +7,7 @@ It is based off of [SpigotMC's Bukkit](https://hub.spigotmc.org/stash/projects/S
 
 You can download the latest version of the library from [here](https://github.com/bspfsystems/YamlConfiguration/releases/latest/).
 
-The latest release is 1.0.9.<br />
+The latest release is 1.0.10.<br />
 The latest snapshot is 1.0.10-SNAPSHOT.
 
 ## Build from Source
