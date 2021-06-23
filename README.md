@@ -57,7 +57,7 @@ Include the following in your `pom.xml` file:<br />
   <dependency>
     <groupId>org.bspfsystems</groupId>
     <artifactId>yamlconfiguration</artifactId>
-    <version>1.0.9-SNAPSHOT</version>
+    <version>1.0.10-SNAPSHOT</version>
     <scope>compile</scope>
   </dependency>
   ...
@@ -89,7 +89,7 @@ dependencies {
 Also include the following in your `gradle.properties` file:<br />
 ```
 ...
-yamlconfiguration_version = 1.0.9-SNAPSHOT
+yamlconfiguration_version = 1.0.10-SNAPSHOT
 ...
 ```
 
@@ -104,7 +104,7 @@ To create a new YamlConfiguration in your project, please include the following 
 
 ### Javadocs
 
-The API Javadocs can be found [here](https://javadoc.io/doc/org.bspfsystems/yamlconfiguration/), hosted by [javadoc.io](https://javadoc.io).
+The API Javadocs can be found [here](https://bspfsystems.org/docs/yamlconfiguration/), hosted by [javadoc.io](https://javadoc.io).
 
 ## Contributing
 
