@@ -30,7 +30,9 @@
 package org.bspfsystems.yamlconfiguration.configuration;
 
 /**
- * Exception thrown when attempting to load an invalid {@link Configuration}
+ * Exception thrown when attempting to load an invalid {@link Configuration}.
+ * 
+ * Synchronized with the commit on 15-December-2013.
  */
 public final class InvalidConfigurationException extends Exception {
 

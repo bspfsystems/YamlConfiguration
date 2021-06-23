@@ -37,7 +37,9 @@ import org.jetbrains.annotations.Nullable;
 
 /**
  * Various settings for controlling the input and output of a {@link
- * FileConfiguration}
+ * FileConfiguration}.
+ * 
+ * Synchronized with the commit on 23-April-2019.
  */
 public class FileConfigurationOptions extends MemoryConfigurationOptions {
 	

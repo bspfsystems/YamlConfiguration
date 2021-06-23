@@ -51,6 +51,8 @@ import org.jetbrains.annotations.NotNull;
  *
  * @see DelegateDeserialization
  * @see SerializableAs
+ * 
+ * Synchronized with the commit on 23-April-2019.
  */
 public interface ConfigurationSerializable {
 	

@@ -39,7 +39,9 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * Represents a section of a {@link Configuration}
+ * Represents a section of a {@link Configuration}.
+ * 
+ * Synchronized with the commit on 27-April-2021.
  */
 public interface ConfigurationSection {
 	

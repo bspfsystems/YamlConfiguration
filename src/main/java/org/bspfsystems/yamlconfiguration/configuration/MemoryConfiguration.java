@@ -38,6 +38,8 @@ import org.jetbrains.annotations.Nullable;
  * This is a {@link Configuration} implementation that does not save or load
  * from any source, and stores all values in memory only.
  * This is useful for temporary Configurations for providing defaults.
+ * 
+ * Synchronized with the commit on 28-April-2019.
  */
 public class MemoryConfiguration extends MemorySection implements Configuration {
 	

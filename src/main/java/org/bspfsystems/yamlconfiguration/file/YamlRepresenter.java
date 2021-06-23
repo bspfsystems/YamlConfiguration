@@ -39,6 +39,9 @@ import org.jetbrains.annotations.NotNull;
 import org.yaml.snakeyaml.nodes.Node;
 import org.yaml.snakeyaml.representer.Representer;
 
+/**
+ * Synchronized with the commit on 17-November-2020.
+ */
 public final class YamlRepresenter extends Representer {
 	
 	private class RepresentConfigurationSection extends RepresentMap {

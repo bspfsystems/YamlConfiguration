@@ -49,6 +49,8 @@ import org.jetbrains.annotations.NotNull;
  * ConfigurationSerializable} will have no effect.
  *
  * @see ConfigurationSerialization#registerClass(Class, String)
+ * 
+ * Synchronized with the commit on 23-April-2019.
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)

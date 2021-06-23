@@ -48,6 +48,8 @@ import org.yaml.snakeyaml.representer.Representer;
 /**
  * An implementation of {@link Configuration} which saves all files in Yaml.
  * Note that this implementation is not synchronized.
+ * 
+ * Synchronized with the commit on 21-December-2019.
  */
 public final class YamlConfiguration extends FileConfiguration {
 	

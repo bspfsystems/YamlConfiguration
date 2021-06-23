@@ -39,6 +39,8 @@ import org.jetbrains.annotations.NotNull;
 /**
  * Applies to a {@link ConfigurationSerializable} that will delegate all
  * deserialization to another {@link ConfigurationSerializable}.
+ * 
+ * Synchronized with the commit on 23-April-2019.
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)

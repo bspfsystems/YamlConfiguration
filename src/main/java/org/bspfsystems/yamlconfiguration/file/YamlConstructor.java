@@ -40,6 +40,9 @@ import org.yaml.snakeyaml.error.YAMLException;
 import org.yaml.snakeyaml.nodes.Node;
 import org.yaml.snakeyaml.nodes.Tag;
 
+/**
+ * Synchronized with the commit on 23-April-2019.
+ */
 public final class YamlConstructor extends SafeConstructor {
 	
 	private class ConstructCustomObject extends ConstructYamlMap {
