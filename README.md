@@ -33,11 +33,11 @@ The `.jar` file will be located in the `target/` folder.
 
 ## Installation
 
-The min purpose of YamlConfiguration is to provide an easy method of converting Java Objects to a serialized YAML configuration file, and back again. It can be used as a library in any downstream projects to access the library's capabilities.
+The main purpose of YamlConfiguration is to provide an easy method of converting Java Objects to a serialized YAML configuration file, and back again. It can be used as a library in any downstream projects to access the library's capabilities.
 
 ### Adding as a Dependency
 
-To add YamlConfiguration as a dependency to your project, use one of the following common methods (you may use others, these are the common ones):
+To add YamlConfiguration as a dependency to your project, use one of the following common methods (you may use others that exist, these are the common ones):
 
 **Maven:**<br />
 Include the following in your `pom.xml` file:<br />
@@ -47,7 +47,7 @@ Include the following in your `pom.xml` file:<br />
   <repository>
     <id>sonatype-repo</id>
     <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
-  <repository>
+  </repository>
   ...
 </repositories>
 
@@ -70,19 +70,19 @@ Include the following in your `build.gradle` file:<br />
 ```
 ...
 repositories {
-	mavenCentral()
-	maven {
-		url "https://oss.sonatype.org/content/repositories/snapshots/"
-		...
-	}
-	...
+    mavenCentral()
+    maven {
+        url "https://oss.sonatype.org/content/repositories/snapshots/"
+        ...
+    }
+    ...
 }
 
 ...
 
 dependencies {
-	include implementation("org.bspfsystems:yamlconfiguration:${project.yamlconfiguration_version}")
-	...
+    include implementation("org.bspfsystems:yamlconfiguration:${project.yamlconfiguration_version}")
+    ...
 }
 ```
 
@@ -104,7 +104,7 @@ To create a new YamlConfiguration in your project, please include the following 
 
 ### Javadocs
 
-The API Javadocs can be found [here](https://bspfsystems.org/docs/yamlconfiguration/), hosted by [javadoc.io](https://javadoc.io).
+The API Javadocs can be found [here](https://bspfsystems.org/docs/yamlconfiguration/), hosted by [javadoc.io](https://javadoc.io/).
 
 ## Contributing
 
