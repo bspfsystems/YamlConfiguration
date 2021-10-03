@@ -32,7 +32,7 @@
   
   <groupId>org.bspfsystems</groupId>
   <artifactId>yamlconfiguration</artifactId>
-  <version>1.0.10</version>
+  <version>1.0.11</version>
   <packaging>jar</packaging>
   
   <name>YamlConfiguration</name>
@@ -102,13 +102,13 @@
     <dependency>
       <groupId>org.jetbrains</groupId>
       <artifactId>annotations</artifactId>
-      <version>21.0.1</version>
+      <version>22.0.0</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>org.yaml</groupId>
       <artifactId>snakeyaml</artifactId>
-      <version>1.28</version>
+      <version>1.29</version>
       <scope>compile</scope>
     </dependency>
   </dependencies>
@@ -148,8 +148,8 @@
         <version>3.2.0</version>
         <configuration>
           <links>
-            <link>https://javadoc.io/doc/org.yaml/snakeyaml/1.28/</link>
-            <link>https://javadoc.io/doc/org.jetbrains/annotations/21.0.1/</link>
+            <link>https://javadoc.io/doc/org.yaml/snakeyaml/1.29/</link>
+            <link>https://javadoc.io/doc/org.jetbrains/annotations/22.0.0/</link>
           </links>
         </configuration>
         <executions>
