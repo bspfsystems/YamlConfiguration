@@ -8,7 +8,7 @@ It is based off of [SpigotMC's Bukkit](https://hub.spigotmc.org/stash/projects/S
 You can download the latest version of the library from [here](https://github.com/bspfsystems/YamlConfiguration/releases/latest/).
 
 The latest release is 1.0.11.<br />
-The latest snapshot is 1.0.11-SNAPSHOT.
+The latest snapshot is 1.1.0-SNAPSHOT.
 
 ## Build from Source
 
@@ -57,7 +57,7 @@ Include the following in your `pom.xml` file:<br />
   <dependency>
     <groupId>org.bspfsystems</groupId>
     <artifactId>yamlconfiguration</artifactId>
-    <version>1.0.11-SNAPSHOT</version>
+    <version>1.0.12-SNAPSHOT</version>
     <scope>compile</scope>
   </dependency>
   ...
@@ -89,7 +89,7 @@ dependencies {
 Also include the following in your `gradle.properties` file:<br />
 ```
 ...
-yamlconfiguration_version = 1.0.11-SNAPSHOT
+yamlconfiguration_version = 1.0.12-SNAPSHOT
 ...
 ```
 
