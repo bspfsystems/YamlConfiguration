@@ -7,8 +7,7 @@ It is based off of [SpigotMC's Bukkit](https://hub.spigotmc.org/stash/projects/S
 
 You can download the latest version of the library from [here](https://github.com/bspfsystems/YamlConfiguration/releases/latest/).
 
-The latest release is 1.1.0.<br />
-The latest snapshot is 1.1.0-SNAPSHOT.
+The latest version is Release 1.1.0.
 
 ## Build from Source
 
@@ -46,7 +45,7 @@ Include the following in your `pom.xml` file:<br />
 <repositories>
   <repository>
     <id>sonatype-repo</id>
-    <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+    <url>https://oss.sonatype.org/content/repositories/releases/</url>
   </repository>
   ...
 </repositories>
@@ -57,7 +56,7 @@ Include the following in your `pom.xml` file:<br />
   <dependency>
     <groupId>org.bspfsystems</groupId>
     <artifactId>yamlconfiguration</artifactId>
-    <version>1.1.0-SNAPSHOT</version>
+    <version>1.1.0</version>
     <scope>compile</scope>
   </dependency>
   ...
@@ -72,7 +71,7 @@ Include the following in your `build.gradle` file:<br />
 repositories {
     mavenCentral()
     maven {
-        url "https://oss.sonatype.org/content/repositories/snapshots/"
+        url "https://oss.sonatype.org/content/repositories/releases/"
         ...
     }
     ...
@@ -89,7 +88,7 @@ dependencies {
 Also include the following in your `gradle.properties` file:<br />
 ```
 ...
-yamlconfiguration_version = 1.1.0-SNAPSHOT
+yamlconfiguration_version = 1.1.0
 ...
 ```
 
