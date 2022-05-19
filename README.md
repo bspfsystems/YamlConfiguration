@@ -1,25 +1,66 @@
 # YamlConfiguration
 
-YamlConfiguration is a library for creating YAML files for configurations to be used in Java programs.<br/>
+YamlConfiguration is a library for creating and editing YAML files for configurations to be used in Java programs. In addition, it also provides the ability to use in-memory-only Configurations for internal functions, as needed.
+
 It is based off of [SpigotMC's Bukkit](https://hub.spigotmc.org/stash/projects/SPIGOT/repos/bukkit/browse/src/main/java/org/bukkit/configuration) configuration sub-project, which stems from the original [Bukkit Project](https://github.com/Bukkit/Bukkit/tree/master/src/main/java/org/bukkit/configuration/).
 
-## Download
+## Obtaining YamlConfiguration
 
-You can download the latest version of the library from [here](https://github.com/bspfsystems/YamlConfiguration/releases/latest/).
+There are multiple methods for obtaining a copy of YamlConfiguration for your project. Below are a few of the methods. The most common one is to add it as a dependency to your project via Maven, Gradle, or any other build platform. Otherwise, if you need a copy of the `.jar` file to place in a library folder, you can either build YamlConfiguration from source, or you can obtain a pre-built version from the Releases page.
 
-The latest version is release 1.1.0.
+### Add as a Dependency
 
-## Build from Source
+To add YamlConfiguration as a dependency to your project, use one of the following common methods (you may use others that exist, these are the common ones):
+
+**Maven:**<br />
+Include the following in your `pom.xml` file:<br />
+```
+<repositories>
+  <repository>
+    <id>sonatype-repo</id>
+    <url>https://oss.sonatype.org/content/repositories/releases/</url>
+  </repository>
+</repositories>
+
+<dependencies>
+  <dependency>
+    <groupId>org.bspfsystems</groupId>
+    <artifactId>yamlconfiguration</artifactId>
+    <version>1.2.0</version>
+    <scope>compile</scope>
+  </dependency>
+</dependencies>
+...
+```
+
+**Gradle:**<br />
+Include the following in your `build.gradle` file:<br />
+```
+repositories {
+    mavenCentral()
+    maven {
+        url "https://oss.sonatype.org/content/repositories/releases/"
+    }
+}
+
+...
+
+dependencies {
+    include implementation("org.bspfsystems:yamlconfiguration:1.2.0")
+}
+```
+
+### Build from Source
 
 YamlConfiguration uses [Apache Maven](https://maven.apache.org/) to build and handle dependencies.
 
-### Requirements
+#### Requirements
 
 - Java Development Kit (JDK) 8 or higher
 - Git
 - Apache Maven
 
-### Compile / Build
+#### Compile / Build
 
 Run the following commands to build the library `.jar` file:
 ```
@@ -30,77 +71,40 @@ mvn clean install
 
 The `.jar` file will be located in the `target/` folder.
 
-## Installation
+### Download
 
-The main purpose of YamlConfiguration is to provide an easy method of converting Java Objects to a serialized YAML configuration file, and back again. It can be used as a library in any downstream projects to access the library's capabilities.
+You can download the latest version of the library from [here](https://github.com/bspfsystems/YamlConfiguration/releases/latest/).
 
-### Adding as a Dependency
+The latest version is release 1.2.0.
 
-To add YamlConfiguration as a dependency to your project, use one of the following common methods (you may use others that exist, these are the common ones):
+## Usage
 
-**Maven:**<br />
-Include the following in your `pom.xml` file:<br />
+These are some basic usages of YamlConfiguration; for a full scope of what the library offers, please see the Javadocs section below.
 ```
-...
-<repositories>
-  <repository>
-    <id>sonatype-repo</id>
-    <url>https://oss.sonatype.org/content/repositories/releases/</url>
-  </repository>
-  ...
-</repositories>
-
-...
-
-<dependencies>
-  <dependency>
-    <groupId>org.bspfsystems</groupId>
-    <artifactId>yamlconfiguration</artifactId>
-    <version>1.1.0</version>
-    <scope>compile</scope>
-  </dependency>
-  ...
-</dependencies>
-...
-```
-
-**Gradle:**<br />
-Include the following in your `build.gradle` file:<br />
-```
-...
-repositories {
-    mavenCentral()
-    maven {
-        url "https://oss.sonatype.org/content/repositories/releases/"
-        ...
-    }
-    ...
+// Load a file into memory
+YamlConfiguration config = new YamlConfiguration();
+try {
+    config.load(new File("config.yml"));
+} catch (IOException | InvalidConfigurationException e) {
+    e.printStackTrace();
 }
 
-...
+// Set a few values in the configuration
+config.set("random_int", (new Random()).nextInt());
+config.set("uuid", UUID.randomUUID().toString());
 
-dependencies {
-    include implementation("org.bspfsystems:yamlconfiguration:${project.yamlconfiguration_version}")
-    ...
+// Read a value
+System.out.println("UUID: " + config.getString("uuid"));
+
+// Save to a file
+try {
+    config.save(new File("newconfig.yml"));
+} catch (IOException e) {
+    e.printStackTrace();
 }
 ```
 
-Also include the following in your `gradle.properties` file:<br />
-```
-...
-yamlconfiguration_version = 1.1.0
-...
-```
-
-### Install in a Library Folder
-
-If your use of YamlConfiguration requires the `.jar` file in a specific library folder, you can obtain a copy (see Download or Build from Source) and simply place the file in the folder.
-
-### Usage
-
-Please check out the link to the Javadocs below.
-
-### Javadocs
+## Javadocs
 
 The API Javadocs can be found [here](https://bspfsystems.org/docs/yamlconfiguration/), kindly hosted by [javadoc.io](https://javadoc.io/).
 
