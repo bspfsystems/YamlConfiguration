@@ -98,12 +98,11 @@ If your use of YamlConfiguration requires the `.jar` file in a specific library 
 
 ### Usage
 
-To create a new YamlConfiguration in your project, please include the following line in your code:
-- `YamlConfiguration config = new YamlConfiguration();`
+Please check out the link to the Javadocs below.
 
 ### Javadocs
 
-The API Javadocs can be found [here](https://bspfsystems.org/docs/yamlconfiguration/), hosted by [javadoc.io](https://javadoc.io/).
+The API Javadocs can be found [here](https://bspfsystems.org/docs/yamlconfiguration/), kindly hosted by [javadoc.io](https://javadoc.io/).
 
 ## Contributing
 

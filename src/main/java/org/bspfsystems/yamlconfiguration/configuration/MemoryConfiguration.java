@@ -48,9 +48,11 @@ public class MemoryConfiguration extends MemorySection implements Configuration 
     
     /**
      * Creates an empty {@link MemoryConfiguration} with no default values.
+     * 
+     * @see MemorySection#MemorySection()
      */
     public MemoryConfiguration() {
-        // Do nothing.
+        super();
     }
     
     /**
@@ -58,8 +60,10 @@ public class MemoryConfiguration extends MemorySection implements Configuration 
      * {@link Configuration} as a source for all default values.
      * 
      * @param defs The default value provider.
+     * @see MemorySection#MemorySection()
      */
     public MemoryConfiguration(@Nullable final Configuration defs) {
+        super();
         this.defs = defs;
     }
     

@@ -54,6 +54,8 @@ public abstract class FileConfiguration extends MemoryConfiguration {
     
     /**
      * Creates an empty {@link FileConfiguration} with no default values.
+     * 
+     * @see MemoryConfiguration#MemoryConfiguration()
      */
     public FileConfiguration() {
         super();
@@ -63,7 +65,9 @@ public abstract class FileConfiguration extends MemoryConfiguration {
      * Creates an empty {@link FileConfiguration} using the specified
      * {@link Configuration} as a source for all default values.
      * 
-     * @param defs Default value provider
+     * @param defs A {@link Configuration} containing the values to use as
+     *             defaults.
+     * @see MemoryConfiguration#MemoryConfiguration(Configuration)
      */
     public FileConfiguration(@Nullable final Configuration defs) {
         super(defs);

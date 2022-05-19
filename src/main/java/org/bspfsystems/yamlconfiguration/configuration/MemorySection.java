@@ -90,7 +90,7 @@ public class MemorySection implements ConfigurationSection {
      *                                  or if the parent contains no root
      *                                  {@link Configuration}.
      */
-    protected MemorySection(@NotNull final ConfigurationSection parent, @NotNull final String path) {
+    private MemorySection(@NotNull final ConfigurationSection parent, @NotNull final String path) {
         
         if (parent.getRoot() == null) {
             throw new IllegalArgumentException("Path cannot be orphaned.");

@@ -44,6 +44,7 @@ public final class YamlConfigurationOptions extends FileConfigurationOptions {
     
     private int indent;
     private int width;
+    private int maxAliases;
     
     /**
      * Constructs a new set of {@link YamlConfigurationOptions}.
@@ -56,6 +57,7 @@ public final class YamlConfigurationOptions extends FileConfigurationOptions {
         super(configuration);
         this.indent = 2;
         this.width = 80;
+        this.maxAliases = 50;
     }
     
     /**
@@ -174,7 +176,7 @@ public final class YamlConfigurationOptions extends FileConfigurationOptions {
     /**
      * Gets the number of spaces used to represent an indent.
      * <p>
-     * The minimum value this may be is 2, and the maximum is 9.
+     * The minimum value this may be is {@code 2}, and the maximum is {@code 9}.
      * <p>
      * The default value is {@code 2}.
      * 
@@ -204,14 +206,14 @@ public final class YamlConfigurationOptions extends FileConfigurationOptions {
     /**
      * Sets the number of spaces used to represent an indent.
      * <p>
-     * The minimum value this may be is 2, and the maximum is 9.
+     * The minimum value this may be is {@code 2}, and the maximum is {@code 9}.
      * <p>
      * The default value is {@code 2}.
      * 
      * @param indent The number of spaces used to represent an indent.
      * @return This {@link YamlConfigurationOptions}, for chaining.
-     * @throws IllegalArgumentException If the given value is less than 2 or
-     *                                  greater than 9.
+     * @throws IllegalArgumentException If the given value is less than
+     *                                  {@code 2} or greater than {@code 9}.
      */
     @NotNull
     public YamlConfigurationOptions setIndent(final int indent) throws IllegalArgumentException {
@@ -229,13 +231,15 @@ public final class YamlConfigurationOptions extends FileConfigurationOptions {
      * This method exists for backwards compatibility, and it will be removed in
      * a future release.
      * <p>
-     * Please use {@link YamlConfigurationOptions#setIndent(int)} instead; it provides the same functionality.
+     * Please use {@link YamlConfigurationOptions#setIndent(int)} instead; it
+     * provides the same functionality.
      * 
      * @param indent The number of spaces used to represent an indent.
      * @return This {@link YamlConfigurationOptions}, for chaining.
-     * @throws IllegalArgumentException If the given value is less than 2 or
-     *                                  greater than 9.
-     * @deprecated This method exists for backwards compatibility. Please use {@link YamlConfigurationOptions#setIndent(int)} instead.
+     * @throws IllegalArgumentException If the given value is less than
+     *                                  {@code 2} or greater than {@code 9}.
+     * @deprecated This method exists for backwards compatibility. Please use
+     *             {@link YamlConfigurationOptions#setIndent(int)} instead.
      * @see YamlConfigurationOptions#setIndent(int)
      */
     @Deprecated
@@ -247,7 +251,8 @@ public final class YamlConfigurationOptions extends FileConfigurationOptions {
     /**
      * Gets how long a line can be before it gets split.
      * <p>
-     * The minimum value this may be is 8, and the maximum is 1000.
+     * The minimum value this may be is {@code 8}, and the maximum is
+     * {@code 1000}.
      * <p>
      * The default value is {@code 80}.
      * 
@@ -260,14 +265,15 @@ public final class YamlConfigurationOptions extends FileConfigurationOptions {
     /**
      * Sets how long a line can be before it gets split.
      * <p>
-     * The minimum value this may be is 8, and the maximum is 1000.
+     * The minimum value this may be is {@code 8}, and the maximum is
+     * {@code 1000}.
      * <p>
      * The default value is {@code 80}.
      * 
      * @param width The number of characters a line can be before it gets split.
      * @return This {@link YamlConfigurationOptions}, for chaining.
-     * @throws IllegalArgumentException If the given value is less than 8 or
-     *                                  greater than 1000.
+     * @throws IllegalArgumentException If the given value is less than
+     *                                  {@code 8} or greater than {@code 1000}.
      */
     @NotNull
     public YamlConfigurationOptions setWidth(final int width) {
@@ -278,6 +284,46 @@ public final class YamlConfigurationOptions extends FileConfigurationOptions {
             throw new IllegalArgumentException("Width cannot be greater than 1000 characters.");
         }
         this.width = width;
+        return this;
+    }
+    
+    /**
+     * Gets the maximum number of aliases for collections.
+     * <p>
+     * The minimum value this may be is {@code 10}, and the maximum is
+     * {@link Integer#MAX_VALUE}.
+     * <p>
+     * The default value is {@code 50}. It is recommended to keep this value as
+     * low as possible for your use case as to prevent a Denial-of-Service known
+     * <a href="https://en.wikipedia.org/wiki/Billion_laughs_attack">Billion Laughs Attack</a>.
+     * 
+     * @return The maximum number of aliases for collections.
+     */
+    public int getMaxAliases() {
+        return this.maxAliases;
+    }
+    
+    /**
+     * Sets the maximum number of aliases for collections.
+     * <p>
+     * The minimum value this may be is {@code 10}, and the maximum is
+     * {@link Integer#MAX_VALUE} (please use this wisely).
+     * <p>
+     * A recommended value is {@code 50}. It is recommended to keep this value
+     * as low as possible for your use case as to prevent a Denial-of-Service
+     * known
+     * <a href="https://en.wikipedia.org/wiki/Billion_laughs_attack">Billion Laughs Attack</a>.
+     * 
+     * @param maxAliases The maximum number of aliases for collections.
+     * @return This {@link YamlConfigurationOptions}, for chaining.
+     * @throws IllegalArgumentException If the given value is less than {@code 10}.
+     */
+    @NotNull
+    public YamlConfigurationOptions setMaxAliases(final int maxAliases) throws IllegalArgumentException {
+        if (maxAliases < 10) {
+            throw new IllegalArgumentException("Max aliases must be at least 10.");
+        }
+        this.maxAliases = maxAliases;
         return this;
     }
 }

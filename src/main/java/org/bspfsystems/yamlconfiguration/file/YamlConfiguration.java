@@ -44,6 +44,7 @@ import java.util.logging.Logger;
 import org.bspfsystems.yamlconfiguration.configuration.Configuration;
 import org.bspfsystems.yamlconfiguration.configuration.ConfigurationSection;
 import org.bspfsystems.yamlconfiguration.configuration.InvalidConfigurationException;
+import org.bspfsystems.yamlconfiguration.configuration.MemoryConfiguration;
 import org.bspfsystems.yamlconfiguration.serialization.ConfigurationSerializable;
 import org.bspfsystems.yamlconfiguration.serialization.ConfigurationSerialization;
 import org.jetbrains.annotations.NotNull;
@@ -71,16 +72,19 @@ import org.yaml.snakeyaml.reader.UnicodeReader;
  */
 public final class YamlConfiguration extends FileConfiguration {
     
-    private static final String COMMENT_PREFIX = "# ";
-    private static final String BLANK_CONFIG = "{}\n";
-    
     private final YamlConstructor yamlConstructor;
     private final YamlRepresenter yamlRepresenter;
     private final DumperOptions dumperOptions;
     private final LoaderOptions loaderOptions;
     private final Yaml yaml;
     
+    /**
+     * Creates an empty {@link YamlConfiguration} with no default values.
+     * 
+     * @see FileConfiguration#FileConfiguration();
+     */
     public YamlConfiguration() {
+        super();
         
         this.yamlConstructor = new YamlConstructor();
         
@@ -91,7 +95,30 @@ public final class YamlConfiguration extends FileConfiguration {
         this.dumperOptions.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
         
         this.loaderOptions = new LoaderOptions();
-        this.loaderOptions.setMaxAliasesForCollections(Integer.MAX_VALUE); //TODO: Make this configurable.
+        
+        this.yaml = new BSPFYaml(this.yamlConstructor, this.yamlRepresenter, this.dumperOptions, this.loaderOptions);
+    }
+    
+    /**
+     * Creates an empty {@link YamlConfiguration} using the specified
+     * {@link Configuration} as a source for all default values.
+     *
+     * @param defs A {@link Configuration} containing the values to use as
+     *             defaults.
+     * @see FileConfiguration#FileConfiguration(Configuration)
+     */
+    public YamlConfiguration(@Nullable final Configuration defs) {
+        super(defs);
+        
+        this.yamlConstructor = new YamlConstructor();
+        
+        this.yamlRepresenter = new YamlRepresenter();
+        this.yamlRepresenter.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
+        
+        this.dumperOptions = new DumperOptions();
+        this.dumperOptions.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
+        
+        this.loaderOptions = new LoaderOptions();
         
         this.yaml = new BSPFYaml(this.yamlConstructor, this.yamlRepresenter, this.dumperOptions, this.loaderOptions);
     }
@@ -130,6 +157,7 @@ public final class YamlConfiguration extends FileConfiguration {
     @Override
     public void loadFromString(@NotNull final String data) throws InvalidConfigurationException {
         
+        this.loaderOptions.setMaxAliasesForCollections(this.getOptions().getMaxAliases());
         this.loaderOptions.setProcessComments(this.getOptions().getParseComments());
         
         final MappingNode mappingNode;
@@ -407,6 +435,10 @@ public final class YamlConfiguration extends FileConfiguration {
      * ignored. If the specified input is not a valid {@link YamlConfiguration},
      * a blank {@link YamlConfiguration} will be returned.
      * <p>
+     * This will only load up to the default number of aliases
+     * ({@link YamlConfigurationOptions#getMaxAliases()}) to prevent a Billion
+     * Laughs Attack.
+     * <p>
      * The encoding used may follow the system dependent default.
      *
      * @param file The {@link File} to load.
@@ -432,6 +464,10 @@ public final class YamlConfiguration extends FileConfiguration {
      * Any errors loading the {@link YamlConfiguration} will be logged and then
      * ignored. If the specified input is not a valid {@link YamlConfiguration},
      * a blank {@link YamlConfiguration} will be returned.
+     * <p>
+     * This will only load up to the default number of aliases
+     * ({@link YamlConfigurationOptions#getMaxAliases()}) to prevent a Billion
+     * Laughs Attack.
      * <p>
      * The encoding used may follow the system dependent default.
      *
