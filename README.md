@@ -77,7 +77,7 @@ You can download the latest version of the library from [here](https://github.co
 
 The latest version is release 1.2.0.
 
-## Usage
+## Developer API
 
 These are some basic usages of YamlConfiguration; for a full scope of what the library offers, please see the Javadocs section below.
 ```
