@@ -34,7 +34,7 @@ The `.jar` file will be located in the `target/` folder.
 
 ## Developer API
 
-### Add as a Dependency
+### Add YamlConfiguration as a Dependency
 
 To add YamlConfiguration as a dependency to your project, use one of the following common methods (you may use others that exist, these are the common ones):
 
