@@ -1,6 +1,6 @@
 # Contributions, Support, and Issues for YamlConfiguration
 
-Contributions to the project are welcome. YamlConfiguration is a free and open source software project, created in the hopes that the community would find ways to improve it.
+Contributions to the project are welcome. YamlConfiguration is a free and open source software project, created with the hopes that the community would find ways to improve it.
 
 ## Contributing
 
