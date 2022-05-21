@@ -15,7 +15,7 @@ Various types of contributions are welcome, including (but not limited to):
 
 We reserve the right to not include a contribution in the project if the contribution does not add anything substantive or otherwise reduces the functionality of YamlConfiguration in a non-desirable way. That said, the idea of having free and open source software was that contributions would be accepted, and discussions over a potential contribution are welcome.
 
-For licensing questions, please see the Licensing section.
+For licensing questions, please see the Licensing section in [README.md](README.md).
 
 ### Project Layout
 
