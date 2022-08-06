@@ -44,7 +44,6 @@ import java.util.logging.Logger;
 import org.bspfsystems.yamlconfiguration.configuration.Configuration;
 import org.bspfsystems.yamlconfiguration.configuration.ConfigurationSection;
 import org.bspfsystems.yamlconfiguration.configuration.InvalidConfigurationException;
-import org.bspfsystems.yamlconfiguration.configuration.MemoryConfiguration;
 import org.bspfsystems.yamlconfiguration.serialization.ConfigurationSerializable;
 import org.bspfsystems.yamlconfiguration.serialization.ConfigurationSerialization;
 import org.jetbrains.annotations.NotNull;
@@ -68,7 +67,7 @@ import org.yaml.snakeyaml.reader.UnicodeReader;
  * An implementation of {@link Configuration} which saves all files in
  * {@link Yaml}. Please note that this implementation is not synchronized.
  * 
- * Synchronized with the commit on 08-January-2022.
+ * Synchronized with the commit on 07-June-2022.
  */
 public final class YamlConfiguration extends FileConfiguration {
     

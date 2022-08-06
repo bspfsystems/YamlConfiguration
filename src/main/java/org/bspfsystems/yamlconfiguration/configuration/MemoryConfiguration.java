@@ -39,7 +39,7 @@ import org.jetbrains.annotations.Nullable;
  * This is useful for temporary {@link Configuration Configurations} for
  * providing defaults.
  * 
- * Synchronized with the commit on 04-December-2021.
+ * Synchronized with the commit on 07-June-2022.
  */
 public class MemoryConfiguration extends MemorySection implements Configuration {
     
