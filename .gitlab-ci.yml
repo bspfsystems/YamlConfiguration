@@ -30,10 +30,14 @@ cache:
   paths:
     - .m2/repository
 
-# Builds the Maven project. "-B" is for batch mode
-build:
+stages:
+  - compile
+
+# Compiles the Maven project. "-B" is for batch mode
+compile:
+  stage: compile
   script:
     - "export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/"
     #- "export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64/"
-    - "mvn compile -B"
+    - "mvn clean validate compile -B"
     - "unset JAVA_HOME"
