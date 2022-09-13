@@ -43,7 +43,7 @@ import org.jetbrains.annotations.Nullable;
 
 /**
  * A type of {@link ConfigurationSection} that is stored in memory.
- * 
+ * <p>
  * Synchronized with the commit on 07-June-2022.
  */
 public class MemorySection implements ConfigurationSection {

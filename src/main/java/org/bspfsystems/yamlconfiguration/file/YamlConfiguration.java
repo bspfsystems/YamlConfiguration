@@ -66,7 +66,7 @@ import org.yaml.snakeyaml.reader.UnicodeReader;
 /**
  * An implementation of {@link Configuration} which saves all files in
  * {@link Yaml}. Please note that this implementation is not synchronized.
- * 
+ * <p>
  * Synchronized with the commit on 07-June-2022.
  */
 public final class YamlConfiguration extends FileConfiguration {

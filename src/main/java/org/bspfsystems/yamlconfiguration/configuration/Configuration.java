@@ -35,7 +35,7 @@ import org.jetbrains.annotations.Nullable;
 
 /**
  * Represents a source of configurable options and settings.
- * 
+ * <p>
  * Synchronized with the commit on 28-April-2019.
  */
 public interface Configuration extends ConfigurationSection {

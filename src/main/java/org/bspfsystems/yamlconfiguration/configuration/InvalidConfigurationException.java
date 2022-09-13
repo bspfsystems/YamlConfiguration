@@ -33,7 +33,7 @@ import org.jetbrains.annotations.NotNull;
 
 /**
  * An {@link Exception} thrown when attempting to load an invalid {@link Configuration}.
- * 
+ * <p>
  * Synchronized with the commit on 15-December-2013.
  */
 public final class InvalidConfigurationException extends Exception {

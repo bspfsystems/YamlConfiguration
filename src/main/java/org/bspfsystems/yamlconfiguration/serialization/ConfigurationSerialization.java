@@ -43,7 +43,7 @@ import org.jetbrains.annotations.Nullable;
 
 /**
  * Utility class for storing and retrieving classes for {@link Configuration}.
- * 
+ * <p>
  * Synchronized with the commit on 07-June-2022.
  */
 public final class ConfigurationSerialization {

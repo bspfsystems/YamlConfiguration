@@ -42,7 +42,7 @@ import org.yaml.snakeyaml.representer.Representer;
  * A {@link Representer} that can work with
  * {@link ConfigurationSection ConfigurationSections} and
  * {@link ConfigurationSerializable ConfigurationSerializables}.
- * 
+ * <p>
  * Synchronized with the commit on 22-April-2022.
  */
 public final class YamlRepresenter extends Representer {

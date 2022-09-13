@@ -34,7 +34,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * Various settings for controlling the input and output of a
  * {@link Configuration}.
- * 
+ * <p>
  * Synchronized with the commit on 13-March-2019.
  */
 public class ConfigurationOptions {

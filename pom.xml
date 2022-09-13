@@ -32,7 +32,7 @@
     
     <groupId>org.bspfsystems</groupId>
     <artifactId>yamlconfiguration</artifactId>
-    <version>1.2.1</version>
+    <version>1.2.2</version>
     <packaging>jar</packaging>
     
     <name>YamlConfiguration</name>
@@ -93,17 +93,14 @@
     
     <repositories>
         <repository>
-            <id>sonatype-releases-repo</id>
+            <id>oss-sonatype-releases</id>
             <url>https://oss.sonatype.org/content/repositories/releases/</url>
         </repository>
+        <repository>
+            <id>oss-sonatype-snapshots</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+        </repository>
     </repositories>
-    
-    <pluginRepositories>
-        <pluginRepository>
-            <id>apache-maven-releases</id>
-            <url>https://repository.apache.org/content/repositories/releases/</url>
-        </pluginRepository>
-    </pluginRepositories>
     
     <dependencies>
         <dependency>
@@ -115,7 +112,7 @@
         <dependency>
             <groupId>org.yaml</groupId>
             <artifactId>snakeyaml</artifactId>
-            <version>1.30</version>
+            <version>1.32</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>
@@ -125,6 +122,17 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     </properties>
     
+    <pluginRepositories>
+        <pluginRepository>
+            <id>apache-maven-releases</id>
+            <url>https://repository.apache.org/content/repositories/releases/</url>
+        </pluginRepository>
+        <pluginRepository>
+            <id>apache-maven-snapshots</id>
+            <url>https://repository.apache.org/content/repositories/snapshots/</url>
+        </pluginRepository>
+    </pluginRepositories>
+    
     <build>
         <plugins>
             <plugin>
@@ -132,8 +140,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.10.1</version>
                 <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
+                    <source>8</source>
+                    <target>8</target>
                 </configuration>
             </plugin>
             <plugin>
@@ -152,13 +160,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>3.4.0</version>
-                <configuration>
-                    <links>
-                        <link>https://javadoc.io/doc/org.jetbrains/annotations/23.0.0/</link>
-                        <link>https://javadoc.io/doc/org.yaml/snakeyaml/1.30/</link>
-                    </links>
-                </configuration>
+                <version>3.4.1</version>
                 <executions>
                     <execution>
                         <id>attach-javadocs</id>

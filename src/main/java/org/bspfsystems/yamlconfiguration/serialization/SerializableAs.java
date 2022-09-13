@@ -46,10 +46,10 @@ import org.jetbrains.annotations.NotNull;
  * <p>
  * Using this annotation on any other {@link Class} than a
  * {@link ConfigurationSerializable} will have no effect.
+ * <p>
+ * * Synchronized with the commit on 23-April-2019.
  * 
  * @see ConfigurationSerialization#registerClass(Class, String)
- * 
- * Synchronized with the commit on 23-April-2019.
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)

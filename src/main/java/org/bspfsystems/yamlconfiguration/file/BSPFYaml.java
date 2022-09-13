@@ -53,7 +53,7 @@ import org.yaml.snakeyaml.serializer.Serializer;
 
 /**
  * Represents a custom {@link Yaml} that allows working with comments.
- * 
+ * <p>
  * Synchronized with the commit on 03-January-2022.
  */
 final class BSPFYaml extends Yaml {

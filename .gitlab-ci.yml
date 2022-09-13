@@ -37,7 +37,7 @@ stages:
 compile:
   stage: compile
   script:
-    - "export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/"
-    #- "export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64/"
+    - "export JAVA_HOME=/usr/lib/jvm/temurin-8-jdk-amd64/"
+    #- "export JAVA_HOME=/usr/lib/jvm/temurin-17-jdk-amd64/"
     - "mvn clean validate compile -B"
     - "unset JAVA_HOME"

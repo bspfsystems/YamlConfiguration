@@ -47,7 +47,7 @@ import org.jetbrains.annotations.Nullable;
 /**
  * This is a base class for all {@link File}-based implementations of
  * a {@link MemoryConfiguration}.
- * 
+ * <p>
  * Synchronized with the commit on 07-June-2022.
  */
 public abstract class FileConfiguration extends MemoryConfiguration {

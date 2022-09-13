@@ -37,7 +37,7 @@ import org.jetbrains.annotations.Nullable;
 /**
  * Represents data that may be stored in a {@link MemoryConfiguration}, along
  * with any comments that may be associated with it.
- * 
+ * <p>
  * Synchronized with the commit on 20-December-2021.
  */
 final class SectionPathData {

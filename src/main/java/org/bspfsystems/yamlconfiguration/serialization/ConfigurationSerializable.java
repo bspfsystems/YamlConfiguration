@@ -47,11 +47,11 @@ import org.jetbrains.annotations.NotNull;
  * </ul>
  * In addition to implementing this interface, you must register the class
  * with {@link ConfigurationSerialization#registerClass(Class)}.
- *
+ * <p>
+ * * Synchronized with the commit on 23-April-2019.
+ * 
  * @see DelegateDeserialization
  * @see SerializableAs
- * 
- * Synchronized with the commit on 23-April-2019.
  */
 public interface ConfigurationSerializable {
     
