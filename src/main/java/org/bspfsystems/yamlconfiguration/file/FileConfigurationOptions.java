@@ -223,7 +223,7 @@ public class FileConfigurationOptions extends MemoryConfigurationOptions {
      * spacing.
      * <p>
      * If no comments exist, an empty {@link List} will be returned. A
-     * {@link null} entry represents an empty line and an empty
+     * {@code null} entry represents an empty line and an empty
      * {@link String} represents an empty comment line.
      * <p>
      * The default footer is no footer.

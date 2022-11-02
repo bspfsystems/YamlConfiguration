@@ -45,6 +45,7 @@ public final class YamlConfigurationOptions extends FileConfigurationOptions {
     private int indent;
     private int width;
     private int maxAliases;
+    private int codePointLimit;
     
     /**
      * Constructs a new set of {@link YamlConfigurationOptions}.
@@ -58,6 +59,7 @@ public final class YamlConfigurationOptions extends FileConfigurationOptions {
         this.indent = 2;
         this.width = 80;
         this.maxAliases = 50;
+        this.codePointLimit = 3 * 1024 * 1024; // 3 MB
     }
     
     /**
@@ -324,6 +326,42 @@ public final class YamlConfigurationOptions extends FileConfigurationOptions {
             throw new IllegalArgumentException("Max aliases must be at least 10.");
         }
         this.maxAliases = maxAliases;
+        return this;
+    }
+    
+    /**
+     * Gets the maximum number of code points that can be loaded in at one time.
+     * <p>
+     * The minimum is {@code 1kB (1024)}, and the maximum is
+     * {@link Integer#MAX_VALUE} (please use this wisely).
+     * <p>
+     * A recommended value is {@code 3 MB (1024 * 1024 * 3)}.
+     * 
+     * @return The maximum number of code points.
+     */
+    public int getCodePointLimit() {
+        return this.codePointLimit;
+    }
+    
+    /**
+     * Sets the maximum number of code points that can be loaded in at one time.
+     * <p>
+     * The minimum is {@code 1kB (1024)}, and the maximum is
+     * {@link Integer#MAX_VALUE} (please use this wisely).
+     * <p>
+     * A recommended value is {@code 3 MB (1024 * 1024 * 3)}.
+     * 
+     * @param codePointLimit The maximum number of code points for loading.
+     * @return This {@link YamlConfigurationOptions}, for chaining.
+     * @throws IllegalArgumentException If the given value is less than
+     *                                  {@code 1kB (1024)}.
+     */
+    @NotNull
+    public YamlConfigurationOptions setCodePointLimit(final int codePointLimit) throws IllegalArgumentException {
+        if (codePointLimit < 1024) {
+            throw new IllegalArgumentException("Code point limit must be at least 1kB (1024).");
+        }
+        this.codePointLimit = codePointLimit;
         return this;
     }
 }

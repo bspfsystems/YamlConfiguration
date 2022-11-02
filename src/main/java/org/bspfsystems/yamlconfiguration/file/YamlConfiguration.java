@@ -67,7 +67,7 @@ import org.yaml.snakeyaml.reader.UnicodeReader;
  * An implementation of {@link Configuration} which saves all files in
  * {@link Yaml}. Please note that this implementation is not synchronized.
  * <p>
- * Synchronized with the commit on 07-June-2022.
+ * Synchronized with the commit on 09-Oct-2022.
  */
 public final class YamlConfiguration extends FileConfiguration {
     
@@ -80,7 +80,7 @@ public final class YamlConfiguration extends FileConfiguration {
     /**
      * Creates an empty {@link YamlConfiguration} with no default values.
      * 
-     * @see FileConfiguration#FileConfiguration();
+     * @see FileConfiguration#FileConfiguration()
      */
     public YamlConfiguration() {
         super();
@@ -95,7 +95,7 @@ public final class YamlConfiguration extends FileConfiguration {
         
         this.loaderOptions = new LoaderOptions();
         
-        this.yaml = new BSPFYaml(this.yamlConstructor, this.yamlRepresenter, this.dumperOptions, this.loaderOptions);
+        this.yaml = new Yaml(this.yamlConstructor, this.yamlRepresenter, this.dumperOptions, this.loaderOptions);
     }
     
     /**
@@ -119,7 +119,7 @@ public final class YamlConfiguration extends FileConfiguration {
         
         this.loaderOptions = new LoaderOptions();
         
-        this.yaml = new BSPFYaml(this.yamlConstructor, this.yamlRepresenter, this.dumperOptions, this.loaderOptions);
+        this.yaml = new Yaml(this.yamlConstructor, this.yamlRepresenter, this.dumperOptions, this.loaderOptions);
     }
     
     /**
@@ -157,6 +157,7 @@ public final class YamlConfiguration extends FileConfiguration {
     public void loadFromString(@NotNull final String data) throws InvalidConfigurationException {
         
         this.loaderOptions.setMaxAliasesForCollections(this.getOptions().getMaxAliases());
+        this.loaderOptions.setCodePointLimit(this.getOptions().getCodePointLimit());
         this.loaderOptions.setProcessComments(this.getOptions().getParseComments());
         
         final MappingNode mappingNode;

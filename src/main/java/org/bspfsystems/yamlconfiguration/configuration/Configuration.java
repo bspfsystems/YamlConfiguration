@@ -100,7 +100,7 @@ public interface Configuration extends ConfigurationSection {
      * <p>
      * If no configuration source was set, but default values were added, then
      * a {@link MemoryConfiguration} will be returned. If no source was set
-     * and no defaults were set, then this method will return {@link null}.
+     * and no defaults were set, then this method will return {@code null}.
      * 
      * @return The {@link Configuration} source for default values, or
      *         {@code null} if none exist.

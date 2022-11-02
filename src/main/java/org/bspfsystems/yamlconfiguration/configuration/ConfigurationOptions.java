@@ -201,7 +201,7 @@ public class ConfigurationOptions {
      * Sets if the {@link Configuration} should copy values from its default
      * {@link Configuration} directly.
      * <p>
-     * If this is {@link true}, all values in the default {@link Configuration}
+     * If this is {@code true}, all values in the default {@link Configuration}
      * will be directly copied, making it impossible to distinguish between
      * values that were set and values that are provided by default. As a
      * result, {@link ConfigurationSection#contains(String)} will always return
