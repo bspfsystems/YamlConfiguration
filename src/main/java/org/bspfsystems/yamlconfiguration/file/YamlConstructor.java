@@ -4,8 +4,8 @@
  * Implementation of SnakeYAML to be easy to use with files.
  * 
  * Copyright (C) 2010-2014 The Bukkit Project (https://bukkit.org/)
- * Copyright (C) 2014-2022 SpigotMC Pty. Ltd. (https://www.spigotmc.org/)
- * Copyright (C) 2020-2022 BSPF Systems, LLC (https://bspfsystems.org/)
+ * Copyright (C) 2014-2023 SpigotMC Pty. Ltd. (https://www.spigotmc.org/)
+ * Copyright (C) 2020-2023 BSPF Systems, LLC (https://bspfsystems.org/)
  * 
  * Many of the files in this project are sourced from the Bukkit API as
  * part of The Bukkit Project (https://bukkit.org/), now maintained by
@@ -34,6 +34,7 @@ import java.util.Map;
 import org.bspfsystems.yamlconfiguration.serialization.ConfigurationSerialization;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.constructor.SafeConstructor;
 import org.yaml.snakeyaml.error.YAMLException;
 import org.yaml.snakeyaml.nodes.MappingNode;
@@ -112,8 +113,13 @@ public final class YamlConstructor extends SafeConstructor {
     
     /**
      * Creates a new {@link YamlConstructor}.
+     * 
+     * @param loaderOptions The {@link LoaderOptions} used to initialize the
+     *                      {@link YamlConstructor}.
+     * @see SafeConstructor#SafeConstructor(LoaderOptions);
      */
-    YamlConstructor() {
+    YamlConstructor(@NotNull final LoaderOptions loaderOptions) {
+        super(loaderOptions);
         this.yamlConstructors.put(Tag.MAP, new ConstructCustomObject());
     }
     

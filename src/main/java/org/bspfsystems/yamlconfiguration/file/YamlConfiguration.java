@@ -4,8 +4,8 @@
  * Implementation of SnakeYAML to be easy to use with files.
  * 
  * Copyright (C) 2010-2014 The Bukkit Project (https://bukkit.org/)
- * Copyright (C) 2014-2022 SpigotMC Pty. Ltd. (https://www.spigotmc.org/)
- * Copyright (C) 2020-2022 BSPF Systems, LLC (https://bspfsystems.org/)
+ * Copyright (C) 2014-2023 SpigotMC Pty. Ltd. (https://www.spigotmc.org/)
+ * Copyright (C) 2020-2023 BSPF Systems, LLC (https://bspfsystems.org/)
  * 
  * Many of the files in this project are sourced from the Bukkit API as
  * part of The Bukkit Project (https://bukkit.org/), now maintained by
@@ -67,7 +67,7 @@ import org.yaml.snakeyaml.reader.UnicodeReader;
  * An implementation of {@link Configuration} which saves all files in
  * {@link Yaml}. Please note that this implementation is not synchronized.
  * <p>
- * Synchronized with the commit on 09-Oct-2022.
+ * Synchronized with the commit on 14-Mar-2023.
  */
 public final class YamlConfiguration extends FileConfiguration {
     
@@ -85,15 +85,17 @@ public final class YamlConfiguration extends FileConfiguration {
     public YamlConfiguration() {
         super();
         
-        this.yamlConstructor = new YamlConstructor();
         
-        this.yamlRepresenter = new YamlRepresenter();
-        this.yamlRepresenter.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
         
         this.dumperOptions = new DumperOptions();
         this.dumperOptions.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
         
         this.loaderOptions = new LoaderOptions();
+        
+        this.yamlConstructor = new YamlConstructor(this.loaderOptions);
+        
+        this.yamlRepresenter = new YamlRepresenter(this.dumperOptions);
+        this.yamlRepresenter.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
         
         this.yaml = new Yaml(this.yamlConstructor, this.yamlRepresenter, this.dumperOptions, this.loaderOptions);
     }
@@ -109,15 +111,16 @@ public final class YamlConfiguration extends FileConfiguration {
     public YamlConfiguration(@Nullable final Configuration defs) {
         super(defs);
         
-        this.yamlConstructor = new YamlConstructor();
-        
-        this.yamlRepresenter = new YamlRepresenter();
-        this.yamlRepresenter.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
-        
         this.dumperOptions = new DumperOptions();
         this.dumperOptions.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
         
         this.loaderOptions = new LoaderOptions();
+        
+        this.yamlConstructor = new YamlConstructor(this.loaderOptions);
+        
+        this.yamlRepresenter = new YamlRepresenter(this.dumperOptions);
+        this.yamlRepresenter.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
+        
         
         this.yaml = new Yaml(this.yamlConstructor, this.yamlRepresenter, this.dumperOptions, this.loaderOptions);
     }

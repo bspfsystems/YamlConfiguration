@@ -35,6 +35,7 @@ import org.bspfsystems.yamlconfiguration.configuration.ConfigurationSection;
 import org.bspfsystems.yamlconfiguration.serialization.ConfigurationSerializable;
 import org.bspfsystems.yamlconfiguration.serialization.ConfigurationSerialization;
 import org.jetbrains.annotations.NotNull;
+import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.nodes.Node;
 import org.yaml.snakeyaml.representer.Representer;
 
@@ -43,7 +44,7 @@ import org.yaml.snakeyaml.representer.Representer;
  * {@link ConfigurationSection ConfigurationSections} and
  * {@link ConfigurationSerializable ConfigurationSerializables}.
  * <p>
- * Synchronized with the commit on 22-April-2022.
+ * Synchronized with the commit on 14-Mar-2023.
  */
 public final class YamlRepresenter extends Representer {
     
@@ -120,8 +121,13 @@ public final class YamlRepresenter extends Representer {
      * {@link ConfigurationSection ConfigurationSections} and
      * {@link ConfigurationSerializable ConfigurationSerializables}, while
      * disallowing {@link Enum Enums}.
+     * 
+     * @param dumperOptions The {@link DumperOptions} used to initialize the
+     *                      {@link YamlRepresenter}.
      */
-    YamlRepresenter() {
+    YamlRepresenter(@NotNull final DumperOptions dumperOptions) {
+        super(dumperOptions);
+        
         this.multiRepresenters.put(ConfigurationSection.class, new RepresentConfigurationSection());
         this.multiRepresenters.put(ConfigurationSerializable.class, new RepresentConfigurationSerializable());
         this.multiRepresenters.remove(Enum.class);
