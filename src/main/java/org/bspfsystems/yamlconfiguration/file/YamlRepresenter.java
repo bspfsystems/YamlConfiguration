@@ -44,7 +44,7 @@ import org.yaml.snakeyaml.representer.Representer;
  * {@link ConfigurationSection ConfigurationSections} and
  * {@link ConfigurationSerializable ConfigurationSerializables}.
  * <p>
- * Synchronized with the commit on 14-Mar-2023.
+ * Synchronized with the commit on 14-March-2023.
  */
 public final class YamlRepresenter extends Representer {
     

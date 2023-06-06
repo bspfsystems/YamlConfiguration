@@ -45,7 +45,7 @@ import org.yaml.snakeyaml.nodes.Tag;
  * Represents a custom {@link SafeConstructor} for use with a
  * {@link YamlConfiguration}.
  * <p>
- * Synchronized with the commit on 08-January-2022.
+ * Synchronized with the commit on 14-March-2023.
  */
 public final class YamlConstructor extends SafeConstructor {
     

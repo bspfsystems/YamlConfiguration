@@ -55,7 +55,7 @@ public interface Configuration extends ConfigurationSection {
      * @throws IllegalArgumentException Thrown if path is {@code null}.
      */
     @Override
-    void addDefault(@NotNull final String path, final @Nullable Object value) throws IllegalArgumentException;
+    void addDefault(@NotNull final String path, @Nullable final Object value) throws IllegalArgumentException;
     
     /**
      * Sets the default values of the given paths as provided.

@@ -2,7 +2,7 @@
   ~ This file is part of YamlConfiguration.
   ~ 
   ~ Implementation of SnakeYAML to be easy to use with files.
-  ~
+  ~ 
   ~ Copyright (C) 2010-2014 The Bukkit Project (https://bukkit.org/)
   ~ Copyright (C) 2014-2023 SpigotMC Pty. Ltd. (https://www.spigotmc.org/)
   ~ Copyright (C) 2020-2023 BSPF Systems, LLC (https://bspfsystems.org/)
@@ -12,7 +12,7 @@
   ~ SpigotMC Pty. Ltd. (https://www.spigotmc.org/). These files can be found
   ~ at https://github.com/Bukkit/Bukkit/ and https://hub.spigotmc.org/stash/,
   ~ respectively.
-  ~
+  ~ 
   ~ This program is free software: you can redistribute it and/or modify
   ~ it under the terms of the GNU General Public License as published by
   ~ the Free Software Foundation, either version 3 of the License, or
@@ -32,7 +32,7 @@
     
     <groupId>org.bspfsystems</groupId>
     <artifactId>yamlconfiguration</artifactId>
-    <version>1.3.2</version>
+    <version>1.3.3</version>
     <packaging>jar</packaging>
     
     <name>YamlConfiguration</name>
@@ -107,7 +107,7 @@
             <groupId>org.jetbrains</groupId>
             <artifactId>annotations</artifactId>
             <version>24.0.1</version>
-            <scope>compile</scope>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.yaml</groupId>
@@ -147,7 +147,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
-                <version>3.2.1</version>
+                <version>3.3.0</version>
                 <executions>
                     <execution>
                         <id>attach-sources</id>
@@ -173,7 +173,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-gpg-plugin</artifactId>
-                <version>3.0.1</version>
+                <version>3.1.0</version>
                 <executions>
                     <execution>
                         <id>sign-artifacts</id>
@@ -197,6 +197,14 @@
                 <artifactId>maven-shade-plugin</artifactId>
                 <version>3.4.1</version>
                 <configuration>
+                    <filters>
+                        <filter>
+                            <artifact>*:*</artifact>
+                            <excludes>
+                                <exclude>META-INF/MANIFEST.MF</exclude>
+                            </excludes>
+                        </filter>
+                    </filters>
                     <minimizeJar>true</minimizeJar>
                 </configuration>
                 <executions>

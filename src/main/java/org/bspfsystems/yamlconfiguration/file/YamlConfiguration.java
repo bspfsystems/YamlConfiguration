@@ -67,7 +67,7 @@ import org.yaml.snakeyaml.reader.UnicodeReader;
  * An implementation of {@link Configuration} which saves all files in
  * {@link Yaml}. Please note that this implementation is not synchronized.
  * <p>
- * Synchronized with the commit on 14-Mar-2023.
+ * Synchronized with the commit on 16-April-2023.
  */
 public final class YamlConfiguration extends FileConfiguration {
     
@@ -165,11 +165,14 @@ public final class YamlConfiguration extends FileConfiguration {
         
         final MappingNode mappingNode;
         try (final Reader reader = new UnicodeReader(new ByteArrayInputStream(data.getBytes(StandardCharsets.UTF_8)))) {
-            mappingNode = (MappingNode) this.yaml.compose(reader);
-        } catch (YAMLException | IOException e) {
+            final Node rawNode = this.yaml.compose(reader);
+            try {
+                mappingNode = (MappingNode) rawNode;
+            } catch (final ClassCastException e) {
+                throw new InvalidConfigurationException("Top level is not a Map.", e);
+            }
+        } catch (YAMLException | IOException | ClassCastException e) {
             throw new InvalidConfigurationException(e);
-        } catch (ClassCastException e) {
-            throw new InvalidConfigurationException("Top level is not a Map.", e);
         }
         
         this.map.clear();
