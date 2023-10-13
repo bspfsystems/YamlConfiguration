@@ -48,7 +48,7 @@ import org.jetbrains.annotations.Nullable;
  */
 public class MemorySection implements ConfigurationSection {
     
-    protected final Map<String, SectionPathData> map;
+    private final Map<String, SectionPathData> map;
     
     private final Configuration root;
     private final ConfigurationSection parent;
@@ -109,7 +109,7 @@ public class MemorySection implements ConfigurationSection {
      */
     @Override
     @NotNull
-    public Set<String> getKeys(final boolean deep) {
+    public final Set<String> getKeys(final boolean deep) {
         
         final Set<String> result = new LinkedHashSet<String>();
         final Configuration root = this.getRoot();
@@ -131,7 +131,7 @@ public class MemorySection implements ConfigurationSection {
      */
     @Override
     @NotNull
-    public Map<String, Object> getValues(final boolean deep) {
+    public final Map<String, Object> getValues(final boolean deep) {
         
         final Map<String, Object> result = new LinkedHashMap<String, Object>();
         final Configuration root = this.getRoot();
@@ -153,7 +153,7 @@ public class MemorySection implements ConfigurationSection {
      */
     @Override
     @NotNull
-    public String getCurrentPath() {
+    public final String getCurrentPath() {
         return this.fullPath;
     }
     
@@ -162,7 +162,7 @@ public class MemorySection implements ConfigurationSection {
      */
     @Override
     @NotNull
-    public String getName() {
+    public final String getName() {
         return this.path;
     }
     
@@ -171,7 +171,7 @@ public class MemorySection implements ConfigurationSection {
      */
     @Override
     @Nullable
-    public Configuration getRoot() {
+    public final Configuration getRoot() {
         return this.root;
     }
     
@@ -189,7 +189,7 @@ public class MemorySection implements ConfigurationSection {
      */
     @Override
     @Nullable
-    public ConfigurationSection getDefaultSection() {
+    public final ConfigurationSection getDefaultSection() {
         
         final Configuration root = this.getRoot();
         final Configuration defs = root == null ? null : root.getDefaults();
@@ -225,7 +225,7 @@ public class MemorySection implements ConfigurationSection {
      */
     @Override
     @NotNull
-    public List<String> getComments(@NotNull final String path) {
+    public final List<String> getComments(@NotNull final String path) {
         final SectionPathData data = this.getSectionPathData(path);
         return data == null ? Collections.emptyList() : data.getComments();
     }
@@ -235,7 +235,7 @@ public class MemorySection implements ConfigurationSection {
      */
     @Override
     @NotNull
-    public List<String> getInLineComments(@NotNull final String path) {
+    public final List<String> getInLineComments(@NotNull final String path) {
         final SectionPathData data = this.getSectionPathData(path);
         return data == null ? Collections.emptyList() : data.getInLineComments();
     }
@@ -244,7 +244,7 @@ public class MemorySection implements ConfigurationSection {
      * {@inheritDoc}
      */
     @Override
-    public void setComments(@NotNull final String path, @Nullable final List<String> comments) {
+    public final void setComments(@NotNull final String path, @Nullable final List<String> comments) {
         final SectionPathData data = this.getSectionPathData(path);
         if (data != null) {
             data.setComments(comments);
@@ -255,7 +255,7 @@ public class MemorySection implements ConfigurationSection {
      * {@inheritDoc}
      */
     @Override
-    public void setInLineComments(@NotNull final String path, @Nullable final List<String> inLineComments) {
+    public final void setInLineComments(@NotNull final String path, @Nullable final List<String> inLineComments) {
         final SectionPathData data = this.getSectionPathData(path);
         if (data != null) {
             data.setInLineComments(inLineComments);
@@ -305,7 +305,7 @@ public class MemorySection implements ConfigurationSection {
      */
     @Override
     @NotNull
-    public ConfigurationSection createSection(@NotNull final String path) {
+    public final ConfigurationSection createSection(@NotNull final String path) {
         if (path.isEmpty()) {
             throw new IllegalArgumentException("Cannot set to an empty path.");
         }
@@ -345,7 +345,7 @@ public class MemorySection implements ConfigurationSection {
      */
     @Override
     @NotNull
-    public ConfigurationSection createSection(@NotNull final String path, @NotNull final Map<?, ?> map) {
+    public final ConfigurationSection createSection(@NotNull final String path, @NotNull final Map<?, ?> map) {
         
         final ConfigurationSection section = createSection(path);
         for (final Map.Entry<?, ?> entry : map.entrySet()) {
@@ -364,7 +364,7 @@ public class MemorySection implements ConfigurationSection {
      * {@inheritDoc}
      */
     @Override
-    public boolean isSet(@NotNull final String path) {
+    public final boolean isSet(@NotNull final String path) {
         
         final Configuration root = this.getRoot();
         if (root == null) {
@@ -380,7 +380,7 @@ public class MemorySection implements ConfigurationSection {
      * {@inheritDoc}
      */
     @Override
-    public void set(@NotNull final String path, @Nullable final Object value) {
+    public final void set(@NotNull final String path, @Nullable final Object value) {
         
         if (path.isEmpty()) {
             throw new IllegalArgumentException("Cannot set to an empty path.");
@@ -432,7 +432,7 @@ public class MemorySection implements ConfigurationSection {
      * {@inheritDoc}
      */
     @Override
-    public boolean contains(@NotNull final String path) {
+    public final boolean contains(@NotNull final String path) {
         return this.contains(path, false);
     }
     
@@ -440,7 +440,7 @@ public class MemorySection implements ConfigurationSection {
      * {@inheritDoc}
      */
     @Override
-    public boolean contains(@NotNull final String path, final boolean ignoreDefault) {
+    public final boolean contains(@NotNull final String path, final boolean ignoreDefault) {
         return ((ignoreDefault) ? this.get(path, null) : this.get(path)) != null;
     }
     
@@ -449,7 +449,7 @@ public class MemorySection implements ConfigurationSection {
      */
     @Override
     @Nullable
-    public Object get(@NotNull final String path) {
+    public final Object get(@NotNull final String path) {
         return this.get(path, this.getDefault(path));
     }
     
@@ -459,9 +459,9 @@ public class MemorySection implements ConfigurationSection {
     @Override
     @Contract("_, !null -> !null")
     @Nullable
-    public Object get(@NotNull final String path, @Nullable final Object def) {
+    public final Object get(@NotNull final String path, @Nullable final Object def) {
         
-        if (path.length() == 0) {
+        if (path.isEmpty()) {
             return this;
         }
         
@@ -500,7 +500,7 @@ public class MemorySection implements ConfigurationSection {
      * {@inheritDoc}
      */
     @Override
-    public boolean isBoolean(@NotNull final String path) {
+    public final boolean isBoolean(@NotNull final String path) {
         return this.get(path) instanceof Boolean;
     }
     
@@ -508,7 +508,7 @@ public class MemorySection implements ConfigurationSection {
      * {@inheritDoc}
      */
     @Override
-    public boolean getBoolean(@NotNull final String path) {
+    public final boolean getBoolean(@NotNull final String path) {
         final Object def = this.getDefault(path);
         return this.getBoolean(path, def instanceof Boolean && (Boolean) def);
     }
@@ -517,7 +517,7 @@ public class MemorySection implements ConfigurationSection {
      * {@inheritDoc}
      */
     @Override
-    public boolean getBoolean(@NotNull final String path, final boolean def) {
+    public final boolean getBoolean(@NotNull final String path, final boolean def) {
         final Object val = this.get(path, def);
         return val instanceof Boolean ? (Boolean) val : def;
     }
@@ -526,7 +526,15 @@ public class MemorySection implements ConfigurationSection {
      * {@inheritDoc}
      */
     @Override
-    public boolean isByte(@NotNull final String path) {
+    public final boolean isNumber(@NotNull final String path) {
+        return this.get(path) instanceof Number;
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public final boolean isByte(@NotNull final String path) {
         return this.get(path) instanceof Byte;
     }
     
@@ -534,7 +542,7 @@ public class MemorySection implements ConfigurationSection {
      * {@inheritDoc}
      */
     @Override
-    public byte getByte(@NotNull final String path) {
+    public final byte getByte(@NotNull final String path) {
         final Object def = this.getDefault(path);
         return this.getByte(path, def instanceof Number ? ((Number) def).byteValue() : (byte) 0);
     }
@@ -543,7 +551,7 @@ public class MemorySection implements ConfigurationSection {
      * {@inheritDoc}
      */
     @Override
-    public byte getByte(@NotNull final String path, final byte def) {
+    public final byte getByte(@NotNull final String path, final byte def) {
         final Object val = this.get(path, def);
         return val instanceof Number ? ((Number) val).byteValue() : def;
     }
@@ -552,7 +560,7 @@ public class MemorySection implements ConfigurationSection {
      * {@inheritDoc}
      */
     @Override
-    public boolean isShort(@NotNull final String path) {
+    public final boolean isShort(@NotNull final String path) {
         return this.get(path) instanceof Short;
     }
     
@@ -560,7 +568,7 @@ public class MemorySection implements ConfigurationSection {
      * {@inheritDoc}
      */
     @Override
-    public short getShort(@NotNull final String path) {
+    public final short getShort(@NotNull final String path) {
         final Object def = this.getDefault(path);
         return this.getShort(path, def instanceof Number ? ((Number) def).shortValue() : (short) 0);
     }
@@ -569,7 +577,7 @@ public class MemorySection implements ConfigurationSection {
      * {@inheritDoc}
      */
     @Override
-    public short getShort(@NotNull final String path, final short def) {
+    public final short getShort(@NotNull final String path, final short def) {
         final Object val = this.get(path, def);
         return val instanceof Number ? ((Number) val).shortValue() : def;
     }
@@ -578,7 +586,7 @@ public class MemorySection implements ConfigurationSection {
      * {@inheritDoc}
      */
     @Override
-    public boolean isInt(@NotNull final String path) {
+    public final boolean isInt(@NotNull final String path) {
         return this.get(path) instanceof Integer;
     }
     
@@ -586,7 +594,7 @@ public class MemorySection implements ConfigurationSection {
      * {@inheritDoc}
      */
     @Override
-    public int getInt(@NotNull final String path) {
+    public final int getInt(@NotNull final String path) {
         final Object def = this.getDefault(path);
         return this.getInt(path, def instanceof Number ? ((Number) def).intValue() : 0);
     }
@@ -595,7 +603,7 @@ public class MemorySection implements ConfigurationSection {
      * {@inheritDoc}
      */
     @Override
-    public int getInt(@NotNull final String path, final int def) {
+    public final int getInt(@NotNull final String path, final int def) {
         final Object val = this.get(path, def);
         return val instanceof Number ? ((Number) val).intValue() : def;
     }
@@ -604,7 +612,7 @@ public class MemorySection implements ConfigurationSection {
      * {@inheritDoc}
      */
     @Override
-    public boolean isLong(@NotNull final String path) {
+    public final boolean isLong(@NotNull final String path) {
         return this.get(path) instanceof Long;
     }
     
@@ -612,25 +620,25 @@ public class MemorySection implements ConfigurationSection {
      * {@inheritDoc}
      */
     @Override
-    public long getLong(@NotNull final String path) {
+    public final long getLong(@NotNull final String path) {
         final Object def = this.getDefault(path);
-        return this.getLong(path, def instanceof Number ? (Long) def : 0L);
+        return this.getLong(path, def instanceof Number ? ((Number) def).longValue() : 0L);
     }
     
     /**
      * {@inheritDoc}
      */
     @Override
-    public long getLong(@NotNull final String path, final long def) {
+    public final long getLong(@NotNull final String path, final long def) {
         final Object val = this.get(path, def);
-        return val instanceof Number ? (Long) val : def;
+        return val instanceof Number ? ((Number) val).longValue() : def;
     }
     
     /**
      * {@inheritDoc}
      */
     @Override
-    public boolean isFloat(@NotNull final String path) {
+    public final boolean isFloat(@NotNull final String path) {
         return this.get(path) instanceof Float;
     }
     
@@ -638,7 +646,7 @@ public class MemorySection implements ConfigurationSection {
      * {@inheritDoc}
      */
     @Override
-    public float getFloat(@NotNull final String path) {
+    public final float getFloat(@NotNull final String path) {
         final Object def = this.getDefault(path);
         return this.getFloat(path, def instanceof Number ? ((Number) def).floatValue() : 0.0F);
     }
@@ -647,7 +655,7 @@ public class MemorySection implements ConfigurationSection {
      * {@inheritDoc}
      */
     @Override
-    public float getFloat(@NotNull final String path, final float def) {
+    public final float getFloat(@NotNull final String path, final float def) {
         final Object val = this.get(path, def);
         return val instanceof Number ? ((Number) val).floatValue() : def;
     }
@@ -656,7 +664,7 @@ public class MemorySection implements ConfigurationSection {
      * {@inheritDoc}
      */
     @Override
-    public boolean isDouble(@NotNull final String path) {
+    public final boolean isDouble(@NotNull final String path) {
         return this.get(path) instanceof Double;
     }
     
@@ -664,7 +672,7 @@ public class MemorySection implements ConfigurationSection {
      * {@inheritDoc}
      */
     @Override
-    public double getDouble(@NotNull final String path) {
+    public final double getDouble(@NotNull final String path) {
         final Object def = this.getDefault(path);
         return this.getDouble(path, def instanceof Number ? ((Number) def).doubleValue() : 0.0D);
     }
@@ -673,7 +681,7 @@ public class MemorySection implements ConfigurationSection {
      * {@inheritDoc}
      */
     @Override
-    public double getDouble(@NotNull final String path, final double def) {
+    public final double getDouble(@NotNull final String path, final double def) {
         final Object val = this.get(path, def);
         return val instanceof Number ? ((Number) val).doubleValue() : def;
     }
@@ -682,7 +690,7 @@ public class MemorySection implements ConfigurationSection {
      * {@inheritDoc}
      */
     @Override
-    public boolean isChar(@NotNull final String path) {
+    public final boolean isChar(@NotNull final String path) {
         return this.get(path) instanceof Boolean;
     }
     
@@ -690,7 +698,7 @@ public class MemorySection implements ConfigurationSection {
      * {@inheritDoc}
      */
     @Override
-    public char getChar(@NotNull final String path) {
+    public final char getChar(@NotNull final String path) {
         final Object def = this.getDefault(path);
         return this.getChar(path, def instanceof Character ? (Character) def : '\u0000');
     }
@@ -699,7 +707,7 @@ public class MemorySection implements ConfigurationSection {
      * {@inheritDoc}
      */
     @Override
-    public char getChar(@NotNull final String path, final char def) {
+    public final char getChar(@NotNull final String path, final char def) {
         final Object val = this.get(path, def);
         return val instanceof Character ? (Character) val : def;
     }
@@ -708,7 +716,7 @@ public class MemorySection implements ConfigurationSection {
      * {@inheritDoc}
      */
     @Override
-    public boolean isString(@NotNull final String path) {
+    public final boolean isString(@NotNull final String path) {
         return this.get(path) instanceof String;
     }
     
@@ -717,7 +725,7 @@ public class MemorySection implements ConfigurationSection {
      */
     @Override
     @Nullable
-    public String getString(@NotNull final String path) {
+    public final String getString(@NotNull final String path) {
         final Object def = this.getDefault(path);
         return this.getString(path, def != null ? def.toString() : null);
     }
@@ -728,7 +736,7 @@ public class MemorySection implements ConfigurationSection {
     @Override
     @Contract("_, !null -> !null")
     @Nullable
-    public String getString(@NotNull final String path, @Nullable final String def) {
+    public final String getString(@NotNull final String path, @Nullable final String def) {
         final Object val = this.get(path, def);
         return val != null ? val.toString() : def;
     }
@@ -737,7 +745,7 @@ public class MemorySection implements ConfigurationSection {
      * {@inheritDoc}
      */
     @Override
-    public boolean isList(@NotNull final String path) {
+    public final boolean isList(@NotNull final String path) {
         return this.get(path) instanceof List;
     }
     
@@ -746,7 +754,7 @@ public class MemorySection implements ConfigurationSection {
      */
     @Override
     @Nullable
-    public List<?> getList(@NotNull final String path) {
+    public final List<?> getList(@NotNull final String path) {
         final Object def = this.getDefault(path);
         return this.getList(path, def instanceof List ? (List<?>) def : null);
     }
@@ -757,7 +765,7 @@ public class MemorySection implements ConfigurationSection {
     @Override
     @Contract("_, !null -> !null")
     @Nullable
-    public List<?> getList(@NotNull final String path, @Nullable final List<?> def) {
+    public final List<?> getList(@NotNull final String path, @Nullable final List<?> def) {
         final Object val = this.get(path, def);
         return val instanceof List ? (List<?>) val : def;
     }
@@ -766,7 +774,7 @@ public class MemorySection implements ConfigurationSection {
      * {@inheritDoc}
      */
     @Override
-    public boolean isConfigurationSection(@NotNull final String path) {
+    public final boolean isConfigurationSection(@NotNull final String path) {
         return this.get(path) instanceof ConfigurationSection;
     }
     
@@ -775,7 +783,7 @@ public class MemorySection implements ConfigurationSection {
      */
     @Override
     @Nullable
-    public ConfigurationSection getConfigurationSection(@NotNull final String path) {
+    public final ConfigurationSection getConfigurationSection(@NotNull final String path) {
         
         Object val = this.get(path, null);
         if (val != null) {
@@ -791,7 +799,7 @@ public class MemorySection implements ConfigurationSection {
      */
     @Override
     @Nullable
-    public <T> T getObject(@NotNull final String path, @NotNull final Class<T> clazz) {
+    public final <T> T getObject(@NotNull final String path, @NotNull final Class<T> clazz) {
         final Object def = this.getDefault(path);
         return this.getObject(path, clazz, clazz.isInstance(def) ? clazz.cast(def) : null);
     }
@@ -802,7 +810,7 @@ public class MemorySection implements ConfigurationSection {
     @Override
     @Contract("_, _, !null -> !null")
     @Nullable
-    public <T> T getObject(@NotNull final String path, @NotNull final Class<T> clazz, @Nullable final T def) {
+    public final <T> T getObject(@NotNull final String path, @NotNull final Class<T> clazz, @Nullable final T def) {
         final Object val = this.get(path, def);
         return clazz.isInstance(val) ? clazz.cast(val) : def;
     }
@@ -812,7 +820,7 @@ public class MemorySection implements ConfigurationSection {
      */
     @Override
     @Nullable
-    public <T extends ConfigurationSerializable> T getSerializable(@NotNull final String path, @NotNull final Class<T> clazz) {
+    public final <T extends ConfigurationSerializable> T getSerializable(@NotNull final String path, @NotNull final Class<T> clazz) {
         return this.getObject(path, clazz);
     }
     
@@ -822,7 +830,7 @@ public class MemorySection implements ConfigurationSection {
     @Override
     @Contract("_, _, !null -> !null")
     @Nullable
-    public <T extends ConfigurationSerializable> T getSerializable(@NotNull final String path, @NotNull final Class<T> clazz, @Nullable final T def) {
+    public final <T extends ConfigurationSerializable> T getSerializable(@NotNull final String path, @NotNull final Class<T> clazz, @Nullable final T def) {
         return this.getObject(path, clazz, def);
     }
     
@@ -831,7 +839,7 @@ public class MemorySection implements ConfigurationSection {
      */
     @Override
     @NotNull
-    public List<Boolean> getBooleanList(@NotNull final String path) {
+    public final List<Boolean> getBooleanList(@NotNull final String path) {
         
         final List<?> list = this.getList(path);
         if (list == null) {
@@ -856,7 +864,7 @@ public class MemorySection implements ConfigurationSection {
      */
     @Override
     @NotNull
-    public List<Byte> getByteList(@NotNull final String path) {
+    public final List<Byte> getByteList(@NotNull final String path) {
         
         final List<?> list = this.getList(path);
         if (list == null) {
@@ -866,18 +874,18 @@ public class MemorySection implements ConfigurationSection {
         final List<Byte> result = new ArrayList<Byte>();
         for (final Object object : list) {
             
-            if(object instanceof Byte) {
+            if (object instanceof Byte) {
                 result.add((Byte) object);
             } else if (object instanceof String) {
                 try {
                     result.add(Byte.valueOf((String) object));
-                } catch (NumberFormatException e) {
+                } catch (final NumberFormatException ignored) {
                     // Ignore
                 }
             } else if (object instanceof Character) {
                 try {
                     result.add((byte) ((Character) object).charValue());
-                } catch (ClassCastException e) {
+                } catch (final ClassCastException ignored) {
                     // Ignore
                 }
             } else if (object instanceof Number) {
@@ -893,7 +901,7 @@ public class MemorySection implements ConfigurationSection {
      */
     @Override
     @NotNull
-    public List<Short> getShortList(@NotNull final String path) {
+    public final List<Short> getShortList(@NotNull final String path) {
         
         final List<?> list = this.getList(path);
         if (list == null) {
@@ -908,13 +916,13 @@ public class MemorySection implements ConfigurationSection {
             } else if(object instanceof String) {
                 try {
                     result.add(Short.valueOf((String) object));
-                } catch (NumberFormatException e) {
+                } catch (final NumberFormatException ignored) {
                     // Ignore
                 }
             } else if (object instanceof Character) {
                 try {
                     result.add((short) ((Character) object).charValue());
-                } catch (ClassCastException e) {
+                } catch (final ClassCastException ignored) {
                     // Ignore
                 }
             } else if (object instanceof Number) {
@@ -930,7 +938,7 @@ public class MemorySection implements ConfigurationSection {
      */
     @Override
     @NotNull
-    public List<Integer> getIntList(@NotNull final String path) {
+    public final List<Integer> getIntList(@NotNull final String path) {
         
         final List<?> list = this.getList(path);
         if (list == null) {
@@ -945,13 +953,13 @@ public class MemorySection implements ConfigurationSection {
             } else if(object instanceof String) {
                 try {
                     result.add(Integer.valueOf((String) object));
-                } catch (NumberFormatException e) {
+                } catch (final NumberFormatException ignored) {
                     // Ignore
                 }
             } else if (object instanceof Character) {
                 try {
                     result.add((int) (Character) object);
-                } catch (ClassCastException e) {
+                } catch (final ClassCastException ignored) {
                     // Ignore
                 }
             } else if (object instanceof Number) {
@@ -967,7 +975,7 @@ public class MemorySection implements ConfigurationSection {
      */
     @Override
     @NotNull
-    public List<Long> getLongList(@NotNull final String path) {
+    public final List<Long> getLongList(@NotNull final String path) {
         
         final List<?> list = this.getList(path);
         if (list == null) {
@@ -982,13 +990,13 @@ public class MemorySection implements ConfigurationSection {
             } else if (object instanceof String) {
                 try {
                     result.add(Long.valueOf((String) object));
-                } catch (NumberFormatException e) {
+                } catch (final NumberFormatException ignored) {
                     // Ignore
                 }
             } else if (object instanceof Character) {
                 try {
                     result.add((long) (Character) object);
-                } catch (ClassCastException e) {
+                } catch (final ClassCastException ignored) {
                     // Ignore
                 }
             } else if (object instanceof Number) {
@@ -1004,7 +1012,7 @@ public class MemorySection implements ConfigurationSection {
      */
     @Override
     @NotNull
-    public List<Float> getFloatList(@NotNull final String path) {
+    public final List<Float> getFloatList(@NotNull final String path) {
         
         final List<?> list = this.getList(path);
         if (list == null) {
@@ -1019,13 +1027,13 @@ public class MemorySection implements ConfigurationSection {
             } else if (object instanceof String) {
                 try {
                     result.add(Float.valueOf((String) object));
-                } catch (NumberFormatException e) {
+                } catch (final NumberFormatException ignored) {
                     // Ignore
                 }
             } else if (object instanceof Character) {
                 try {
                     result.add((float) (Character) object);
-                } catch (ClassCastException e) {
+                } catch (final ClassCastException ignored) {
                     // Ignore
                 }
             } else if (object instanceof Number) {
@@ -1041,7 +1049,7 @@ public class MemorySection implements ConfigurationSection {
      */
     @Override
     @NotNull
-    public List<Double> getDoubleList(@NotNull final String path) {
+    public final List<Double> getDoubleList(@NotNull final String path) {
         
         final List<?> list = this.getList(path);
         if (list == null) {
@@ -1056,13 +1064,13 @@ public class MemorySection implements ConfigurationSection {
             } else if (object instanceof String) {
                 try {
                     result.add(Double.valueOf((String) object));
-                } catch (NumberFormatException e) {
+                } catch (final NumberFormatException ignored) {
                     // Ignore
                 }
             } else if (object instanceof Character) {
                 try {
                     result.add((double) (Character) object);
-                } catch (ClassCastException e) {
+                } catch (final ClassCastException ignored) {
                     // Ignore
                 }
             } else if (object instanceof Number) {
@@ -1078,7 +1086,7 @@ public class MemorySection implements ConfigurationSection {
      */
     @Override
     @NotNull
-    public List<Character> getCharList(@NotNull final String path) {
+    public final List<Character> getCharList(@NotNull final String path) {
         
         final List<?> list = this.getList(path);
         if (list == null) {
@@ -1105,7 +1113,7 @@ public class MemorySection implements ConfigurationSection {
      */
     @Override
     @NotNull
-    public List<String> getStringList(@NotNull final String path) {
+    public final List<String> getStringList(@NotNull final String path) {
         
         final List<?> list = this.getList(path);
         if (list == null) {
@@ -1127,7 +1135,7 @@ public class MemorySection implements ConfigurationSection {
      */
     @Override
     @NotNull
-    public List<Map<?, ?>> getMapList(@NotNull final String path) {
+    public final List<Map<?, ?>> getMapList(@NotNull final String path) {
         
         final List<?> list = this.getList(path);
         if (list == null) {
@@ -1152,7 +1160,7 @@ public class MemorySection implements ConfigurationSection {
      *         {@code null}.
      */
     @Nullable
-    protected Object getDefault(@NotNull final String path) {
+    private Object getDefault(@NotNull final String path) {
         
         final Configuration root = this.getRoot();
         final Configuration defs = root == null ? null : root.getDefaults();
@@ -1170,7 +1178,7 @@ public class MemorySection implements ConfigurationSection {
      *             {@link ConfigurationSection ConfigurationSection's} keys will
      *             be mapped.
      */
-    protected void mapChildrenKeys(@NotNull final Set<String> output, @NotNull final ConfigurationSection section, final boolean deep) {
+    private void mapChildrenKeys(@NotNull final Set<String> output, @NotNull final ConfigurationSection section, final boolean deep) {
         
         if (section instanceof MemorySection) {
             
@@ -1179,7 +1187,7 @@ public class MemorySection implements ConfigurationSection {
                 output.add(MemorySection.createPath(section, entry.getKey(), this));
                 
                 if (deep && entry.getValue().getData() instanceof ConfigurationSection) {
-                    this.mapChildrenKeys(output, (ConfigurationSection) entry.getValue().getData(), deep);
+                    this.mapChildrenKeys(output, (ConfigurationSection) entry.getValue().getData(), true);
                 }
             }
         } else {
@@ -1202,7 +1210,7 @@ public class MemorySection implements ConfigurationSection {
      *             {@link ConfigurationSection ConfigurationSection's} key-value
      *             pairs will be mapped.
      */
-    protected void mapChildrenValues(@NotNull final Map<String, Object> output, @NotNull final ConfigurationSection section, final boolean deep) {
+    private void mapChildrenValues(@NotNull final Map<String, Object> output, @NotNull final ConfigurationSection section, final boolean deep) {
         
         if (section instanceof MemorySection) {
             
@@ -1214,7 +1222,7 @@ public class MemorySection implements ConfigurationSection {
                 output.put(path, entry.getValue().getData());
                 
                 if (deep && entry.getValue().getData() instanceof ConfigurationSection) {
-                    this.mapChildrenValues(output, (ConfigurationSection) entry.getValue().getData(), deep);
+                    this.mapChildrenValues(output, (ConfigurationSection) entry.getValue().getData(), true);
                 }
             }
         } else {
@@ -1227,12 +1235,20 @@ public class MemorySection implements ConfigurationSection {
     }
     
     /**
+     * Clears the internal {@link Map}.
+     */
+    protected final void clear() {
+        this.map.clear();
+    }
+    
+    /**
      * Creates a {@link String} representation of this {@link MemorySection}.
      * 
      * @return A {@link String} representation of this {@link MemorySection}.
      */
     @Override
-    public String toString() {
+    @NotNull
+    public final String toString() {
         
         final Configuration root = this.getRoot();
         final StringBuilder builder = new StringBuilder();
@@ -1295,7 +1311,7 @@ public class MemorySection implements ConfigurationSection {
             builder.insert(0, parent.getName());
         }
         
-        if (key != null && key.length() > 0) {
+        if (key != null && !key.isEmpty()) {
             if (builder.length() > 0) {
                 builder.append(separator);
             }

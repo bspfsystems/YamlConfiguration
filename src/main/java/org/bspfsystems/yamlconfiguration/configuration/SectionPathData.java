@@ -140,6 +140,6 @@ final class SectionPathData {
      *                       {@link SectionPathData}.
      */
     void setInLineComments(@Nullable final List<String> inLineComments) {
-        this.inLineComments = (inLineComments == null) ? Collections.emptyList() : Collections.unmodifiableList(inLineComments);
+        this.inLineComments = inLineComments == null ? Collections.emptyList() : Collections.unmodifiableList(inLineComments);
     }
 }

@@ -57,7 +57,7 @@ public abstract class FileConfiguration extends MemoryConfiguration {
      * 
      * @see MemoryConfiguration#MemoryConfiguration()
      */
-    public FileConfiguration() {
+    protected FileConfiguration() {
         super();
     }
     
@@ -69,7 +69,7 @@ public abstract class FileConfiguration extends MemoryConfiguration {
      *             defaults.
      * @see MemoryConfiguration#MemoryConfiguration(Configuration)
      */
-    public FileConfiguration(@Nullable final Configuration defs) {
+    protected FileConfiguration(@Nullable final Configuration defs) {
         super(defs);
     }
     
@@ -93,7 +93,7 @@ public abstract class FileConfiguration extends MemoryConfiguration {
             }
         }
         
-        try (final Writer writer = new OutputStreamWriter(Files.newOutputStream(file.toPath()), StandardCharsets.UTF_8.name())) {
+        try (final Writer writer = new OutputStreamWriter(Files.newOutputStream(file.toPath()), StandardCharsets.UTF_8)) {
             writer.write(this.saveToString());
         }
     }
@@ -173,7 +173,7 @@ public abstract class FileConfiguration extends MemoryConfiguration {
      * @see FileConfiguration#load(Reader)
      */
     public final void load(@NotNull final File file) throws IOException, InvalidConfigurationException {
-        this.load(new InputStreamReader(Files.newInputStream(file.toPath()), StandardCharsets.UTF_8.name()));
+        this.load(new InputStreamReader(Files.newInputStream(file.toPath()), StandardCharsets.UTF_8));
     }
     
     /**
@@ -195,12 +195,6 @@ public abstract class FileConfiguration extends MemoryConfiguration {
     public final void load(@NotNull final String path) throws IOException, InvalidConfigurationException {
         this.load(new File(path));
     }
-    
-    /**
-     * Saves this {@link FileConfiguration} to a {@link String}, and returns it.
-     *
-     * @return The {@link String} containing this {@link FileConfiguration}.
-     */
     
     /**
      * Loads this {@link FileConfiguration} from the given {@link String}.

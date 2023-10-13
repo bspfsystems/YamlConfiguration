@@ -296,7 +296,7 @@ public interface ConfigurationSection {
      * 
      * @param path The path to check for existence.
      * @return {@code true} if this {@link ConfigurationSection} contains the
-     *         requested path, regardless of having a default. {@code false}
+     *         requested path, regardless of having a default, {@code false}
      *         otherwise
      */
     boolean isSet(@NotNull final String path);
@@ -325,7 +325,7 @@ public interface ConfigurationSection {
      * 
      * @param path The path to check for existence.
      * @return {@code true} if this {@link ConfigurationSection} contains the
-     *         requested path, either via default or being set. {@code false}
+     *         requested path, either via default or being set, {@code false}
      *         otherwise.
      */
     boolean contains(@NotNull final String path);
@@ -346,7 +346,7 @@ public interface ConfigurationSection {
      *                      otherwise.
      * @return {@code true} if this {@link ConfigurationSection} contains a
      *         value at the requested path, or if a default value has been set
-     *         and {@code ignoreDefaults} is {@code false}. {@code false}
+     *         and {@code ignoreDefaults} is {@code false}, {@code false}
      *         otherwise.
      */
     boolean contains(@NotNull final String path, final boolean ignoreDefault);
@@ -391,7 +391,7 @@ public interface ConfigurationSection {
      * 
      * @param path The path of the {@code boolean} to check.
      * @return {@code true} if a {@code boolean} value exists, or if there is no
-     *         value, a default has been set, and it is a {@code boolean}.
+     *         value, a default has been set, and it is a {@code boolean},
      *         {@code false} otherwise.
      */
     boolean isBoolean(@NotNull final String path);
@@ -427,6 +427,35 @@ public interface ConfigurationSection {
     boolean getBoolean(@NotNull final String path, final boolean def);
     
     /**
+     * Checks if the value at the given path is a {@link Number}.
+     * <p>
+     * If the value exists at the given path but is not a {@link Number}, this
+     * will return {@code false}.
+     * <p>
+     * If the value does not exist at the give path but a default value has
+     * been set, this will check that value and return appropriately.
+     * <p>
+     * This method is meant to be a more generic check than the specific
+     * {@link Number}-based checks below, such as
+     * {@link ConfigurationSection#isByte(String)}, or
+     * {@link ConfigurationSection#isDouble(String)}. Those methods check
+     * to see if the requested value (or default) is of the exact type, whereas
+     * this method will simply check for a {@link Number}.
+     * 
+     * @param path The path of the {@link Number} to check.
+     * @return {@code true} if a {@link Number} value exists, or if there is no
+     *         value, a default has been set, and it is a {@link Number},
+     *         {@code false} otherwise.
+     * @see ConfigurationSection#isByte(String)
+     * @see ConfigurationSection#isShort(String)
+     * @see ConfigurationSection#isInt(String)
+     * @see ConfigurationSection#isLong(String)
+     * @see ConfigurationSection#isFloat(String)
+     * @see ConfigurationSection#isDouble(String)
+     */
+    boolean isNumber(@NotNull final String path);
+    
+    /**
      * Checks if the value at the given path is a {@code byte}.
      * <p>
      * If the value exists at the given path but is not a {@code byte}, this
@@ -434,11 +463,17 @@ public interface ConfigurationSection {
      * <p>
      * If the value does not exist at the given path but a default value has
      * been set, this will check that value and return appropriately.
+     * <p>
+     * This method will check to see if the requested value (or default) is
+     * specifically a {@code byte}. If the value is another type of
+     * {@link Number}, this will return {@code false}. To check for a generic
+     * {@link Number}, please use {@link ConfigurationSection#isNumber(String)}.
      * 
      * @param path The path of the {@code byte} to check.
      * @return {@code true} if a {@code byte} value exists, or if there is no
-     *         value, a default has been set, and it is a {@code byte}.
+     *         value, a default has been set, and it is a {@code byte},
      *         {@code false} otherwise.
+     * @see ConfigurationSection#isNumber(String)
      */
     boolean isByte(@NotNull final String path);
     
@@ -480,11 +515,17 @@ public interface ConfigurationSection {
      * <p>
      * If the value does not exist at the given path but a default value has
      * been set, this will check that value and return appropriately.
+     * <p>
+     * This method will check to see if the requested value (or default) is
+     * specifically a {@code short}. If the value is another type of
+     * {@link Number}, this will return {@code false}. To check for a generic
+     * {@link Number}, please use {@link ConfigurationSection#isNumber(String)}.
      * 
      * @param path The path of the {@code short} to check.
      * @return {@code true} if a {@code short} value exists, or if there is no
-     *         value, a default has been set, and it is a {@code short}.
+     *         value, a default has been set, and it is a {@code short},
      *         {@code false} otherwise.
+     * @see ConfigurationSection#isNumber(String)
      */
     boolean isShort(@NotNull final String path);
     
@@ -526,11 +567,17 @@ public interface ConfigurationSection {
      * <p>
      * If the value does not exist at the given path but a default value has
      * been set, this will check that value and return appropriately.
+     * <p>
+     * This method will check to see if the requested value (or default) is
+     * specifically an {@code int}. If the value is another type of
+     * {@link Number}, this will return {@code false}. To check for a generic
+     * {@link Number}, please use {@link ConfigurationSection#isNumber(String)}.
      * 
      * @param path The path of the {@code int} to check.
      * @return {@code true} if an {@code int} value exists, or if there is no
-     *         value, a default has been set, and it is an {@code int}.
+     *         value, a default has been set, and it is an {@code int},
      *         {@code false} otherwise.
+     * @see ConfigurationSection#isNumber(String)
      */
     boolean isInt(@NotNull final String path);
     
@@ -572,11 +619,17 @@ public interface ConfigurationSection {
      * <p>
      * If the value does not exist at the given path but a default value has
      * been set, this will check that value and return appropriately.
+     * <p>
+     * This method will check to see if the requested value (or default) is
+     * specifically a {@code long}. If the value is another type of
+     * {@link Number}, this will return {@code false}. To check for a generic
+     * {@link Number}, please use {@link ConfigurationSection#isNumber(String)}.
      * 
      * @param path The path of the {@code long} to check.
      * @return {@code true} if a {@code long} value exists, or if there is no
-     *         value, a default has been set, and it is a {@code long}.
+     *         value, a default has been set, and it is a {@code long},
      *         {@code false} otherwise.
+     * @see ConfigurationSection#isNumber(String)
      */
     boolean isLong(@NotNull final String path);
     
@@ -618,11 +671,17 @@ public interface ConfigurationSection {
      * <p>
      * If the value does not exist at the given path but a default value has
      * been set, this will check that value and return appropriately.
+     * <p>
+     * This method will check to see if the requested value (or default) is
+     * specifically a {@code float}. If the value is another type of
+     * {@link Number}, this will return {@code false}. To check for a generic
+     * {@link Number}, please use {@link ConfigurationSection#isNumber(String)}.
      * 
      * @param path The path of the {@code float} to check.
      * @return {@code true} if a {@code float} value exists, or if there is no
-     *         value, a default has been set, and it is a {@code float}.
+     *         value, a default has been set, and it is a {@code float},
      *         {@code false} otherwise.
+     * @see ConfigurationSection#isNumber(String)
      */
     boolean isFloat(@NotNull final String path);
     
@@ -664,11 +723,17 @@ public interface ConfigurationSection {
      * <p>
      * If the value does not exist at the given path but a default value has
      * been set, this will check that value and return appropriately.
+     * <p>
+     * This method will check to see if the requested value (or default) is
+     * specifically a {@code double}. If the value is another type of
+     * {@link Number}, this will return {@code false}. To check for a generic
+     * {@link Number}, please use {@link ConfigurationSection#isNumber(String)}.
      * 
      * @param path The path of the {@code double} to check.
      * @return {@code true} if a {@code double} value exists, or if there is no
-     *         value, a default has been set, and it is a {@code double}.
+     *         value, a default has been set, and it is a {@code double},
      *         {@code false} otherwise.
+     * @see ConfigurationSection#isNumber(String)
      */
     boolean isDouble(@NotNull final String path);
     

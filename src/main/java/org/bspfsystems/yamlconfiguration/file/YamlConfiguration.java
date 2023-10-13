@@ -171,11 +171,11 @@ public final class YamlConfiguration extends FileConfiguration {
             } catch (final ClassCastException e) {
                 throw new InvalidConfigurationException("Top level is not a Map.", e);
             }
-        } catch (YAMLException | IOException | ClassCastException e) {
+        } catch (final YAMLException | IOException | ClassCastException e) {
             throw new InvalidConfigurationException(e);
         }
         
-        this.map.clear();
+        this.clear();
         if (mappingNode != null) {
             
             this.adjustNodeComments(mappingNode);

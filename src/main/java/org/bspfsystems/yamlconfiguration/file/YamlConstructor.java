@@ -53,7 +53,7 @@ public final class YamlConstructor extends SafeConstructor {
      * Represents a custom {@link ConstructYamlMap} for use with a
      * {@link YamlConfiguration}.
      */
-    private class ConstructCustomObject extends ConstructYamlMap {
+    private final class ConstructCustomObject extends ConstructYamlMap {
     
         /**
          * Creates a new basic {@link ConstructCustomObject}.

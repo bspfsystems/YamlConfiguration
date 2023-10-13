@@ -52,7 +52,7 @@ public final class YamlRepresenter extends Representer {
      * A {@link RepresentMap} that works with
      * {@link ConfigurationSection ConfigurationSections}.
      */
-    private class RepresentConfigurationSection extends RepresentMap {
+    private final class RepresentConfigurationSection extends RepresentMap {
     
         /**
          * Creates a new {@link RepresentConfigurationSection}.

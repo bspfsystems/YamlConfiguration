@@ -71,7 +71,7 @@ public class MemoryConfiguration extends MemorySection implements Configuration 
      * {@inheritDoc}
      */
     @Override
-    public void addDefault(@NotNull final String path, @Nullable final Object value) {
+    public final void addDefault(@NotNull final String path, @Nullable final Object value) {
         if (this.defs == null) {
             this.defs = new MemoryConfiguration();
         }
@@ -82,7 +82,7 @@ public class MemoryConfiguration extends MemorySection implements Configuration 
      * {@inheritDoc}
      */
     @Override
-    public void addDefaults(@NotNull final Map<String, Object> defs) {
+    public final void addDefaults(@NotNull final Map<String, Object> defs) {
         for (final Map.Entry<String, Object> entry : defs.entrySet()) {
             this.addDefault(entry.getKey(), entry.getValue());
         }
@@ -92,7 +92,7 @@ public class MemoryConfiguration extends MemorySection implements Configuration 
      * {@inheritDoc}
      */
     @Override
-    public void addDefaults(@NotNull final Configuration defs) {
+    public final void addDefaults(@NotNull final Configuration defs) {
         for (final String key : defs.getKeys(true)) {
             if (!defs.isConfigurationSection(key)) {
                 this.addDefault(key, defs.get(key));
@@ -104,7 +104,7 @@ public class MemoryConfiguration extends MemorySection implements Configuration 
      * {@inheritDoc}
      */
     @Override
-    public void setDefaults(@NotNull final Configuration defs) {
+    public final void setDefaults(@NotNull final Configuration defs) {
         this.defs = defs;
     }
     
@@ -113,7 +113,7 @@ public class MemoryConfiguration extends MemorySection implements Configuration 
      */
     @Override
     @Nullable
-    public Configuration getDefaults() {
+    public final Configuration getDefaults() {
         return this.defs;
     }
     
@@ -122,7 +122,7 @@ public class MemoryConfiguration extends MemorySection implements Configuration 
      */
     @Override
     @Nullable
-    public ConfigurationSection getParent() {
+    public final ConfigurationSection getParent() {
         return null;
     }
     
