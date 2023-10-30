@@ -29,7 +29,6 @@
 
 package org.bspfsystems.yamlconfiguration.file;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import org.bspfsystems.yamlconfiguration.configuration.Configuration;
@@ -37,6 +36,7 @@ import org.bspfsystems.yamlconfiguration.configuration.MemoryConfiguration;
 import org.bspfsystems.yamlconfiguration.configuration.MemoryConfigurationOptions;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.UnmodifiableView;
 
 /**
  * Various settings for controlling the input and output of a
@@ -45,6 +45,10 @@ import org.jetbrains.annotations.Nullable;
  * Synchronized with the commit on 20-December-2021.
  */
 public class FileConfigurationOptions extends MemoryConfigurationOptions {
+    
+    public static final List<String> DEFAULT_HEADER = Collections.emptyList();
+    public static final List<String> DEFAULT_FOOTER = Collections.emptyList();
+    public static final boolean DEFAULT_PARSE_COMMENTS = true;
     
     private List<String> header;
     private List<String> footer;
@@ -59,9 +63,9 @@ public class FileConfigurationOptions extends MemoryConfigurationOptions {
      */
     protected FileConfigurationOptions(@NotNull final MemoryConfiguration configuration) {
         super(configuration);
-        this.header = Collections.emptyList();
-        this.footer = Collections.emptyList();
-        this.parseComments = true;
+        this.header = DEFAULT_HEADER;
+        this.footer = DEFAULT_FOOTER;
+        this.parseComments = DEFAULT_PARSE_COMMENTS;
     }
     
     /**
@@ -71,16 +75,6 @@ public class FileConfigurationOptions extends MemoryConfigurationOptions {
     @NotNull
     public FileConfiguration getConfiguration() {
         return (FileConfiguration) super.getConfiguration();
-    }
-    
-    /**
-     * {@inheritDoc}
-     */
-    @Deprecated
-    @Override
-    @NotNull
-    public FileConfiguration configuration() {
-        return (FileConfiguration) super.configuration();
     }
     
     /**
@@ -96,32 +90,10 @@ public class FileConfigurationOptions extends MemoryConfigurationOptions {
     /**
      * {@inheritDoc}
      */
-    @Deprecated
-    @Override
-    @NotNull
-    public FileConfigurationOptions pathSeparator(final char pathSeparator) {
-        super.pathSeparator(pathSeparator);
-        return this;
-    }
-    
-    /**
-     * {@inheritDoc}
-     */
     @Override
     @NotNull
     public FileConfigurationOptions setCopyDefaults(final boolean copyDefaults) {
         super.setCopyDefaults(copyDefaults);
-        return this;
-    }
-    
-    /**
-     * {@inheritDoc}
-     */
-    @Deprecated
-    @Override
-    @NotNull
-    public FileConfigurationOptions copyDefaults(final boolean copyDefaults) {
-        super.copyDefaults(copyDefaults);
         return this;
     }
     
@@ -144,30 +116,9 @@ public class FileConfigurationOptions extends MemoryConfigurationOptions {
      *         represents one line.
      */
     @NotNull
+    @UnmodifiableView
     public final List<String> getHeader() {
         return this.header;
-    }
-    
-    /**
-     * This method exists for backwards compatibility, and it will be removed in
-     * a future release.
-     * <p>
-     * Please use {@link FileConfigurationOptions#getHeader()} instead.
-     * 
-     * @return An unmodifiable header as a {@link List}, where every entry
-     *         represents one line.
-     * @deprecated This method exists for backwards compatibility. Please use
-     *             {@link FileConfigurationOptions#getHeader()} instead.
-     * @see FileConfigurationOptions#getHeader()
-     */
-    @Deprecated
-    @NotNull
-    public final String header() {
-        final StringBuilder builder = new StringBuilder();
-        for (final String line : this.header) {
-            builder.append(line == null ? "" : line).append("\n");
-        }
-        return builder.toString();
     }
     
     /**
@@ -190,26 +141,7 @@ public class FileConfigurationOptions extends MemoryConfigurationOptions {
      */
     @NotNull
     public FileConfigurationOptions setHeader(@Nullable final List<String> header) {
-        this.header = (header == null) ? Collections.emptyList() : Collections.unmodifiableList(header);
-        return this;
-    }
-    
-    /**
-     * This method exists for backwards compatibility, and it will be removed in
-     * a future release.
-     * <p>
-     * Please use {@link FileConfigurationOptions#setHeader(List)} instead.
-     *
-     * @param header The new header, where every entry represents one line.
-     * @return This {@link FileConfigurationOptions}, for chaining.
-     * @deprecated This method exists for backwards compatibility. Please use
-     *             {@link FileConfigurationOptions#setHeader(List)} instead.
-     * @see FileConfigurationOptions#setHeader(List)
-     */
-    @Deprecated
-    @NotNull
-    public FileConfigurationOptions header(@Nullable final String header) {
-        this.header = (header == null) ? Collections.emptyList() : Collections.unmodifiableList(Arrays.asList(header.split("\\n")));
+        this.header = (header == null) ? DEFAULT_HEADER : Collections.unmodifiableList(header);
         return this;
     }
     
@@ -231,6 +163,7 @@ public class FileConfigurationOptions extends MemoryConfigurationOptions {
      * @return An unmodifiable footer, where every entry represents one line.
      */
     @NotNull
+    @UnmodifiableView
     public final List<String> getFooter() {
         return this.footer;
     }
@@ -255,7 +188,7 @@ public class FileConfigurationOptions extends MemoryConfigurationOptions {
      */
     @NotNull
     public FileConfigurationOptions setFooter(@Nullable final List<String> footer) {
-        this.footer = (footer == null) ? Collections.emptyList() : Collections.unmodifiableList(footer);
+        this.footer = (footer == null) ? DEFAULT_FOOTER : Collections.unmodifiableList(footer);
         return this;
     }
     
@@ -284,25 +217,6 @@ public class FileConfigurationOptions extends MemoryConfigurationOptions {
     }
     
     /**
-     * This method only exists for backwards compatibility, and it will be
-     * removed in a future release.
-     * <p>
-     * Please use {@link FileConfigurationOptions#getParseComments()} instead;
-     * it provides the same functionality.
-     *
-     * @return {@code true} if the comments are to be parsed, {@code false}
-     *         otherwise.
-     * @deprecated This method only exists for backwards compatibility. Please
-     *             use {@link FileConfigurationOptions#getParseComments()}
-     *             instead.
-     * @see FileConfigurationOptions#getParseComments()
-     */
-    @Deprecated
-    public final boolean copyHeader() {
-        return this.parseComments;
-    }
-    
-    /**
      * Sets whether the comments in a {@link FileConfiguration} should be loaded
      * and saved.
      * <p>
@@ -325,29 +239,6 @@ public class FileConfigurationOptions extends MemoryConfigurationOptions {
      */
     @NotNull
     public FileConfigurationOptions setParseComments(final boolean parseComments) {
-        this.parseComments = parseComments;
-        return this;
-    }
-    
-    /**
-     * This method only exists for backwards compatibility, and it will be
-     * removed in a future release.
-     * <p>
-     * Please use {@link FileConfigurationOptions#setParseComments(boolean)}
-     * instead; it provides the same functionality.
-     *
-     * @param parseComments {@code true} if the comments are to be parsed,
-     *                      {@code false} otherwise.
-     * @return This {@link FileConfigurationOptions}, for chaining.
-     * @deprecated This method only exists for backwards compatibility. Please
-     *             use
-     *             {@link FileConfigurationOptions#setParseComments(boolean)}
-     *             instead.
-     * @see FileConfigurationOptions#setParseComments(boolean)
-     */
-    @Deprecated
-    @NotNull
-    public FileConfigurationOptions copyHeader(final boolean parseComments) {
         this.parseComments = parseComments;
         return this;
     }

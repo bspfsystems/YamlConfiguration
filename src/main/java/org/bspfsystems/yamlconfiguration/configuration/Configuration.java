@@ -117,20 +117,4 @@ public interface Configuration extends ConfigurationSection {
      */
     @NotNull
     ConfigurationOptions getOptions();
-    
-    /**
-     * This method exists for backwards compatibility, and it will be removed in
-     * a future release.
-     * <p>
-     * Please use {@link Configuration#getOptions()} instead; it provides the
-     * same functionality.
-     *
-     * @return The {@link ConfigurationOptions} for this {@link Configuration}.
-     * @deprecated This method exists for backwards compatibility. Please use
-     *             {@link Configuration#getOptions()} instead.
-     * @see Configuration#getOptions()
-     */
-    @Deprecated
-    @NotNull
-    ConfigurationOptions options();
 }

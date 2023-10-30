@@ -213,22 +213,6 @@ public abstract class FileConfiguration extends MemoryConfiguration {
     public abstract void loadFromString(@NotNull final String data) throws InvalidConfigurationException;
     
     /**
-     * This method is deprecated and exists only for backwards compatibility; it
-     * only returns an empty {@link String}. Please use
-     * {@link FileConfigurationOptions#getHeader()} instead.
-     * 
-     * @return An empty {@link String}.
-     * @deprecated This method only exists for backwards compatibility. Use
-     *             {@link FileConfigurationOptions#getHeader()} instead.
-     * @see FileConfigurationOptions#getHeader()
-     */
-    @Deprecated
-    @NotNull
-    protected final String buildHeader() {
-        return "";
-    }
-    
-    /**
      * {@inheritDoc}
      */
     @Override
@@ -238,15 +222,5 @@ public abstract class FileConfiguration extends MemoryConfiguration {
             this.options = new FileConfigurationOptions(this);
         }
         return (FileConfigurationOptions) this.options;
-    }
-    
-    /**
-     * {@inheritDoc}
-     */
-    @Deprecated
-    @Override
-    @NotNull
-    public FileConfigurationOptions options() {
-        return this.getOptions();
     }
 }

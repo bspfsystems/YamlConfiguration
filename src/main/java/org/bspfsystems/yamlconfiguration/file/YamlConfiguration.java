@@ -424,16 +424,6 @@ public final class YamlConfiguration extends FileConfiguration {
     }
     
     /**
-     * {@inheritDoc}
-     */
-    @Deprecated
-    @Override
-    @NotNull
-    public YamlConfigurationOptions options() {
-        return this.getOptions();
-    }
-    
-    /**
      * Creates a new {@link YamlConfiguration}, loading from the given
      * {@link File}.
      * <p>

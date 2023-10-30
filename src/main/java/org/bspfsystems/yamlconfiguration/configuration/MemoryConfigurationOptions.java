@@ -62,16 +62,6 @@ public class MemoryConfigurationOptions extends ConfigurationOptions {
     /**
      * {@inheritDoc}
      */
-    @Deprecated
-    @Override
-    @NotNull
-    public MemoryConfiguration configuration() {
-        return (MemoryConfiguration) super.configuration();
-    }
-    
-    /**
-     * {@inheritDoc}
-     */
     @Override
     @NotNull
     public MemoryConfigurationOptions setPathSeparator(final char pathSeparator) {
@@ -82,32 +72,10 @@ public class MemoryConfigurationOptions extends ConfigurationOptions {
     /**
      * {@inheritDoc}
      */
-    @Deprecated
-    @Override
-    @NotNull
-    public MemoryConfigurationOptions pathSeparator(final char pathSeparator) {
-        super.pathSeparator(pathSeparator);
-        return this;
-    }
-    
-    /**
-     * {@inheritDoc}
-     */
     @Override
     @NotNull
     public MemoryConfigurationOptions setCopyDefaults(final boolean copyDefaults) {
         super.setCopyDefaults(copyDefaults);
-        return this;
-    }
-    
-    /**
-     * {@inheritDoc}
-     */
-    @Deprecated
-    @Override
-    @NotNull
-    public MemoryConfigurationOptions copyDefaults(final boolean copyDefaults) {
-        super.copyDefaults(copyDefaults);
         return this;
     }
 }

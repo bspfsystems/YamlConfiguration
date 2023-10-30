@@ -137,14 +137,4 @@ public class MemoryConfiguration extends MemorySection implements Configuration 
         }
         return this.options;
     }
-    
-    /**
-     * {@inheritDoc}
-     */
-    @Deprecated
-    @Override
-    @NotNull
-    public MemoryConfigurationOptions options() {
-        return this.getOptions();
-    }
 }

@@ -42,6 +42,11 @@ import org.jetbrains.annotations.Nullable;
  */
 public final class YamlConfigurationOptions extends FileConfigurationOptions {
     
+    public static final int DEFAULT_INDENT = 2;
+    public static final int DEFAULT_WIDTH = 80;
+    public static final int DEFAULT_MAX_ALIASES = 50;
+    public static final int DEFAULT_CODE_POINT_LIMIT = 3 * 1024 * 1024; // 3 MB
+    
     private int indent;
     private int width;
     private int maxAliases;
@@ -56,10 +61,10 @@ public final class YamlConfigurationOptions extends FileConfigurationOptions {
      */
     YamlConfigurationOptions(@NotNull final YamlConfiguration configuration) {
         super(configuration);
-        this.indent = 2;
-        this.width = 80;
-        this.maxAliases = 50;
-        this.codePointLimit = 3 * 1024 * 1024; // 3 MB
+        this.indent = DEFAULT_INDENT;
+        this.width = DEFAULT_WIDTH;
+        this.maxAliases = DEFAULT_MAX_ALIASES;
+        this.codePointLimit = DEFAULT_CODE_POINT_LIMIT;
     }
     
     /**
@@ -74,31 +79,10 @@ public final class YamlConfigurationOptions extends FileConfigurationOptions {
     /**
      * {@inheritDoc}
      */
-    @Deprecated
-    @Override
-    @NotNull
-    public YamlConfiguration configuration() {
-        return (YamlConfiguration) super.configuration();
-    }
-    
-    /**
-     * {@inheritDoc}
-     */
     @Override
     @NotNull
     public YamlConfigurationOptions setPathSeparator(final char pathSeparator) {
         super.setPathSeparator(pathSeparator);
-        return this;
-    }
-    
-    /**
-     * {@inheritDoc}
-     */
-    @Deprecated
-    @Override
-    @NotNull
-    public YamlConfigurationOptions pathSeparator(final char pathSeparator) {
-        super.pathSeparator(pathSeparator);
         return this;
     }
     
@@ -115,32 +99,10 @@ public final class YamlConfigurationOptions extends FileConfigurationOptions {
     /**
      * {@inheritDoc}
      */
-    @Deprecated
-    @Override
-    @NotNull
-    public YamlConfigurationOptions copyDefaults(final boolean copyDefaults) {
-        super.copyDefaults(copyDefaults);
-        return this;
-    }
-    
-    /**
-     * {@inheritDoc}
-     */
     @Override
     @NotNull
     public YamlConfigurationOptions setHeader(@Nullable final List<String> header) {
         super.setHeader(header);
-        return this;
-    }
-    
-    /**
-     * {@inheritDoc}
-     */
-    @Deprecated
-    @Override
-    @NotNull
-    public YamlConfigurationOptions header(@Nullable final String header) {
-        super.header(header);
         return this;
     }
     
@@ -165,17 +127,6 @@ public final class YamlConfigurationOptions extends FileConfigurationOptions {
     }
     
     /**
-     * {@inheritDoc}
-     */
-    @Deprecated
-    @Override
-    @NotNull
-    public YamlConfigurationOptions copyHeader(final boolean copyHeader) {
-        super.copyHeader(copyHeader);
-        return this;
-    }
-    
-    /**
      * Gets the number of spaces used to represent an indent.
      * <p>
      * The minimum value this may be is {@code 2}, and the maximum is {@code 9}.
@@ -186,23 +137,6 @@ public final class YamlConfigurationOptions extends FileConfigurationOptions {
      */
     public int getIndent() {
         return this.indent;
-    }
-    
-    /**
-     * This method exists for backwards compatibility, and it will be removed in
-     * a future release.
-     * <p>
-     * Please use {@link YamlConfigurationOptions#getIndent()} instead; it
-     * provides the same functionality.
-     * 
-     * @return The number of spaces used to represent an indent.
-     * @deprecated This method exists for backwards compatibility. Please use
-     *             {@link YamlConfigurationOptions#getIndent()} instead.
-     * @see YamlConfigurationOptions#getIndent()
-     */
-    @Deprecated
-    public int indent() {
-        return this.getIndent();
     }
     
     /**
@@ -227,27 +161,6 @@ public final class YamlConfigurationOptions extends FileConfigurationOptions {
         }
         this.indent = indent;
         return this;
-    }
-    
-    /**
-     * This method exists for backwards compatibility, and it will be removed in
-     * a future release.
-     * <p>
-     * Please use {@link YamlConfigurationOptions#setIndent(int)} instead; it
-     * provides the same functionality.
-     * 
-     * @param indent The number of spaces used to represent an indent.
-     * @return This {@link YamlConfigurationOptions}, for chaining.
-     * @throws IllegalArgumentException If the given value is less than
-     *                                  {@code 2} or greater than {@code 9}.
-     * @deprecated This method exists for backwards compatibility. Please use
-     *             {@link YamlConfigurationOptions#setIndent(int)} instead.
-     * @see YamlConfigurationOptions#setIndent(int)
-     */
-    @Deprecated
-    @NotNull
-    public YamlConfigurationOptions indent(final int indent) throws IllegalArgumentException {
-        return this.setIndent(indent);
     }
     
     /**

@@ -39,6 +39,9 @@ import org.jetbrains.annotations.NotNull;
  */
 public class ConfigurationOptions {
     
+    public static final char DEFAULT_PATH_SEPARATOR = '.';
+    public static final boolean DEFAULT_COPY_DEFAULTS = false;
+    
     private final Configuration configuration;
     
     private char pathSeparator;
@@ -52,8 +55,8 @@ public class ConfigurationOptions {
      */
     protected ConfigurationOptions(@NotNull final Configuration configuration) {
         this.configuration = configuration;
-        this.pathSeparator = '.';
-        this.copyDefaults = false;
+        this.pathSeparator = DEFAULT_PATH_SEPARATOR;
+        this.copyDefaults = DEFAULT_COPY_DEFAULTS;
     }
     
     /**
@@ -66,25 +69,6 @@ public class ConfigurationOptions {
     @NotNull
     public Configuration getConfiguration() {
         return this.configuration;
-    }
-    
-    /**
-     * This method exists for backwards compatibility, and it will be removed in
-     * a future release.
-     * <p>
-     * Please use {@link ConfigurationOptions#getConfiguration()} instead; it
-     * provides the same functionality.
-     * 
-     * @return The {@link Configuration} that this {@link ConfigurationOptions}
-     *         controls.
-     * @deprecated This method exists for backwards compatibility. Please use
-     *             {@link ConfigurationOptions#getConfiguration()} instead.
-     * @see ConfigurationOptions#getConfiguration()
-     */
-    @Deprecated
-    @NotNull
-    public Configuration configuration() {
-        return this.getConfiguration();
     }
     
     /**
@@ -101,24 +85,6 @@ public class ConfigurationOptions {
      */
     public final char getPathSeparator() {
         return this.pathSeparator;
-    }
-    
-    /**
-     * This method exists for backwards compatibility, and it will be removed in
-     * a future release.
-     * <p>
-     * Please use {@link ConfigurationOptions#getPathSeparator()} instead; it
-     * provides the same functionality.
-     * 
-     * @return The {@code char} used to separate
-     *         {@link ConfigurationSection ConfigurationSections}.
-     * @deprecated This method exists for backwards compatibility. Please use
-     *             {@link ConfigurationOptions#getPathSeparator()} instead.
-     * @see ConfigurationOptions#getPathSeparator()
-     */
-    @Deprecated
-    public final char pathSeparator() {
-        return this.getPathSeparator();
     }
     
     /**
@@ -141,26 +107,6 @@ public class ConfigurationOptions {
     }
     
     /**
-     * This method exists for backwards compatibility, and it will be removed in
-     * a future release.
-     * <p>
-     * Please use {@link ConfigurationOptions#setPathSeparator(char)} instead;
-     * it provides the same functionality.
-     * 
-     * @param pathSeparator The {@code char} used to separate
-     *                      {@link ConfigurationSection ConfigurationSections}.
-     * @return This {@link ConfigurationOptions}, for chaining.
-     * @deprecated This method exists for backwards compatibility. Please use
-     *             {@link ConfigurationOptions#setPathSeparator(char)} instead.
-     * @see ConfigurationOptions#setPathSeparator(char)
-     */
-    @Deprecated
-    @NotNull
-    public ConfigurationOptions pathSeparator(final char pathSeparator) {
-        return this.setPathSeparator(pathSeparator);
-    }
-    
-    /**
      * Checks if the {@link Configuration} should copy values from its default
      * {@link Configuration} directly.
      * <p>
@@ -177,24 +123,6 @@ public class ConfigurationOptions {
      */
     public final boolean getCopyDefaults() {
         return this.copyDefaults;
-    }
-    
-    /**
-     * This method exists for backwards compatibility, and it will be removed in
-     * a future release.
-     * <p>
-     * Please use {@link ConfigurationOptions#getCopyDefaults()} instead; it
-     * provides the same functionality.
-     * 
-     * @return {@code true} if the default values should be copied,
-     *         {@code false} otherwise.
-     * @deprecated This method exists for backwards compatibility. Please use
-     *             {@link ConfigurationOptions#getCopyDefaults()} instead.
-     * @see ConfigurationOptions#getCopyDefaults()
-     */
-    @Deprecated
-    public final boolean copyDefaults() {
-        return this.getCopyDefaults();
     }
     
     /**
@@ -217,26 +145,5 @@ public class ConfigurationOptions {
     public ConfigurationOptions setCopyDefaults(final boolean copyDefaults) {
         this.copyDefaults = copyDefaults;
         return this;
-    }
-    
-    /**
-     * This method exists for backwards compatibility, and it will be removed in
-     * a future release.
-     * <p>
-     * Please use {@link ConfigurationOptions#setCopyDefaults(boolean)} instead;
-     * it provides the same functionality.
-     * 
-     * @param copyDefaults {@code true} if the default values should be copied,
-     *                     {@code false} otherwise.
-     * @return This {@link ConfigurationOptions}, for chaining.
-     * @deprecated This method exists for backwards compatibility. Please use
-     *             {@link ConfigurationOptions#setCopyDefaults(boolean)}
-     *             instead.
-     * @see ConfigurationOptions#setCopyDefaults(boolean)
-     */
-    @Deprecated
-    @NotNull
-    public ConfigurationOptions copyDefaults(final boolean copyDefaults) {
-        return this.setCopyDefaults(copyDefaults);
     }
 }
