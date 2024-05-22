@@ -5,7 +5,7 @@
  * 
  * Copyright (C) 2010-2014 The Bukkit Project (https://bukkit.org/)
  * Copyright (C) 2014-2023 SpigotMC Pty. Ltd. (https://www.spigotmc.org/)
- * Copyright (C) 2020-2023 BSPF Systems, LLC (https://bspfsystems.org/)
+ * Copyright (C) 2020-2024 BSPF Systems, LLC (https://bspfsystems.org/)
  * 
  * Many of the files in this project are sourced from the Bukkit API as
  * part of The Bukkit Project (https://bukkit.org/), now maintained by
@@ -40,9 +40,11 @@ import org.bspfsystems.yamlconfiguration.serialization.ConfigurationSerializable
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.UnmodifiableView;
 
 /**
- * A type of {@link ConfigurationSection} that is stored in memory.
+ * Represents an implementation of a configuration section that is only stored
+ * in-memory.
  * <p>
  * Synchronized with the commit on 07-June-2022.
  */
@@ -56,14 +58,16 @@ public class MemorySection implements ConfigurationSection {
     private final String fullPath;
     
     /**
-     * Creates an empty {@link MemorySection} for use as a root
-     * {@link ConfigurationSection}.
+     * Constructs an empty memory section for use as a root configuration
+     * section.
      * <p>
-     * <b>Note:</b> If the new {@link MemorySection} is not a
-     * {@link Configuration}, an {@link IllegalStateException} will be thrown.
+     * NOTE: If the new memory section is not a configuration, an illegal
+     * argument exception will be thrown, as a configuration section cannot be
+     * orphaned by default, and all configuration sections must contain a root
+     * configuration.
      * 
-     * @throws IllegalStateException If the new {@link MemorySection} is not a
-     *                               {@link Configuration}.
+     * @throws IllegalStateException If the new memory section is not a
+     *                               configuration.
      */
     protected MemorySection() throws IllegalStateException {
         
@@ -80,15 +84,18 @@ public class MemorySection implements ConfigurationSection {
     }
     
     /**
-     * Creates an empty {@link MemorySection} with the specified parent and
-     * path.
+     * Constructs an empty memory section with the given parent and path.
+     * <p>
+     * NOTE: If the given parent does not have a root, an illegal argument
+     * exception will be thrown, as a configuration section cannot be orphaned
+     * by default.
      * 
-     * @param parent The parent {@link ConfigurationSection} that contains the
-     *               new {@link MemorySection}.
-     * @param path The path that the new {@link MemorySection} will be set on.
+     * @param parent The parent configuration section that will contain the new
+     *               memory section.
+     * @param path The path that the new memory section will be set on.
      * @throws IllegalArgumentException If the parent or path is {@code null},
      *                                  or if the parent contains no root
-     *                                  {@link Configuration}.
+     *                                  configuration.
      */
     private MemorySection(@NotNull final ConfigurationSection parent, @NotNull final String path) {
         
@@ -101,7 +108,7 @@ public class MemorySection implements ConfigurationSection {
         this.root = parent.getRoot();
         this.parent = parent;
         this.path = path;
-        this.fullPath = createPath(parent, path);
+        this.fullPath = MemorySection.createPath(parent, path);
     }
     
     /**
@@ -109,6 +116,7 @@ public class MemorySection implements ConfigurationSection {
      */
     @Override
     @NotNull
+    @UnmodifiableView
     public final Set<String> getKeys(final boolean deep) {
         
         final Set<String> result = new LinkedHashSet<String>();
@@ -122,8 +130,39 @@ public class MemorySection implements ConfigurationSection {
             }
         }
         
-        this.mapChildrenKeys(result, this, deep);
-        return result;
+        this.mapKeys(result, this, deep);
+        return Collections.unmodifiableSet(result);
+    }
+    
+    /**
+     * Maps the keys of the given configuration section.
+     * 
+     * @param output The set of mapped keys.
+     * @param section The configuration section to map.
+     * @param deep {@code true} if any children configuration sections of the
+     *             given section should have their keys mapped as well,
+     *             {@code false} if only the keys of the given section should be
+     *             mapped.
+     */
+    private void mapKeys(@NotNull final Set<String> output, @NotNull final ConfigurationSection section, final boolean deep) {
+        
+        if (section instanceof MemorySection) {
+            
+            final MemorySection memorySection = (MemorySection) section;
+            for (final Map.Entry<String, SectionPathData> entry : memorySection.map.entrySet()) {
+                output.add(MemorySection.createPath(section, entry.getKey(), this));
+                
+                if (deep && entry.getValue().getData() instanceof ConfigurationSection) {
+                    this.mapKeys(output, (ConfigurationSection) entry.getValue().getData(), true);
+                }
+            }
+        } else {
+            
+            final Set<String> keys = section.getKeys(deep);
+            for (final String key : keys) {
+                output.add(MemorySection.createPath(section, key, this));
+            }
+        }
     }
     
     /**
@@ -131,6 +170,7 @@ public class MemorySection implements ConfigurationSection {
      */
     @Override
     @NotNull
+    @UnmodifiableView
     public final Map<String, Object> getValues(final boolean deep) {
         
         final Map<String, Object> result = new LinkedHashMap<String, Object>();
@@ -144,8 +184,42 @@ public class MemorySection implements ConfigurationSection {
             }
         }
         
-        this.mapChildrenValues(result, this, deep);
-        return result;
+        this.mapValues(result, this, deep);
+        return Collections.unmodifiableMap(result);
+    }
+    
+    /**
+     * Maps the key-value pairs of the given configuration section.
+     * 
+     * @param output The map of key-value pairs.
+     * @param section The configuration section to map.
+     * @param deep {@code true} if any children configuration sections of the
+     *             given section should have their key-value pairs mapped as
+     *             well, {@code false} if only the key-value pairs of the given
+     *             section should be mapped.
+     */
+    private void mapValues(@NotNull final Map<String, Object> output, @NotNull final ConfigurationSection section, final boolean deep) {
+        
+        if (section instanceof MemorySection) {
+            
+            final MemorySection memorySection = (MemorySection) section;
+            for (final Map.Entry<String, SectionPathData> entry : memorySection.map.entrySet()) {
+                
+                final String path = MemorySection.createPath(section, entry.getKey(), this);
+                output.remove(path);
+                output.put(path, entry.getValue().getData());
+                
+                if (deep && entry.getValue().getData() instanceof ConfigurationSection) {
+                    this.mapValues(output, (ConfigurationSection) entry.getValue().getData(), true);
+                }
+            }
+        } else {
+            
+            final Map<String, Object> values = section.getValues(deep);
+            for (final Map.Entry<String, Object> entry : values.entrySet()) {
+                output.put(MemorySection.createPath(section, entry.getKey(), this), entry.getValue());
+            }
+        }
     }
     
     /**
@@ -225,9 +299,10 @@ public class MemorySection implements ConfigurationSection {
      */
     @Override
     @NotNull
+    @UnmodifiableView
     public final List<String> getComments(@NotNull final String path) {
         final SectionPathData data = this.getSectionPathData(path);
-        return data == null ? Collections.emptyList() : data.getComments();
+        return data == null ? Collections.emptyList() : Collections.unmodifiableList(new ArrayList<String>(data.getComments()));
     }
     
     /**
@@ -235,9 +310,10 @@ public class MemorySection implements ConfigurationSection {
      */
     @Override
     @NotNull
+    @UnmodifiableView
     public final List<String> getInLineComments(@NotNull final String path) {
         final SectionPathData data = this.getSectionPathData(path);
-        return data == null ? Collections.emptyList() : data.getInLineComments();
+        return data == null ? Collections.emptyList() : Collections.unmodifiableList(new ArrayList<String>(data.getInLineComments()));
     }
     
     /**
@@ -263,11 +339,12 @@ public class MemorySection implements ConfigurationSection {
     }
     
     /**
-     * Gets the {@link SectionPathData} at the given path, or {@code null} if
-     * none exists.
+     * Gets the section path data at the given path, or {@code null} if no data
+     * exists.
      * 
-     * @param path The path of the {@link SectionPathData} to retrieve.
-     * @return The {@link SectionPathData}, or {@code null} if none exists.
+     * @param path The path of the section path data to retrieve.
+     * @return The requested section path data, or {@code null} if no data
+     *         exists.
      */
     @Nullable
     private SectionPathData getSectionPathData(@NotNull final String path) {
@@ -306,6 +383,7 @@ public class MemorySection implements ConfigurationSection {
     @Override
     @NotNull
     public final ConfigurationSection createSection(@NotNull final String path) {
+        
         if (path.isEmpty()) {
             throw new IllegalArgumentException("Cannot set to an empty path.");
         }
@@ -347,7 +425,7 @@ public class MemorySection implements ConfigurationSection {
     @NotNull
     public final ConfigurationSection createSection(@NotNull final String path, @NotNull final Map<?, ?> map) {
         
-        final ConfigurationSection section = createSection(path);
+        final ConfigurationSection section = this.createSection(path);
         for (final Map.Entry<?, ?> entry : map.entrySet()) {
             
             if (entry.getValue() instanceof Map) {
@@ -691,7 +769,7 @@ public class MemorySection implements ConfigurationSection {
      */
     @Override
     public final boolean isChar(@NotNull final String path) {
-        return this.get(path) instanceof Boolean;
+        return this.get(path) instanceof Character;
     }
     
     /**
@@ -851,7 +929,7 @@ public class MemorySection implements ConfigurationSection {
             
             if (object instanceof Boolean) {
                 result.add((Boolean) object);
-            } else if(object instanceof String) {
+            } else if (object instanceof String) {
                 result.add(Boolean.valueOf((String) object));
             }
         }
@@ -1153,10 +1231,10 @@ public class MemorySection implements ConfigurationSection {
     }
     
     /**
-     * Gets the default {@link Object} for the given path.
+     * Gets the default value for the given path.
      * 
-     * @param path The path to retrieve the default {@link Object} from.
-     * @return The default {@link Object}, or {@code null} if the default is
+     * @param path The path to retrieve the default value from.
+     * @return The default value, or {@code null} if the default is
      *         {@code null}.
      */
     @Nullable
@@ -1168,83 +1246,16 @@ public class MemorySection implements ConfigurationSection {
     }
     
     /**
-     * Maps the keys of the given child {@link ConfigurationSection}.
-     * 
-     * @param output The {@link Set} of mapped keys.
-     * @param section The child {@link ConfigurationSection}.
-     * @param deep If {@code true}, any children of the given
-     *             {@link ConfigurationSection} will have their keys mapped. If
-     *             {@code false}, only the given
-     *             {@link ConfigurationSection ConfigurationSection's} keys will
-     *             be mapped.
-     */
-    private void mapChildrenKeys(@NotNull final Set<String> output, @NotNull final ConfigurationSection section, final boolean deep) {
-        
-        if (section instanceof MemorySection) {
-            
-            final MemorySection memorySection = (MemorySection) section;
-            for (final Map.Entry<String, SectionPathData> entry : memorySection.map.entrySet()) {
-                output.add(MemorySection.createPath(section, entry.getKey(), this));
-                
-                if (deep && entry.getValue().getData() instanceof ConfigurationSection) {
-                    this.mapChildrenKeys(output, (ConfigurationSection) entry.getValue().getData(), true);
-                }
-            }
-        } else {
-            
-            final Set<String> keys = section.getKeys(deep);
-            for (final String key : keys) {
-                output.add(MemorySection.createPath(section, key, this));
-            }
-        }
-    }
-    
-    /**
-     * Maps the key-value pairs of the given child {@link ConfigurationSection}.
-     * 
-     * @param output The {@link Map} of key-value pairs.
-     * @param section The child {@link ConfigurationSection}.
-     * @param deep If {@code true}, any children of the given
-     *             {@link ConfigurationSection} will have their key-value pairs
-     *             mapped. If {@code false}, only the given
-     *             {@link ConfigurationSection ConfigurationSection's} key-value
-     *             pairs will be mapped.
-     */
-    private void mapChildrenValues(@NotNull final Map<String, Object> output, @NotNull final ConfigurationSection section, final boolean deep) {
-        
-        if (section instanceof MemorySection) {
-            
-            final MemorySection memorySection = (MemorySection) section;
-            for (final Map.Entry<String, SectionPathData> entry : memorySection.map.entrySet()) {
-                
-                final String path = MemorySection.createPath(section, entry.getKey(), this);
-                output.remove(path);
-                output.put(path, entry.getValue().getData());
-                
-                if (deep && entry.getValue().getData() instanceof ConfigurationSection) {
-                    this.mapChildrenValues(output, (ConfigurationSection) entry.getValue().getData(), true);
-                }
-            }
-        } else {
-            
-            final Map<String, Object> values = section.getValues(deep);
-            for (final Map.Entry<String, Object> entry : values.entrySet()) {
-                output.put(MemorySection.createPath(section, entry.getKey(), this), entry.getValue());
-            }
-        }
-    }
-    
-    /**
-     * Clears the internal {@link Map}.
+     * Clears the internal map.
      */
     protected final void clear() {
         this.map.clear();
     }
     
     /**
-     * Creates a {@link String} representation of this {@link MemorySection}.
+     * Creates a string representation of this memory section.
      * 
-     * @return A {@link String} representation of this {@link MemorySection}.
+     * @return A string representation of this memory section.
      */
     @Override
     @NotNull
@@ -1264,15 +1275,15 @@ public class MemorySection implements ConfigurationSection {
     }
     
     /**
-     * Creates a full path to the given {@link ConfigurationSection} from its
-     * root {@link Configuration}.
+     * Creates a full path to the given configuration section from its root
+     * configuration.
      * <p>
-     * You may use this method for any given {@link ConfigurationSection}, not
-     * only this {@link MemorySection}.
+     * You may use this method for any given configuration section, not only
+     * this memory section.
      * 
-     * @param section The {@link ConfigurationSection} to create a path for.
-     * @param key The name of the specified {@link ConfigurationSection}.
-     * @return The full path of the {@link ConfigurationSection} from its root.
+     * @param section The configuration section to create a path for.
+     * @param key The name of the given configuration section.
+     * @return The full path of the given configuration section from its root.
      */
     @NotNull
     public static String createPath(@NotNull final ConfigurationSection section, @Nullable final String key) {
@@ -1280,17 +1291,16 @@ public class MemorySection implements ConfigurationSection {
     }
     
     /**
-     * Creates a relative path to the given {@link ConfigurationSection} from
-     * the given relative {@link ConfigurationSection}.
+     * Creates a relative path to the given configuration section from the given
+     * relative section.
      * <p>
-     * You may use this method for any given {@link ConfigurationSection}, not
-     * only this {@link MemorySection}.
+     * You may use this method for any given configuration section, not only
+     * this memory section.
      * 
-     * @param section The {@link ConfigurationSection} to create a path for.
-     * @param key The name of the specified section.
-     * @param relative The {@link ConfigurationSection} to create the path
-     *                 relative to.
-     * @return The full path of the {@link ConfigurationSection} from its root.
+     * @param section The configuration section to create a path for.
+     * @param key The name of the given configuration section.
+     * @param relative The configuration section to create the path relative to.
+     * @return The full path of the given configuration section from its root.
      */
     @NotNull
     public static String createPath(@NotNull final ConfigurationSection section, @Nullable final String key, @Nullable final ConfigurationSection relative) {

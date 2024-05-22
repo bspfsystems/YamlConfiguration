@@ -5,7 +5,7 @@
  * 
  * Copyright (C) 2010-2014 The Bukkit Project (https://bukkit.org/)
  * Copyright (C) 2014-2023 SpigotMC Pty. Ltd. (https://www.spigotmc.org/)
- * Copyright (C) 2020-2023 BSPF Systems, LLC (https://bspfsystems.org/)
+ * Copyright (C) 2020-2024 BSPF Systems, LLC (https://bspfsystems.org/)
  * 
  * Many of the files in this project are sourced from the Bukkit API as
  * part of The Bukkit Project (https://bukkit.org/), now maintained by
@@ -29,14 +29,16 @@
 
 package org.bspfsystems.yamlconfiguration.configuration;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.UnmodifiableView;
 
 /**
- * Represents data that may be stored in a {@link MemoryConfiguration}, along
- * with any comments that may be associated with it.
+ * Represents data that may be stored in a memory section/memory configuration,
+ * along with any comments that may be associated with it.
  * <p>
  * Synchronized with the commit on 20-December-2021.
  */
@@ -47,10 +49,9 @@ final class SectionPathData {
     private List<String> inLineComments;
     
     /**
-     * Creates a {@link SectionPathData} with the given {@link Object} data and
-     * no comments.
+     * Constructs a basic section path data with the given data and no comments.
      * 
-     * @param data The data for the {@link SectionPathData}.
+     * @param data The data for the new section path data.
      */
     SectionPathData(@Nullable final Object data) {
         this.data = data;
@@ -59,9 +60,9 @@ final class SectionPathData {
     }
     
     /**
-     * Gets the data stored in this {@link SectionPathData}.
+     * Gets the data stored in this section path data.
      * 
-     * @return The stored data.
+     * @return The data stored in this section path data.
      */
     @Nullable
     Object getData() {
@@ -69,55 +70,76 @@ final class SectionPathData {
     }
     
     /**
-     * Assigns the data stored in this {@link SectionPathData} as the given
-     * {@link Object}.
+     * Sets the data stored in this section path data.
+     * <p>
+     * This will override any previously-set value, regardless of what it was.
      * 
-     * @param data The {@link Object} to store.
+     * @param data The updated data to store.
      */
     void setData(@Nullable final Object data) {
         this.data = data;
     }
     
     /**
-     * Gets the comments on the {@link ConfigurationSection} entry.
+     * Gets the comments on this section path data as a list of strings. If no
+     * comments exist, an empty list will be returned.
      * <p>
-     * If no comments exist, an empty {@link List} will be returned. A
-     * {@code null} entry in the {@link List} represents an empty line and an
-     * empty {@link String} represents an empty comment line.
+     * For the individual string entries in the list; a {@code null} entry
+     * represents an empty line, whereas an empty string entry represents an
+     * empty comment line ({@code #} and nothing else). Each entry in the list
+     * represents 1 line of comments.
+     * <p>
+     * The list cannot be modified. The returned list represents a snapshots of
+     * the comments at the time the list was returned; any changes to the
+     * actual comments will not be reflected in this list.
      * 
-     * @return An unmodifiable {@link List} of the requested comments, where
-     *         every entry represents one line.
+     * @return The comments for this section path data, where each list entry
+     *         represents 1 line.
      */
     @NotNull
+    @UnmodifiableView
     List<String> getComments() {
         return this.comments;
     }
     
     /**
-     * Assigns the given comments to a {@link ConfigurationSection} entry.
+     * Assigns the given comments to this section path data. If the given list
+     * is {@code null}, an empty list will be assigned.
      * <p>
-     * If an empty {@link List} is provided, then no comments will be added. A
-     * {@code null} entry in the {@link List} represents an empty comment line,
-     * while an empty {@link String} represents an empty comment line.
+     * For the individual string entries in the list; a {@code null} entry
+     * represents an empty line, whereas an empty string entry represents an
+     * empty comment line ({@code #} and nothing else). Each entry in the list
+     * represents 1 line of comments.
      * <p>
-     * Any existing comments will be replaced, regardless of the value of the
-     * new comments.
+     * The given list will not be directly saved; instead, a snapshot will be
+     * taken and used to create an unmodifiable copy internally. Further updates
+     * to the given list will not result in changes to the comments stored in
+     * this section path data after this method completes.
+     * <p>
+     * Any existing comments will be replaced, regardless of their value(s)
+     * compared to the new comments.
      * 
-     * @param comments The comments to assign to this {@link SectionPathData}.
+     * @param comments The comments to assign to this section path data.
      */
     void setComments(@Nullable final List<String> comments) {
-        this.comments = (comments == null) ? Collections.emptyList() : Collections.unmodifiableList(comments);
+        this.comments = (comments == null) ? Collections.emptyList() : Collections.unmodifiableList(new ArrayList<String>(comments));
     }
     
     /**
-     * Gets the inline comments on the {@link ConfigurationSection} entry.
+     * Gets the inline comments on this section path data as a list of strings.
+     * If no inline comments exist, an empty list will be returned.
      * <p>
-     * If no inline comments exist, an empty {@link List} will be returned. A
-     * {@code null} entry in the {@link List} represents an empty line and an
-     * empty {@link String} represents an empty comment line.
+     * For the individual string entries in the list; a {@code null} entry
+     * represents an empty line, whereas an empty string entry represents an
+     * empty inline comment line ({@code #} and nothing else). Each entry in the
+     * list represents 1 line of inline comments.
+     * <p>
+     * The list cannot be modified. The returned list represents a snapshots of
+     * the inline comments at the time the list was returned; any changes to the
+     * actual inline comments will not be reflected in this list.
      * 
-     * @return An unmodifiable {@link List} of the requested inline comments,
-     *         where every entry represents one line.
+     * @return The inline comments for this section path data, where each list
+     *         entry represents 1 line.
      */
     @NotNull
     List<String> getInLineComments() {
@@ -125,21 +147,26 @@ final class SectionPathData {
     }
     
     /**
-     * Assigns the given inline comments to a {@link ConfigurationSection}
-     * entry.
+     * Assigns the given inline comments to this section path data. If the given
+     * list is {@code null}, an empty list will be assigned.
      * <p>
-     * If an empty {@link List} is provided, then no inline comments will be
-     * added. A {@code null} entry in the {@link List} represents an empty
-     * inline comment line, while an empty {@link String} represents an empty
-     * inline comment line.
+     * For the individual string entries in the list; a {@code null} entry
+     * represents an empty line, whereas an empty string entry represents an
+     * empty inline comment line ({@code #} and nothing else). Each entry in the
+     * list represents 1 line of inline comments.
      * <p>
-     * Any existing inline comments will be replaced, regardless of the value of
-     * the new inline comments.
+     * The given list will not be directly saved; instead, a snapshot will be
+     * taken and used to create an unmodifiable copy internally. Further updates
+     * to the given list will not result in changes to the inline comments
+     * stored in this section path data after this method completes.
+     * <p>
+     * Any existing inline comments will be replaced, regardless of their
+     * value(s) compared to the new inline comments.
      * 
-     * @param inLineComments The inline comments to assign to this
-     *                       {@link SectionPathData}.
+     * @param inLineComments The inline comments to assign to this section path
+     *                       data.
      */
     void setInLineComments(@Nullable final List<String> inLineComments) {
-        this.inLineComments = inLineComments == null ? Collections.emptyList() : Collections.unmodifiableList(inLineComments);
+        this.inLineComments = inLineComments == null ? Collections.emptyList() : Collections.unmodifiableList(new ArrayList<String>(inLineComments));
     }
 }

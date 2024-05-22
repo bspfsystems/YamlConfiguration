@@ -2,10 +2,10 @@
  * This file is part of YamlConfiguration.
  * 
  * Implementation of SnakeYAML to be easy to use with files.
- *
+ * 
  * Copyright (C) 2010-2014 The Bukkit Project (https://bukkit.org/)
  * Copyright (C) 2014-2023 SpigotMC Pty. Ltd. (https://www.spigotmc.org/)
- * Copyright (C) 2020-2023 BSPF Systems, LLC (https://bspfsystems.org/)
+ * Copyright (C) 2020-2024 BSPF Systems, LLC (https://bspfsystems.org/)
  * 
  * Many of the files in this project are sourced from the Bukkit API as
  * part of The Bukkit Project (https://bukkit.org/), now maintained by
@@ -45,15 +45,15 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * This is a base class for all {@link File}-based implementations of
- * a {@link MemoryConfiguration}.
+ * Represents a base class for all file-based implementations of a memory
+ * configuration.
  * <p>
  * Synchronized with the commit on 07-June-2022.
  */
 public abstract class FileConfiguration extends MemoryConfiguration {
     
     /**
-     * Creates an empty {@link FileConfiguration} with no default values.
+     * Constructs an empty file configuration with no default values.
      * 
      * @see MemoryConfiguration#MemoryConfiguration()
      */
@@ -62,11 +62,10 @@ public abstract class FileConfiguration extends MemoryConfiguration {
     }
     
     /**
-     * Creates an empty {@link FileConfiguration} using the specified
-     * {@link Configuration} as a source for all default values.
+     * Constructs an empty file configuration using the given configuration as a
+     * source for all default values.
      * 
-     * @param defs A {@link Configuration} containing the values to use as
-     *             defaults.
+     * @param defs The default value provider configuration.
      * @see MemoryConfiguration#MemoryConfiguration(Configuration)
      */
     protected FileConfiguration(@Nullable final Configuration defs) {
@@ -74,16 +73,17 @@ public abstract class FileConfiguration extends MemoryConfiguration {
     }
     
     /**
-     * Saves this {@link FileConfiguration} to the given {@link File}.
+     * Saves this file configuration to the given file.
      * <p>
-     * If the {@link File} does not exist, it will be created. If already
-     * exists, it will be overwritten. If it cannot be overwritten or created,
-     * an {@link IOException} will be thrown.
+     * If the given file does not exist, it will attempt to be created. If it
+     * already exists, any contents will be overwritten, regardless of the old
+     * or new contents. If it cannot be created or overwritten, an I/O exception
+     * will be thrown.
      * <p>
-     * This method will save using {@link StandardCharsets#UTF_8}.
+     * This method will save using the UTF-8 charset.
      * 
-     * @param file The {@link File} to save to.
-     * @throws IOException If the {@link File} cannot be written to.
+     * @param file The file to save to.
+     * @throws IOException If this file configuration cannot be written.
      * @see FileConfiguration#saveToString()
      */
     public final void save(@NotNull final File file) throws IOException {
@@ -93,22 +93,23 @@ public abstract class FileConfiguration extends MemoryConfiguration {
             }
         }
         
-        try (final Writer writer = new OutputStreamWriter(Files.newOutputStream(file.toPath()), StandardCharsets.UTF_8)) {
-            writer.write(this.saveToString());
-        }
+        final Writer writer = new OutputStreamWriter(Files.newOutputStream(file.toPath()), StandardCharsets.UTF_8);
+        writer.write(this.saveToString());
+        writer.close();
     }
     
     /**
-     * Saves this {@link FileConfiguration} to a {@link File} at the given path.
+     * Saves this file configuration to the given file.
      * <p>
-     * If the {@link File} does not exist, it will be created. If already
-     * exists, it will be overwritten. If it cannot be overwritten or created,
-     * an {@link IOException} will be thrown.
+     * If the file at the given path does not exist, it will attempt to be
+     * created. If it already exists, any contents will be overwritten,
+     * regardless of the old or new contents. If it cannot be created or
+     * overwritten, an I/O exception will be thrown.
      * <p>
-     * This method will save using {@link StandardCharsets#UTF_8}.
+     * This method will save using the UTF-8 charset.
      * 
-     * @param path The path of the {@link File} to save to.
-     * @throws IOException If the {@link File} cannot be written to.
+     * @param path The path of the file to save to.
+     * @throws IOException If this file configuration cannot be written.
      * @see FileConfiguration#save(File)
      */
     public final void save(@NotNull final String path) throws IOException {
@@ -116,9 +117,9 @@ public abstract class FileConfiguration extends MemoryConfiguration {
     }
     
     /**
-     * Saves this {@link FileConfiguration} to a {@link String}, and returns it.
+     * Converts this file configuration to a string.
      *
-     * @return The {@link String} containing this {@link FileConfiguration}.
+     * @return A string representing this file configuration.
      */
     @NotNull
     public abstract String saveToString();

@@ -5,7 +5,7 @@
  * 
  * Copyright (C) 2010-2014 The Bukkit Project (https://bukkit.org/)
  * Copyright (C) 2014-2023 SpigotMC Pty. Ltd. (https://www.spigotmc.org/)
- * Copyright (C) 2020-2023 BSPF Systems, LLC (https://bspfsystems.org/)
+ * Copyright (C) 2020-2024 BSPF Systems, LLC (https://bspfsystems.org/)
  * 
  * Many of the files in this project are sourced from the Bukkit API as
  * part of The Bukkit Project (https://bukkit.org/), now maintained by
@@ -32,8 +32,7 @@ package org.bspfsystems.yamlconfiguration.configuration;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * Various settings for controlling the input and output of a
- * {@link Configuration}.
+ * Various settings for controlling the input and output of a configuration.
  * <p>
  * Synchronized with the commit on 13-March-2019.
  */
@@ -48,10 +47,9 @@ public class ConfigurationOptions {
     private boolean copyDefaults;
     
     /**
-     * Constructs a new set of {@link ConfigurationOptions}.
+     * Constructs a set of configuration options.
      * 
-     * @param configuration The {@link Configuration} to create the
-     *                      {@link ConfigurationOptions} for.   
+     * @param configuration The configuration to create the options for.
      */
     protected ConfigurationOptions(@NotNull final Configuration configuration) {
         this.configuration = configuration;
@@ -60,11 +58,9 @@ public class ConfigurationOptions {
     }
     
     /**
-     * Gets the {@link Configuration} that this {@link ConfigurationOptions}
-     * controls.
+     * Gets the configuration that these options controls.
      * 
-     * @return The {@link Configuration} that this {@link ConfigurationOptions}
-     *         controls.
+     * @return The configuration that these options controls.
      */
     @NotNull
     public Configuration getConfiguration() {
@@ -72,33 +68,32 @@ public class ConfigurationOptions {
     }
     
     /**
-     * Gets the {@code char} that will be used to separate
-     * {@link ConfigurationSection ConfigurationSections}.
+     * Gets the {@code char} that will be used to separate configuration
+     * sections.
      * <p>
-     * This value does not affect how the {@link Configuration} is stored,
-     * only in how you access the data.
+     * This value does not affect how the configuration is stored, only in how
+     * you access the data.
      * <p>
      * The default value is {@code .}.
      * 
-     * @return The {@code char} used to separate
-     *         {@link ConfigurationSection ConfigurationSections}.
+     * @return The {@code char} used to separate configuration sections.
      */
     public final char getPathSeparator() {
         return this.pathSeparator;
     }
     
     /**
-     * Sets the {@code char} that will be used to separate
-     * {@link ConfigurationSection ConfigurationSections}.
+     * Sets the {@code char} that will be used to separate configuration
+     * sections.
      * <p>
-     * This value does not affect how the {@link Configuration} is stored,
-     * only in how you access the data.
+     * This value does not affect how the configuration is stored, only in how
+     * you access the data.
      * <p>
      * The default value is {@code .}.
      * 
-     * @param pathSeparator The {@code char} used to separate
-     *                      {@link ConfigurationSection ConfigurationSections}.
-     * @return This {@link ConfigurationOptions}, for chaining.
+     * @param pathSeparator The {@code char} used to separate configuration
+     *                      sections.
+     * @return These options, for chaining.
      */
     @NotNull
     public ConfigurationOptions setPathSeparator(final char pathSeparator) {
@@ -107,14 +102,14 @@ public class ConfigurationOptions {
     }
     
     /**
-     * Checks if the {@link Configuration} should copy values from its default
-     * {@link Configuration} directly.
+     * Checks if the configuration should copy values from its default
+     * configuration directly.
      * <p>
-     * If this is {@code true}, all values in the default {@link Configuration}
-     * will be directly copied, making it impossible to distinguish between
-     * values that were set and values that are provided by default. As a
-     * result, {@link ConfigurationSection#contains(String)} will always return
-     * the same value as {@link ConfigurationSection#isSet(String)}.
+     * If this is {@code true}, all values in the default configuration will be
+     * directly copied, making it impossible to distinguish between values that
+     * were set and values that are provided by default. As a result,
+     * {@link ConfigurationSection#contains(String)} will always return the same
+     * value as {@link ConfigurationSection#isSet(String)}.
      * <p>
      * The default value is {@code false}.
      * 
@@ -126,20 +121,20 @@ public class ConfigurationOptions {
     }
     
     /**
-     * Sets if the {@link Configuration} should copy values from its default
-     * {@link Configuration} directly.
+     * Sets if the configuration should copy values from its default
+     * configuration directly.
      * <p>
-     * If this is {@code true}, all values in the default {@link Configuration}
-     * will be directly copied, making it impossible to distinguish between
-     * values that were set and values that are provided by default. As a
-     * result, {@link ConfigurationSection#contains(String)} will always return
-     * the same value as {@link ConfigurationSection#isSet(String)}.
+     * If this is {@code true}, all values in the default configuration will be
+     * directly copied, making it impossible to distinguish between values that
+     * were set and values that are provided by default. As a result,
+     * {@link ConfigurationSection#contains(String)} will always return the same
+     * value as {@link ConfigurationSection#isSet(String)}.
      * <p>
      * The default value is {@code false}.
      * 
      * @param copyDefaults {@code true} if the default values should be copied,
      *                     {@code false} otherwise.
-     * @return This {@link ConfigurationOptions}, for chaining.
+     * @return These options, for chaining.
      */
     @NotNull
     public ConfigurationOptions setCopyDefaults(final boolean copyDefaults) {

@@ -5,7 +5,7 @@
  * 
  * Copyright (C) 2010-2014 The Bukkit Project (https://bukkit.org/)
  * Copyright (C) 2014-2023 SpigotMC Pty. Ltd. (https://www.spigotmc.org/)
- * Copyright (C) 2020-2023 BSPF Systems, LLC (https://bspfsystems.org/)
+ * Copyright (C) 2020-2024 BSPF Systems, LLC (https://bspfsystems.org/)
  * 
  * Many of the files in this project are sourced from the Bukkit API as
  * part of The Bukkit Project (https://bukkit.org/), now maintained by
@@ -34,9 +34,8 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * This is a {@link Configuration} implementation that does not save or load
- * from any source, and stores all values in memory only.
- * This is useful for temporary {@link Configuration Configurations} for
+ * Represents an implementation of a configuration that exists only in-memory.
+ * This is useful for providing temporary storage and access to data and for
  * providing defaults.
  * <p>
  * Synchronized with the commit on 07-June-2022.
@@ -47,7 +46,7 @@ public class MemoryConfiguration extends MemorySection implements Configuration 
     protected MemoryConfigurationOptions options;
     
     /**
-     * Creates an empty {@link MemoryConfiguration} with no default values.
+     * Constructs an empty memory configuration with no default values.
      * 
      * @see MemorySection#MemorySection()
      */
@@ -56,10 +55,10 @@ public class MemoryConfiguration extends MemorySection implements Configuration 
     }
     
     /**
-     * Creates an empty {@link MemoryConfiguration} using the specified
-     * {@link Configuration} as a source for all default values.
+     * Constructs an empty memory configuration using the given configuration as
+     * a source for all default values.
      * 
-     * @param defs The default value provider.
+     * @param defs The default value provider configuration.
      * @see MemorySection#MemorySection()
      */
     public MemoryConfiguration(@Nullable final Configuration defs) {

@@ -5,7 +5,7 @@
  * 
  * Copyright (C) 2010-2014 The Bukkit Project (https://bukkit.org/)
  * Copyright (C) 2014-2023 SpigotMC Pty. Ltd. (https://www.spigotmc.org/)
- * Copyright (C) 2020-2023 BSPF Systems, LLC (https://bspfsystems.org/)
+ * Copyright (C) 2020-2024 BSPF Systems, LLC (https://bspfsystems.org/)
  * 
  * Many of the files in this project are sourced from the Bukkit API as
  * part of The Bukkit Project (https://bukkit.org/), now maintained by
@@ -32,7 +32,7 @@ package org.bspfsystems.yamlconfiguration.configuration;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * An {@link Exception} thrown when attempting to load an invalid {@link Configuration}.
+ * An exception thrown when attempting to load an invalid configuration.
  * <p>
  * Synchronized with the commit on 15-December-2013.
  */
@@ -41,8 +41,7 @@ public final class InvalidConfigurationException extends Exception {
     private static final long serialVersionUID = 685592388091335686L;
     
     /**
-     * Creates a new instance of an {@link InvalidConfigurationException}
-     * without a message or cause.
+     * Constructs an exception without a message or cause.
      * 
      * @see Exception#Exception()
      */
@@ -51,10 +50,9 @@ public final class InvalidConfigurationException extends Exception {
     }
     
     /**
-     * Constructs an instance of an {@link InvalidConfigurationException} with
-     * the specified message.
+     * Constructs an exception with a message.
      * 
-     * @param message The details of the {@link InvalidConfigurationException}.
+     * @param message The details of the exception.
      * @see Exception#Exception(String)
      */
     public InvalidConfigurationException(@NotNull final String message) {
@@ -62,11 +60,9 @@ public final class InvalidConfigurationException extends Exception {
     }
     
     /**
-     * Constructs an instance of an {@link InvalidConfigurationException} with
-     * the specified {@link Throwable cause}.
+     * Constructs an exception with an upstream cause.
      * 
-     * @param cause The {@link Throwable cause} of the
-     *              {@link InvalidConfigurationException}.
+     * @param cause The cause of the new exception.
      * @see Exception#Exception(Throwable)
      */
     public InvalidConfigurationException(@NotNull final Throwable cause) {
@@ -74,12 +70,10 @@ public final class InvalidConfigurationException extends Exception {
     }
     
     /**
-     * Constructs an instance of an {@link InvalidConfigurationException} with
-     * the specified message and {@link Throwable cause}.
+     * Constructs an exception with a message and upstream cause.
      * 
-     * @param message The details of the {@link InvalidConfigurationException}.
-     * @param cause The {@link Throwable cause} of the
-     *              {@link InvalidConfigurationException}.
+     * @param message The details of the exception.
+     * @param cause The cause of the new exception.
      * @see Exception#Exception(String, Throwable)
      */
     public InvalidConfigurationException(@NotNull final String message, @NotNull final Throwable cause) {

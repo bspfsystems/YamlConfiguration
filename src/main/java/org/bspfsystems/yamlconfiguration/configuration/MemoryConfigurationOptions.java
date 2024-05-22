@@ -5,7 +5,7 @@
  * 
  * Copyright (C) 2010-2014 The Bukkit Project (https://bukkit.org/)
  * Copyright (C) 2014-2023 SpigotMC Pty. Ltd. (https://www.spigotmc.org/)
- * Copyright (C) 2020-2023 BSPF Systems, LLC (https://bspfsystems.org/)
+ * Copyright (C) 2020-2024 BSPF Systems, LLC (https://bspfsystems.org/)
  * 
  * Many of the files in this project are sourced from the Bukkit API as
  * part of The Bukkit Project (https://bukkit.org/), now maintained by
@@ -32,18 +32,17 @@ package org.bspfsystems.yamlconfiguration.configuration;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * Various settings for controlling the input and output of a
- * {@link MemoryConfiguration}.
+ * Various settings for controlling the input and output of a memory
+ * configuration.
  * <p>
  * Synchronized with the commit on 13-March-2019.
  */
 public class MemoryConfigurationOptions extends ConfigurationOptions {
     
     /**
-     * Constructs a new set of {@link MemoryConfigurationOptions}.
+     * Constructs a set of memory configuration options.
      * 
-     * @param configuration The {@link MemoryConfiguration} to create the
-     *                      {@link MemoryConfigurationOptions} for.
+     * @param configuration The memory configuration to create the options for.
      * @see ConfigurationOptions#ConfigurationOptions(Configuration)
      */
     protected MemoryConfigurationOptions(@NotNull final MemoryConfiguration configuration) {
