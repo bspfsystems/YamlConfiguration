@@ -5,7 +5,7 @@
  * 
  * Copyright (C) 2010-2014 The Bukkit Project (https://bukkit.org/)
  * Copyright (C) 2014-2023 SpigotMC Pty. Ltd. (https://www.spigotmc.org/)
- * Copyright (C) 2020-2023 BSPF Systems, LLC (https://bspfsystems.org/)
+ * Copyright (C) 2020-2024 BSPF Systems, LLC (https://bspfsystems.org/)
  * 
  * Many of the files in this project are sourced from the Bukkit API as
  * part of The Bukkit Project (https://bukkit.org/), now maintained by
@@ -39,15 +39,13 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.bspfsystems.yamlconfiguration.configuration.Configuration;
 import org.bspfsystems.yamlconfiguration.configuration.ConfigurationSection;
 import org.bspfsystems.yamlconfiguration.configuration.InvalidConfigurationException;
-import org.bspfsystems.yamlconfiguration.serialization.ConfigurationSerializable;
 import org.bspfsystems.yamlconfiguration.serialization.ConfigurationSerialization;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.slf4j.LoggerFactory;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.Yaml;
@@ -64,8 +62,8 @@ import org.yaml.snakeyaml.nodes.Tag;
 import org.yaml.snakeyaml.reader.UnicodeReader;
 
 /**
- * An implementation of {@link Configuration} which saves all files in
- * {@link Yaml}. Please note that this implementation is not synchronized.
+ * Represents an implementation of configuration which saves all files in valid
+ * YAML format. Please note that this implementation is not synchronized.
  * <p>
  * Synchronized with the commit on 16-April-2023.
  */
@@ -78,14 +76,12 @@ public final class YamlConfiguration extends FileConfiguration {
     private final Yaml yaml;
     
     /**
-     * Creates an empty {@link YamlConfiguration} with no default values.
+     * Constructs an empty YAML configuration with no default values.
      * 
      * @see FileConfiguration#FileConfiguration()
      */
     public YamlConfiguration() {
         super();
-        
-        
         
         this.dumperOptions = new DumperOptions();
         this.dumperOptions.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
@@ -101,11 +97,10 @@ public final class YamlConfiguration extends FileConfiguration {
     }
     
     /**
-     * Creates an empty {@link YamlConfiguration} using the specified
-     * {@link Configuration} as a source for all default values.
+     * Constructs an empty YAML configuration using the given configuration as a
+     * source for all default values.
      *
-     * @param defs A {@link Configuration} containing the values to use as
-     *             defaults.
+     * @param defs The default value provider configuration
      * @see FileConfiguration#FileConfiguration(Configuration)
      */
     public YamlConfiguration(@Nullable final Configuration defs) {
@@ -120,7 +115,6 @@ public final class YamlConfiguration extends FileConfiguration {
         
         this.yamlRepresenter = new YamlRepresenter(this.dumperOptions);
         this.yamlRepresenter.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
-        
         
         this.yaml = new Yaml(this.yamlConstructor, this.yamlRepresenter, this.dumperOptions, this.loaderOptions);
     }
@@ -151,6 +145,85 @@ public final class YamlConfiguration extends FileConfiguration {
         }
         
         return writer.toString();
+    }
+    
+    /**
+     * Creates a mapping node containing a serialized representation of the data
+     * in the given configuration section, and then returns the newly-generated
+     * mapping node.
+     * 
+     * @param section The configuration section to serialize.
+     * @return The serialized configuration section as a mapping node.
+     */
+    @NotNull
+    private MappingNode toNodeTree(@NotNull final ConfigurationSection section) {
+        
+        final List<NodeTuple> nodeTuples = new ArrayList<NodeTuple>();
+        for (final Map.Entry<String, Object> entry : section.getValues(false).entrySet()) {
+            
+            final Node keyNode = this.yamlRepresenter.represent(entry.getKey());
+            final Node valueNode;
+            if (entry.getValue() instanceof ConfigurationSection) {
+                valueNode = this.toNodeTree((ConfigurationSection) entry.getValue());
+            } else {
+                valueNode = this.yamlRepresenter.represent(entry.getValue());
+            }
+            
+            keyNode.setBlockComments(this.getCommentLines(section.getComments(entry.getKey()), CommentType.BLOCK));
+            if (valueNode instanceof MappingNode || valueNode instanceof SequenceNode) {
+                keyNode.setInLineComments(this.getCommentLines(section.getInlineComments(entry.getKey()), CommentType.IN_LINE));
+            } else {
+                valueNode.setInLineComments(this.getCommentLines(section.getInlineComments(entry.getKey()), CommentType.IN_LINE));
+            }
+            
+            nodeTuples.add(new NodeTuple(keyNode, valueNode));
+        }
+        
+        return new MappingNode(Tag.MAP, nodeTuples, DumperOptions.FlowStyle.BLOCK);
+    }
+    
+    /**
+     * Gets a list of comment lines that are represented by the given list of
+     * strings and are of the given comment type.
+     * 
+     * @param comments The list of strings to convert to comment lines.
+     * @param commentType The type of comments to translate to.
+     * @return A list of comment lines of the given type translated from the
+     *         given list of strings.
+     */
+    @NotNull
+    private List<CommentLine> getCommentLines(@NotNull final List<String> comments, @NotNull final CommentType commentType) {
+        
+        final List<CommentLine> commentLines = new ArrayList<CommentLine>();
+        for (final String comment : comments) {
+            if (comment == null) {
+                commentLines.add(new CommentLine(null, null, "", CommentType.BLANK_LINE));
+            } else {
+                String line = comment;
+                line = line.isEmpty() ? line : " " + line;
+                commentLines.add(new CommentLine(null, null, line, commentType));
+            }
+        }
+        
+        return commentLines;
+    }
+    
+    /**
+     * Adds an empty line at the end of the header to separate it from any
+     * further comments.
+     * 
+     * @param header The unformatted list of header comments (without the blank
+     *               line).
+     * @return The formatted list of header comments (with the blank line).
+     */
+    @NotNull
+    private List<String> saveHeader(@NotNull final List<String> header) {
+        
+        final LinkedList<String> formattedHeader = new LinkedList<String>(header);
+        if (!formattedHeader.isEmpty()) {
+            formattedHeader.add(null);
+        }
+        return formattedHeader;
     }
     
     /**
@@ -186,9 +259,9 @@ public final class YamlConfiguration extends FileConfiguration {
     }
     
     /**
-     * This splits the header on the last empty line, and sets the comments
-     * below the given {@link MappingNode} line as comments for the first key on
-     * the {@link Map}.
+     * This splits the header comments on the last empty line, and sets the
+     * comments below the given mapping node line as comments for the first key
+     * in the map.
      * 
      * @param mappingNode The root {@link MappingNode} of the {@link Yaml}.
      */
@@ -213,13 +286,61 @@ public final class YamlConfiguration extends FileConfiguration {
     }
     
     /**
-     * Fills the given {@link ConfigurationSection} with data, including
-     * applicable children {@link ConfigurationSection ConfigurationSections},
-     * from the data in the given {@link MappingNode}.
+     * Gets a list of strings that represent the given list of comment lines.
      * 
-     * @param mappingNode The {@link MappingNode} containing the serialized
-     *                    data.
-     * @param section The {@link ConfigurationSection} to fill.
+     * @param commentLines The list of comment lines to translate into strings.
+     * @return A list of strings representing the given list of comment lines.
+     */
+    @NotNull
+    private List<String> getCommentLines(@Nullable final List<CommentLine> commentLines) {
+        
+        final List<String> comments = new ArrayList<String>();
+        if (commentLines == null) {
+            return comments;
+        }
+        
+        for (final CommentLine commentLine : commentLines) {
+            if (commentLine.getCommentType() == CommentType.BLANK_LINE) {
+                comments.add(null);
+            } else {
+                String comment = commentLine.getValue();
+                comment = comment.startsWith(" ") ? comment.substring(1) : comment;
+                comments.add(comment);
+            }
+        }
+        
+        return comments;
+    }
+    
+    /**
+     * This removes the empty line at the end of the header that separates the
+     * header from further comments. Additionally, it removes any empty lines at
+     * the start of the header.
+     * 
+     * @param formattedHeader The formatted list of header comments (with the
+     *                        blank line).
+     * @return The unformatted list of header comments (without the blank
+     *         line).
+     */
+    @NotNull
+    private List<String> loadHeader(@NotNull final List<String> formattedHeader) {
+        
+        final LinkedList<String> header = new LinkedList<String>(formattedHeader);
+        if (!header.isEmpty()) {
+            header.removeLast();
+        }
+        while (!header.isEmpty() && header.peek() == null) {
+            header.remove();
+        }
+        return header;
+    }
+    
+    /**
+     * Fills the given configuration section with data, including applicable
+     * children configuration sections, from the data in the given mapping node.
+     * 
+     * @param mappingNode The mapping node containing the serialized data.
+     * @param section The configuration section to fill.
      */
     private void fromNodeTree(@NotNull final MappingNode mappingNode, @NotNull final ConfigurationSection section) {
         
@@ -242,20 +363,20 @@ public final class YamlConfiguration extends FileConfiguration {
             
             section.setComments(key, this.getCommentLines(keyNode.getBlockComments()));
             if (valueNode instanceof MappingNode || valueNode instanceof SequenceNode) {
-                section.setInLineComments(key, this.getCommentLines(keyNode.getInLineComments()));
+                section.setInlineComments(key, this.getCommentLines(keyNode.getInLineComments()));
             } else {
-                section.setInLineComments(key, this.getCommentLines(valueNode.getInLineComments()));
+                section.setInlineComments(key, this.getCommentLines(valueNode.getInLineComments()));
             }
         }
     }
     
     /**
-     * Checks if the given {@link MappingNode} contains a
-     * {@link ConfigurationSerializable}, and returns appropriately.
+     * Checks if the given mapping node contains a configuration serializable,
+     * and returns appropriately.
      * 
-     * @param mappingNode The {@link MappingNode} whose data will be checked.
-     * @return {@code true} if the given {@link MappingNode} contains a
-     *         {@link ConfigurationSerializable}, {@code false} otherwise.
+     * @param mappingNode The mapping node whose data will be checked.
+     * @return {@code true} if the given mapping node contains a configuration
+     *         serializable, {@code false} otherwise.
      */
     private boolean hasSerializedTypeKey(@NotNull final MappingNode mappingNode) {
         
@@ -274,144 +395,6 @@ public final class YamlConfiguration extends FileConfiguration {
     }
     
     /**
-     * Creates a {@link MappingNode} containing a serialized representation of
-     * the data in the given {@link ConfigurationSection}, and then returns the
-     * {@link MappingNode}.
-     * 
-     * @param section The {@link ConfigurationSection} to serialize.
-     * @return The serialized {@link ConfigurationSection} as a
-     *         {@link MappingNode}.
-     */
-    @NotNull
-    private MappingNode toNodeTree(@NotNull final ConfigurationSection section) {
-        
-        final List<NodeTuple> nodeTuples = new ArrayList<NodeTuple>();
-        for (final Map.Entry<String, Object> entry : section.getValues(false).entrySet()) {
-            
-            final Node keyNode = this.yamlRepresenter.represent(entry.getKey());
-            final Node valueNode;
-            if (entry.getValue() instanceof ConfigurationSection) {
-                valueNode = this.toNodeTree((ConfigurationSection) entry.getValue());
-            } else {
-                valueNode = this.yamlRepresenter.represent(entry.getValue());
-            }
-            
-            keyNode.setBlockComments(this.getCommentLines(section.getComments(entry.getKey()), CommentType.BLOCK));
-            if (valueNode instanceof MappingNode || valueNode instanceof SequenceNode) {
-                keyNode.setInLineComments(this.getCommentLines(section.getInLineComments(entry.getKey()), CommentType.IN_LINE));
-            } else {
-                valueNode.setInLineComments(this.getCommentLines(section.getInLineComments(entry.getKey()), CommentType.IN_LINE));
-            }
-            
-            nodeTuples.add(new NodeTuple(keyNode, valueNode));
-        }
-        
-        return new MappingNode(Tag.MAP, nodeTuples, DumperOptions.FlowStyle.BLOCK);
-    }
-    
-    /**
-     * Gets a {@link List} of {@link String Strings} that represent the given
-     * {@link List} of {@link CommentLine CommentLines}.
-     * 
-     * @param commentLines The {@link List} of {@link CommentLine CommentLines}
-     *                     to translate into {@link String Strings}.
-     * @return A {@link List} of {@link String Strings} representing the given
-     *         {@link CommentLine CommentLines}.
-     */
-    @NotNull
-    private List<String> getCommentLines(@Nullable final List<CommentLine> commentLines) {
-        
-        final List<String> comments = new ArrayList<String>();
-        if (commentLines == null) {
-            return comments;
-        }
-    
-        for (final CommentLine commentLine : commentLines) {
-            if (commentLine.getCommentType() == CommentType.BLANK_LINE) {
-                comments.add(null);
-            } else {
-                String comment = commentLine.getValue();
-                comment = comment.startsWith(" ") ? comment.substring(1) : comment;
-                comments.add(comment);
-            }
-        }
-    
-        return comments;
-    }
-    
-    /**
-     * Gets a {@link List} of {@link CommentLine CommentLines} that are
-     * represented by the given {@link List} of {@link String Strings} and the
-     * given {@link CommentType}.
-     * 
-     * @param comments The {@link List} of {@link String Strings} to translate
-     *                 into {@link CommentLine CommentLines}.
-     * @param commentType The type of {@link CommentLine CommentLines} to
-     *                    translate into.
-     * @return A {@link List} of {@link CommentLine CommentLines} that are
-     *         represented by the given {@link List} of {@link String Strings}
-     *         and {@link CommentType}.
-     */
-    @NotNull
-    private List<CommentLine> getCommentLines(@NotNull final List<String> comments, @NotNull final CommentType commentType) {
-        
-        final List<CommentLine> commentLines = new ArrayList<CommentLine>();
-        for (final String comment : comments) {
-            if (comment == null) {
-                commentLines.add(new CommentLine(null, null, "", CommentType.BLANK_LINE));
-            } else {
-                String line = comment;
-                line = line.isEmpty() ? line : " " + line;
-                commentLines.add(new CommentLine(null, null, line, commentType));
-            }
-        }
-        
-        return commentLines;
-    }
-    
-    /**
-     * This removes the empty line at the end of the header that separates the
-     * header from further comments. Additionally, it removes any empty lines at
-     * the start of the header.
-     * 
-     * @param formattedHeader The formatted {@link List} of header comments
-     *                        (with the blank line).
-     * @return The unformatted {@link List} of header comments (without the
-     *         blank line).
-     */
-    @NotNull
-    private List<String> loadHeader(@NotNull final List<String> formattedHeader) {
-        
-        final LinkedList<String> header = new LinkedList<String>(formattedHeader);
-        if (!header.isEmpty()) {
-            header.removeLast();
-        }
-        while (!header.isEmpty() && header.peek() == null) {
-            header.remove();
-        }
-        return header;
-    }
-    
-    /**
-     * Adds an empty line at the end of the header to separate it from any
-     * further comments.
-     * 
-     * @param header The unformatted {@link List} of header comments (without
-     *               the blank line).
-     * @return The formatted {@link List} of header comments (with the blank
-     *         line).
-     */
-    @NotNull
-    private List<String> saveHeader(@NotNull final List<String> header) {
-        
-        final LinkedList<String> formattedHeader = new LinkedList<String>(header);
-        if (!formattedHeader.isEmpty()) {
-            formattedHeader.add(null);
-        }
-        return formattedHeader;
-    }
-    
-    /**
      * {@inheritDoc}
      */
     @Override
@@ -424,21 +407,20 @@ public final class YamlConfiguration extends FileConfiguration {
     }
     
     /**
-     * Creates a new {@link YamlConfiguration}, loading from the given
-     * {@link File}.
+     * Creates a new YAML configuration, loading from the given file.
      * <p>
-     * Any errors loading the {@link YamlConfiguration} will be logged and then
-     * ignored. If the specified input is not a valid {@link YamlConfiguration},
-     * a blank {@link YamlConfiguration} will be returned.
+     * Any errors loading the YAML configuration will be logged and then
+     * otherwise ignored. If the given input is not a valid YAML configuration,
+     * an empty YAML configuration will be returned.
      * <p>
      * This will only load up to the default number of aliases
      * ({@link YamlConfigurationOptions#getMaxAliases()}) to prevent a Billion
      * Laughs Attack.
      * <p>
      * The encoding used may follow the system dependent default.
-     *
-     * @param file The {@link File} to load.
-     * @return The loaded {@link YamlConfiguration}.
+     * 
+     * @param file The file to load.
+     * @return The loaded YAML configuration.
      */
     @NotNull
     public static YamlConfiguration loadConfiguration(@NotNull final File file) {
@@ -447,28 +429,27 @@ public final class YamlConfiguration extends FileConfiguration {
         try {
             config.load(file);
         } catch (IOException | InvalidConfigurationException e) {
-            Logger.getLogger(YamlConfiguration.class.getName()).log(Level.SEVERE, "Cannot load config from file: " + file.getPath(), e);
+            LoggerFactory.getLogger(YamlConfiguration.class).error("Cannot load config from file: " + file.getPath(), e);
         }
         
         return config;
     }
     
     /**
-     * Creates a new {@link YamlConfiguration}, loading from the given
-     * {@link Reader}.
+     * Creates a new YAML configuration, loading from the given reader.
      * <p>
-     * Any errors loading the {@link YamlConfiguration} will be logged and then
-     * ignored. If the specified input is not a valid {@link YamlConfiguration},
-     * a blank {@link YamlConfiguration} will be returned.
+     * Any errors loading the YAML configuration will be logged and then
+     * otherwise ignored. If the given input is not a valid YAML configuration,
+     * an empty YAML configuration will be returned.
      * <p>
      * This will only load up to the default number of aliases
      * ({@link YamlConfigurationOptions#getMaxAliases()}) to prevent a Billion
      * Laughs Attack.
      * <p>
      * The encoding used may follow the system dependent default.
-     *
-     * @param reader The {@link Reader} to load.
-     * @return The loaded {@link YamlConfiguration}.
+     * 
+     * @param reader The reader to load.
+     * @return The loaded YAML configuration.
      */
     @NotNull
     public static YamlConfiguration loadConfiguration(@NotNull final Reader reader) {
@@ -477,7 +458,7 @@ public final class YamlConfiguration extends FileConfiguration {
         try {
             config.load(reader);
         } catch (IOException | InvalidConfigurationException e) {
-            Logger.getLogger(YamlConfiguration.class.getName()).log(Level.SEVERE, "Cannot load config from reader.", e);
+            LoggerFactory.getLogger(YamlConfiguration.class).error("Cannot load config from reader.", e);
         }
         
         return config;

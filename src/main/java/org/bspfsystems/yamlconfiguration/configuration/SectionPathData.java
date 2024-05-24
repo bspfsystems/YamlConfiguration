@@ -89,7 +89,7 @@ final class SectionPathData {
      * empty comment line ({@code #} and nothing else). Each entry in the list
      * represents 1 line of comments.
      * <p>
-     * The list cannot be modified. The returned list represents a snapshots of
+     * The list cannot be modified. The returned list represents a snapshot of
      * the comments at the time the list was returned; any changes to the
      * actual comments will not be reflected in this list.
      * 
@@ -134,7 +134,7 @@ final class SectionPathData {
      * empty inline comment line ({@code #} and nothing else). Each entry in the
      * list represents 1 line of inline comments.
      * <p>
-     * The list cannot be modified. The returned list represents a snapshots of
+     * The list cannot be modified. The returned list represents a snapshot of
      * the inline comments at the time the list was returned; any changes to the
      * actual inline comments will not be reflected in this list.
      * 
@@ -142,7 +142,7 @@ final class SectionPathData {
      *         entry represents 1 line.
      */
     @NotNull
-    List<String> getInLineComments() {
+    List<String> getInlineComments() {
         return this.inLineComments;
     }
     
@@ -166,7 +166,7 @@ final class SectionPathData {
      * @param inLineComments The inline comments to assign to this section path
      *                       data.
      */
-    void setInLineComments(@Nullable final List<String> inLineComments) {
+    void setInlineComments(@Nullable final List<String> inLineComments) {
         this.inLineComments = inLineComments == null ? Collections.emptyList() : Collections.unmodifiableList(new ArrayList<String>(inLineComments));
     }
 }

@@ -5,7 +5,7 @@
  * 
  * Copyright (C) 2010-2014 The Bukkit Project (https://bukkit.org/)
  * Copyright (C) 2014-2023 SpigotMC Pty. Ltd. (https://www.spigotmc.org/)
- * Copyright (C) 2020-2023 BSPF Systems, LLC (https://bspfsystems.org/)
+ * Copyright (C) 2020-2024 BSPF Systems, LLC (https://bspfsystems.org/)
  * 
  * Many of the files in this project are sourced from the Bukkit API as
  * part of The Bukkit Project (https://bukkit.org/), now maintained by
@@ -35,14 +35,12 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import org.bspfsystems.yamlconfiguration.configuration.Configuration;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.slf4j.LoggerFactory;
 
 /**
- * Utility class for storing and retrieving classes for {@link Configuration}.
+ * A utility class for storing and retrieving classes for configurations.
  * <p>
  * Synchronized with the commit on 19-November-2023.
  */
@@ -55,22 +53,21 @@ public final class ConfigurationSerialization {
     private final Class<? extends ConfigurationSerializable> clazz;
     
     /**
-     * Constructs a new {@link ConfigurationSerialization} for the given
-     * {@link ConfigurationSerializable}.
+     * Constructs a configuration serialization for the given configuration
+     * serializable.
      * 
-     * @param clazz The {@link ConfigurationSerializable} {@link Class}.
+     * @param clazz The class of the configuration serializable.
      */
     private ConfigurationSerialization(@NotNull final Class<? extends ConfigurationSerializable> clazz) {
         this.clazz = clazz;
     }
     
     /**
-     * Deserializes the given {@link Map} into a
-     * {@link ConfigurationSerializable}.
+     * Deserializes the given map into a configuration serializable.
      * 
-     * @param map The serialized data as a {@link Map}.
-     * @return The deserialized {@link Object}, or {@code null} if the data
-     *         cannot be deserialized.
+     * @param map The serialized data as a map.
+     * @return The deserialized configuration serializable, or {@code null} if
+     *         the data cannot be deserialized.
      */
     @Nullable
     private ConfigurationSerializable deserialize(@NotNull final Map<String, ?> map) {
@@ -100,13 +97,12 @@ public final class ConfigurationSerialization {
     }
     
     /**
-     * Gets the {@link Method} of the {@link ConfigurationSerializable} that
-     * performs the deserialization. If none can be found, {@code null} will be
-     * returned.
+     * Gets the method of the configuration serializable that performs the
+     * deserialization. If one cannot be found, {@code null} will be returned.
      * 
-     * @param name The name of the {@link Method} to retrieve.
-     * @return The {@link Method} that performs the deserialization, or
-     *         {@code null} if none can be found.
+     * @param name The name of the method to retrieve.
+     * @return The method that performs the deserialization, or {@code null} if
+     *         one cannot be found.
      */
     @Nullable
     private Method getMethod(@NotNull final String name) {
@@ -128,13 +124,13 @@ public final class ConfigurationSerialization {
     }
     
     /**
-     * Deserializes the data in the {@link Map} via the given {@link Method}. If
-     * any {@link Throwable} is thrown, {@code null} will be returned.
+     * Deserializes the data in the given map via the given method. If any
+     * throwable is thrown, {@code null} will be returned.
      * 
-     * @param method The {@link Method} to use to deserialize the data.
+     * @param method The method to use to deserialize the data.
      * @param map The data to deserialize.
-     * @return The deserialized {@link ConfigurationSerializable}, or
-     *         {@code null} if there is an issue.
+     * @return The deserialized configuration serializable, or {@code null} if
+     *         an issue occurs during deserialization.
      */
     @Nullable
     private ConfigurationSerializable deserializeViaMethod(@NotNull final Method method, @NotNull final Map<String, ?> map) {
@@ -143,72 +139,70 @@ public final class ConfigurationSerialization {
             
             final ConfigurationSerializable result = (ConfigurationSerializable) method.invoke(null, map);
             if (result == null) {
-                Logger.getLogger(ConfigurationSerialization.class.getName()).log(Level.SEVERE, "Could not call method '" + method.toString() + "' of " + clazz + " for deserialization: method returned null.");
+                LoggerFactory.getLogger(ConfigurationSerialization.class).error("Could not call method '" + method.toString() + "' of " + this.clazz.getName() + " for deserialization: method returned null.");
             } else {
                 return result;
             }
-        } catch (Throwable t) {
-            Logger.getLogger(ConfigurationSerialization.class.getName()).log(Level.SEVERE, "Could not call method '" + method.toString() + "' of " + clazz + " for deserialization.", t instanceof InvocationTargetException ? t.getCause() : t);
+        } catch (final Throwable t) {
+            LoggerFactory.getLogger(ConfigurationSerialization.class).error("Could not call method '" + method.toString() + "' of " + this.clazz.getName() + " for deserialization.", t instanceof InvocationTargetException ? t.getCause() : t);
         }
         
         return null;
     }
     
     /**
-     * Gets the {@link Constructor} of the {@link ConfigurationSerializable}
-     * that performs the deserialization. If none can be found, {@code null}
-     * will be returned.
+     * Gets the constructor of the configuration serializable that performs the
+     * deserialization. If one cannot be found, {@code null} will be returned.
      * 
-     * @return The {@link Constructor} that performs the deserialization, or
-     *         {@code null} if none can be found.
+     * @return The constructor that performs the deserialization, or
+     *         {@code null} if one cannot be found.
      */
     @Nullable
     private Constructor<? extends ConfigurationSerializable> getConstructor() {
         
         try {
             return this.clazz.getConstructor(Map.class);
-        } catch (NoSuchMethodException | SecurityException e) {
+        } catch (final NoSuchMethodException | SecurityException e) {
             return null;
         }
     }
     
     /**
-     * Deserializes the data in the {@link Map} via the given
-     * {@link Constructor}. If any {@link Throwable} is thrown, {@code null}
-     * will be returned.
+     * Deserializes the data in the given map via the given constructor. If any
+     * throwable is thrown, {@code null} will be returned.
      * 
-     * @param constructor The {@link Constructor} to use to deserialize the
+     * @param constructor The constructor to use to deserialize the data.
      *                    data.
-     * @param map The data as a {@link Map} to deserialize.
-     * @return The deserialized {@link ConfigurationSerializable}, or
-     *         {@code null} if there is an issue.
+     * @param map The data to deserialize.
+     * @return The deserialized configuration serializable, or {@code null} if
+     *         an issue occurs during deserialization.
      */
     @Nullable
     private ConfigurationSerializable deserializeViaConstructor(@NotNull final Constructor<? extends ConfigurationSerializable> constructor, @NotNull final Map<String, ?> map) {
         
         try {
             return constructor.newInstance(map);
-        } catch (Throwable t) {
-            Logger.getLogger(ConfigurationSerialization.class.getName()).log(Level.SEVERE, "Could not call constructor '" + constructor.toString() + "' of " + clazz + "for deserialization.", t instanceof InvocationTargetException ? t.getCause() : t);
+        } catch (final Throwable t) {
+            LoggerFactory.getLogger(ConfigurationSerialization.class.getName()).error("Could not call constructor '" + constructor.toString() + "' of " + clazz + "for deserialization.", t instanceof InvocationTargetException ? t.getCause() : t);
         }
         
         return null;
     }
     
     /**
-     * Attempts to deserialize the given {@link Map} into a new instance of the
-     * given {@link Class}.
+     * Attempts to deserialize the given map into a new instance of the given
+     * class.
      * <p>
-     * The {@link Class} must implement {@link ConfigurationSerializable},
-     * including the extra methods as specified in the javadoc of a
-     * {@link ConfigurationSerializable}.
+     * The class must implement configuration serializable, including the extra
+     * methods and/or constructor as specified in the javadocs of a
+     * configuration serializable.
      * <p>
-     * If a new instance could not be made (an example being the {@link Class}
-     * not fully implementing the interface), {@code null} will be returned.
+     * If a new instance could not be made (an example being the class not fully
+     * implementing the interface), {@code null} will be returned.
      * 
-     * @param map The {@link Map} to deserialize.
-     * @param clazz The {@link Class} to deserialize into.
-     * @return The new instance of the specified {@link Class}.
+     * @param map The map to deserialize.
+     * @param clazz The class to deserialize into.
+     * @return The new instance of the specified class.
      */
     @Nullable
     public static ConfigurationSerializable deserializeObject(@NotNull final Map<String, ?> map, @NotNull final Class<? extends ConfigurationSerializable> clazz) {
@@ -216,19 +210,19 @@ public final class ConfigurationSerialization {
     }
     
     /**
-     * Attempts to deserialize the given arguments into a new instance of the
-     * given class.
+     * Attempts to deserialize the given map into a new instance of any known
+     * type of configuration serializable that may be indicated by the data
+     * contained within the map itself.
      * <p>
-     * The class must implement {@link ConfigurationSerializable}, including
-     * the extra methods as specified in the javadoc of
-     * ConfigurationSerializable.
+     * The class must implement configuration serializable, including the extra
+     * methods and/or constructor as specified in the javadocs of a
+     * configuration serializable.
      * <p>
-     * If a new instance could not be made, an example being the class not
-     * fully implementing the interface, null will be returned.
+     * If a new instance could not be made (an example being the class not fully
+     * implementing the interface), {@code null} will be returned.
      * 
-     * @param map The data as a {@link Map} to deserialize.
-     * @return The {@link ConfigurationSerializable} with the data from the
-     *         given {@link Map}.
+     * @param map The map to deserialize.
+     * @return The new instance of the given data.
      */
     @Nullable
     public static ConfigurationSerializable deserializeObject(@NotNull final Map<String, ?> map) {
@@ -245,7 +239,7 @@ public final class ConfigurationSerialization {
                 if (clazz == null) {
                     throw new IllegalArgumentException("The specified class does not exist ('" + alias + "').");
                 }
-            } catch(ClassCastException e) {
+            } catch (final ClassCastException e) {
                 e.fillInStackTrace();
                 throw e;
             }
@@ -257,10 +251,10 @@ public final class ConfigurationSerialization {
     }
     
     /**
-     * Registers the given {@link ConfigurationSerializable} {@link Class} by
-     * its alias.
+     * Registers the given configuration serializable class by any and all
+     * aliases/delegate deserializations.
      * 
-     * @param clazz The {@link Class} to register.
+     * @param clazz The class to register.
      */
     public static void registerClass(@NotNull final Class<? extends ConfigurationSerializable> clazz) {
         
@@ -272,11 +266,10 @@ public final class ConfigurationSerialization {
     }
     
     /**
-     * Registers the given alias to the specified
-     * {@link ConfigurationSerializable} {@link Class}
+     * Registers the given alias to the given configuration serializable class.
      * 
-     * @param clazz The {@link Class} to register.
-     * @param alias Alias to register the {@link Class} as.
+     * @param clazz The class to register.
+     * @param alias Alias to register the class as.
      * @see SerializableAs
      */
     public static void registerClass(@NotNull final Class<? extends ConfigurationSerializable> clazz, @NotNull final String alias) {
@@ -284,7 +277,7 @@ public final class ConfigurationSerialization {
     }
     
     /**
-     * Unregisters the specified alias from a {@link ConfigurationSerializable}.
+     * Unregisters the specified alias.
      *
      * @param alias The alias to unregister.
      */
@@ -293,23 +286,21 @@ public final class ConfigurationSerialization {
     }
     
     /**
-     * Unregisters any aliases for the specified
-     * {@link ConfigurationSerializable} {@link Class}.
+     * Unregisters any aliases for the given configuration serializable class
      * 
-     * @param clazz The {@link Class} to unregister.
+     * @param clazz The class to unregister.
      */
     public static void unregisterClass(@NotNull final Class<? extends ConfigurationSerializable> clazz) {
         ConfigurationSerialization.ALIASES.entrySet().removeIf(entry -> entry.getValue().equals(clazz));
     }
     
     /**
-     * Attempts to get a registered {@link ConfigurationSerializable}
-     * {@link Class} by its alias.
+     * Attempts to get a registered configuration serializable class by its
+     * alias.
      * 
-     * @param alias The alias of the {@link ConfigurationSerializable} to
-     *              retrieve.
-     * @return The requested {@link ConfigurationSerializable}, or {@code null}
-     *         if one is not found.
+     * @param alias The alias of the configuration serializable to retrieve.
+     * @return The requested configuration serializable, or {@code null} if one
+     *         is not found.
      */
     @Nullable
     public static Class<? extends ConfigurationSerializable> getClassByAlias(@NotNull final String alias) {
@@ -317,12 +308,10 @@ public final class ConfigurationSerialization {
     }
     
     /**
-     * Gets the primary alias for the given {@link ConfigurationSerializable}
-     * {@link Class}.
+     * Gets the primary alias for the given configuration serializable class.
      * 
-     * @param clazz The {@link Class} to retrieve the alias of.
-     * @return The requested primary alias of the given
-     *         {@link ConfigurationSerializable}.
+     * @param clazz The class to retrieve the primary alias of.
+     * @return The primary alias of the given configuration serializable.
      */
     @NotNull
     public static String getAlias(@NotNull final Class<? extends ConfigurationSerializable> clazz) {

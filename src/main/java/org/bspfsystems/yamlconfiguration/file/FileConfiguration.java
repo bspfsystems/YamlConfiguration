@@ -87,6 +87,7 @@ public abstract class FileConfiguration extends MemoryConfiguration {
      * @see FileConfiguration#saveToString()
      */
     public final void save(@NotNull final File file) throws IOException {
+        
         if (!file.exists()) {
             if (!file.createNewFile()) {
                 throw new IOException("File has not been created at " + file.getPath());
@@ -125,20 +126,17 @@ public abstract class FileConfiguration extends MemoryConfiguration {
     public abstract String saveToString();
     
     /**
-     * Loads this {@link FileConfiguration} from the given {@link Reader}.
+     * Loads this file configuration from the given reader.
      * <p>
-     * All values contained in-memory in this {@link FileConfiguration} will be
-     * removed, leaving only the {@link FileConfigurationOptions} as well as any
+     * All values contained in-memory in this file configuration will be
+     * removed, leaving only the file configuration options as well as any
      * defaults. The new values will be loaded into memory from the given
-     * {@link Reader}.
+     * reader.
      * 
-     * @param reader The {@link Reader} used to load this
-     *               {@link FileConfiguration}.
-     * @throws IOException If the given {@link Reader} encounters an error and
-     *                     throws an {@link IOException}.
-     * @throws InvalidConfigurationException If the data in the {@link Reader}
-     *                                       cannot be parsed as a
-     *                                       {@link FileConfiguration}.
+     * @param reader The reader used to load this file configuration.
+     * @throws IOException If the given reader encounters an error.
+     * @throws InvalidConfigurationException If the data in the reader cannot be
+     *                                       parsed as a file configuration.
      * @see FileConfiguration#loadFromString(String)
      */
     public final void load(@NotNull final Reader reader) throws IOException, InvalidConfigurationException {
@@ -159,18 +157,16 @@ public abstract class FileConfiguration extends MemoryConfiguration {
     }
     
     /**
-     * Loads this {@link FileConfiguration} from the given {@link File}.
+     * Loads this file configuration from the given file.
      * <p>
-     * All values contained in-memory in this {@link FileConfiguration} will be
-     * removed, leaving only the {@link FileConfigurationOptions} as well as any
-     * defaults. The new values will be loaded into memory from the given
-     * {@link File}.
+     * All values contained in-memory in this file configuration will be
+     * removed, leaving only the file configuration options as well as any
+     * defaults. The new values will be loaded into memory from the given file.
      * 
-     * @param file The {@link File} used to load this {@link FileConfiguration}.
-     * @throws IOException If the given {@link File} cannot be read.
-     * @throws InvalidConfigurationException If the data in the {@link File}
-     *                                       cannot be parsed as a
-     *                                       {@link FileConfiguration}.
+     * @param file The file used to load this file configuration.
+     * @throws IOException If the given file cannot be read.
+     * @throws InvalidConfigurationException If the data in the file cannot be
+     *                                       parsed as a file configuration.
      * @see FileConfiguration#load(Reader)
      */
     public final void load(@NotNull final File file) throws IOException, InvalidConfigurationException {
@@ -178,19 +174,17 @@ public abstract class FileConfiguration extends MemoryConfiguration {
     }
     
     /**
-     * Loads this {@link FileConfiguration} from a {@link File} at the given
-     * path.
+     * Loads this file configuration from the file at the given path.
      * <p>
-     * All values contained in-memory in this {@link FileConfiguration} will be
-     * removed, leaving only the {@link FileConfigurationOptions} as well as any
-     * defaults. The new values will be loaded into memory from the {@link File}
-     * at the given path.
+     * All values contained in-memory in this file configuration will be
+     * removed, leaving only the file configuration options as well as any
+     * defaults. The new values will be loaded into memory from the file at the
+     * given path.
      * 
-     * @param path The path of the {@link File} to load from.
-     * @throws IOException If the {@link File} cannot be read.
-     * @throws InvalidConfigurationException If the data in the {@link File}
-     *                                       cannot be parsed as a
-     *                                       {@link FileConfiguration}.
+     * @param path The path of the file to load from.
+     * @throws IOException If the file cannot be read.
+     * @throws InvalidConfigurationException If the data in the file cannot be
+     *                                       parsed as a file configuration.
      * @see FileConfiguration#load(File)
      */
     public final void load(@NotNull final String path) throws IOException, InvalidConfigurationException {
@@ -198,18 +192,17 @@ public abstract class FileConfiguration extends MemoryConfiguration {
     }
     
     /**
-     * Loads this {@link FileConfiguration} from the given {@link String}.
+     * Loads this file configuration from the given string.
      * <p>
-     * All values contained in-memory in this {@link FileConfiguration} will be
-     * removed, leaving only the {@link FileConfigurationOptions} as well as any
-     * defaults. The new values will be loaded into memory from the
-     * {@link String}.
+     * All values contained in-memory in this file configuration will be
+     * removed, leaving only the file configuration options as well as any
+     * defaults. The new values will be loaded into memory from the given
+     * string.
      * 
-     * @param data A {@link String} representation of the
-     *             {@link FileConfiguration} data to load.
-     * @throws InvalidConfigurationException If the given {@link String} cannot
-     *                                       be parsed as a
-     *                                       {@link FileConfiguration}.
+     * @param data The string representation of the file configuration data to
+     *             load.
+     * @throws InvalidConfigurationException If the given string cannot be
+     *                                       parsed as a file configuration.
      */
     public abstract void loadFromString(@NotNull final String data) throws InvalidConfigurationException;
     

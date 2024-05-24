@@ -32,8 +32,8 @@ package org.bspfsystems.yamlconfiguration.configuration;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * Various settings for controlling the input and output of a memory
- * configuration.
+ * Represents the various settings for controlling the input and output of a
+ * memory configuration.
  * <p>
  * Synchronized with the commit on 13-March-2019.
  */

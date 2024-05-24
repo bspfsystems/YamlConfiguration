@@ -311,9 +311,9 @@ public class MemorySection implements ConfigurationSection {
     @Override
     @NotNull
     @UnmodifiableView
-    public final List<String> getInLineComments(@NotNull final String path) {
+    public final List<String> getInlineComments(@NotNull final String path) {
         final SectionPathData data = this.getSectionPathData(path);
-        return data == null ? Collections.emptyList() : Collections.unmodifiableList(new ArrayList<String>(data.getInLineComments()));
+        return data == null ? Collections.emptyList() : Collections.unmodifiableList(new ArrayList<String>(data.getInlineComments()));
     }
     
     /**
@@ -331,10 +331,10 @@ public class MemorySection implements ConfigurationSection {
      * {@inheritDoc}
      */
     @Override
-    public final void setInLineComments(@NotNull final String path, @Nullable final List<String> inLineComments) {
+    public final void setInlineComments(@NotNull final String path, @Nullable final List<String> inlineComments) {
         final SectionPathData data = this.getSectionPathData(path);
         if (data != null) {
-            data.setInLineComments(inLineComments);
+            data.setInlineComments(inlineComments);
         }
     }
     

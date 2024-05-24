@@ -5,7 +5,7 @@
  * 
  * Copyright (C) 2010-2014 The Bukkit Project (https://bukkit.org/)
  * Copyright (C) 2014-2023 SpigotMC Pty. Ltd. (https://www.spigotmc.org/)
- * Copyright (C) 2020-2023 BSPF Systems, LLC (https://bspfsystems.org/)
+ * Copyright (C) 2020-2024 BSPF Systems, LLC (https://bspfsystems.org/)
  * 
  * Many of the files in this project are sourced from the Bukkit API as
  * part of The Bukkit Project (https://bukkit.org/), now maintained by
@@ -42,21 +42,19 @@ import org.yaml.snakeyaml.nodes.Node;
 import org.yaml.snakeyaml.nodes.Tag;
 
 /**
- * Represents a custom {@link SafeConstructor} for use with a
- * {@link YamlConfiguration}.
+ * Represents a custom safe constructor for use with a YAML configuration.
  * <p>
  * Synchronized with the commit on 14-March-2023.
  */
 public final class YamlConstructor extends SafeConstructor {
     
     /**
-     * Represents a custom {@link ConstructYamlMap} for use with a
-     * {@link YamlConfiguration}.
+     * Represents a custom construct YAML map for use with a YAML configuration.
      */
     private final class ConstructCustomObject extends ConstructYamlMap {
     
         /**
-         * Creates a new basic {@link ConstructCustomObject}.
+         * Constructs an empty construct custom object.
          * 
          * @see ConstructYamlMap#ConstructYamlMap()
          */
@@ -65,10 +63,10 @@ public final class YamlConstructor extends SafeConstructor {
         }
     
         /**
-         * Transforms an {@link Object} from the given {@link Node}.
+         * Converts the given node into an object.
          *
-         * @param node The {@link Node} to transform.
-         * @return The {@link Object} represented by the given {@link Node}.
+         * @param node The node to convert.
+         * @return The object converted from the given node.
          */
         @Nullable
         @Override
@@ -97,13 +95,11 @@ public final class YamlConstructor extends SafeConstructor {
         }
     
         /**
-         * Disallows the 2nd step of constructing an {@link Object} from a
-         * {@link Node}.
+         * Disallows the 2nd step of constructing an object from a node.
          * 
-         * @param node The composed {@link Node}.
-         * @param object The {@link Object} constructed earlier by
-         *               {@link ConstructCustomObject#construct(Node)} for the
-         *               provided {@link Node}.
+         * @param node The composed node.
+         * @param object The object constructed earlier by the initial
+         *               construction step for the given node.
          */
         @Override
         public void construct2ndStep(@NotNull final Node node, @NotNull final Object object) {
@@ -112,10 +108,10 @@ public final class YamlConstructor extends SafeConstructor {
     }
     
     /**
-     * Creates a new {@link YamlConstructor}.
+     * Constructs a YAML constructor.
      * 
-     * @param loaderOptions The {@link LoaderOptions} used to initialize the
-     *                      {@link YamlConstructor}.
+     * @param loaderOptions The loader options used while loading YAML via the
+     *                      new constructor.
      * @see SafeConstructor#SafeConstructor(LoaderOptions);
      */
     YamlConstructor(@NotNull final LoaderOptions loaderOptions) {
@@ -124,10 +120,10 @@ public final class YamlConstructor extends SafeConstructor {
     }
     
     /**
-     * Transforms an {@link Object} from the given {@link Node}.
+     * Converts the given node into an object.
      * 
-     * @param node The {@link Node} to transform.
-     * @return The {@link Object} represented by the given {@link Node}.
+     * @param node The node to convert.
+     * @return The object converted from the given node.
      */
     @Nullable
     Object construct(@NotNull final Node node) {

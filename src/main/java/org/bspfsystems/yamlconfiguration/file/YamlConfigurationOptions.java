@@ -5,7 +5,7 @@
  * 
  * Copyright (C) 2010-2014 The Bukkit Project (https://bukkit.org/)
  * Copyright (C) 2014-2023 SpigotMC Pty. Ltd. (https://www.spigotmc.org/)
- * Copyright (C) 2020-2023 BSPF Systems, LLC (https://bspfsystems.org/)
+ * Copyright (C) 2020-2024 BSPF Systems, LLC (https://bspfsystems.org/)
  * 
  * Many of the files in this project are sourced from the Bukkit API as
  * part of The Bukkit Project (https://bukkit.org/), now maintained by
@@ -35,8 +35,8 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * Various settings for controlling the input and output of a
- * {@link YamlConfiguration}.
+ * Represents the various settings for controlling the input and output of a
+ * YAML configuration.
  * <p>
  * Synchronized with the commit on 07-June-2022.
  */
@@ -53,10 +53,9 @@ public final class YamlConfigurationOptions extends FileConfigurationOptions {
     private int codePointLimit;
     
     /**
-     * Constructs a new set of {@link YamlConfigurationOptions}.
+     * Constructs a set of YAML configuration options.
      * 
-     * @param configuration The {@link YamlConfiguration} to create the
-     *                      {@link YamlConfigurationOptions} for.
+     * @param configuration The YAML configuration to create the options for.
      * @see FileConfigurationOptions#FileConfigurationOptions(MemoryConfiguration)
      */
     YamlConfigurationOptions(@NotNull final YamlConfiguration configuration) {
@@ -147,7 +146,7 @@ public final class YamlConfigurationOptions extends FileConfigurationOptions {
      * The default value is {@code 2}.
      * 
      * @param indent The number of spaces used to represent an indent.
-     * @return This {@link YamlConfigurationOptions}, for chaining.
+     * @return These YAML configuration options, for chaining.
      * @throws IllegalArgumentException If the given value is less than
      *                                  {@code 2} or greater than {@code 9}.
      */
@@ -186,7 +185,7 @@ public final class YamlConfigurationOptions extends FileConfigurationOptions {
      * The default value is {@code 80}.
      * 
      * @param width The number of characters a line can be before it gets split.
-     * @return This {@link YamlConfigurationOptions}, for chaining.
+     * @return These YAML configuration options, for chaining.
      * @throws IllegalArgumentException If the given value is less than
      *                                  {@code 8} or greater than {@code 1000}.
      */
@@ -230,7 +229,7 @@ public final class YamlConfigurationOptions extends FileConfigurationOptions {
      * <a href="https://en.wikipedia.org/wiki/Billion_laughs_attack">Billion Laughs Attack</a>.
      * 
      * @param maxAliases The maximum number of aliases for collections.
-     * @return This {@link YamlConfigurationOptions}, for chaining.
+     * @return These YAML configuration options, for chaining.
      * @throws IllegalArgumentException If the given value is less than {@code 10}.
      */
     @NotNull
@@ -265,7 +264,7 @@ public final class YamlConfigurationOptions extends FileConfigurationOptions {
      * A recommended value is {@code 3 MB (1024 * 1024 * 3)}.
      * 
      * @param codePointLimit The maximum number of code points for loading.
-     * @return This {@link YamlConfigurationOptions}, for chaining.
+     * @return These YAML configuration options, for chaining.
      * @throws IllegalArgumentException If the given value is less than
      *                                  {@code 1kB (1024)}.
      */

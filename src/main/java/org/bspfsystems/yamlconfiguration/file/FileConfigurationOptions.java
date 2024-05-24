@@ -5,7 +5,7 @@
  * 
  * Copyright (C) 2010-2014 The Bukkit Project (https://bukkit.org/)
  * Copyright (C) 2014-2023 SpigotMC Pty. Ltd. (https://www.spigotmc.org/)
- * Copyright (C) 2020-2023 BSPF Systems, LLC (https://bspfsystems.org/)
+ * Copyright (C) 2020-2024 BSPF Systems, LLC (https://bspfsystems.org/)
  * 
  * Many of the files in this project are sourced from the Bukkit API as
  * part of The Bukkit Project (https://bukkit.org/), now maintained by
@@ -39,8 +39,8 @@ import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.UnmodifiableView;
 
 /**
- * Various settings for controlling the input and output of a
- * {@link FileConfiguration}.
+ * Represents the various settings for controlling the input and output of a
+ * file configuration.
  * <p>
  * Synchronized with the commit on 20-December-2021.
  */
@@ -55,10 +55,9 @@ public class FileConfigurationOptions extends MemoryConfigurationOptions {
     private boolean parseComments;
     
     /**
-     * Constructs a new set of {@link FileConfigurationOptions}.
+     * Constructs a set of file configuration options.
      *
-     * @param configuration The {@link MemoryConfiguration} to create the
-     *                      {@link FileConfigurationOptions} for.
+     * @param configuration The file configuration to create the options for.
      * @see MemoryConfigurationOptions#MemoryConfigurationOptions(MemoryConfiguration)
      */
     protected FileConfigurationOptions(@NotNull final MemoryConfiguration configuration) {
@@ -98,22 +97,21 @@ public class FileConfigurationOptions extends MemoryConfigurationOptions {
     }
     
     /**
-     * Gets the header that will be applied to the top of the saved output.
+     * Gets the header comments that will be saved at the top of the output file
+     * configuration. If no header comments exist, an empty list will be
+     * returned.
      * <p>
-     * This header will be commented out and applied directly at the top of
-     * the generated output of the {@link FileConfiguration}. It is not
-     * required to include a newline at the end of the header as it will
-     * automatically be applied, but you may include one if you wish for extra
-     * spacing.
+     * For the individual string entries in the list; a {@code null} entry
+     * represents an empty line, whereas an empty string entry represents an
+     * empty header comment line ({@code #} and nothing else). Each entry in the
+     * list represents 1 line of header comments.
      * <p>
-     * If no comments exist, and empty {@link List} will be returned. A
-     * {@code null} entry represents an empty line, and an empty {@link String}
-     * represents an empty comment line.
-     * <p>
-     * The default header is no header.
+     * The list cannot be modified. The returned list represents a snapshot of
+     * the header comments at the time the list was returned; any changes to the
+     * actual header comments will not be reflected in this list.
      * 
-     * @return An unmodifiable header as a {@link List}, where every entry
-     *         represents one line.
+     * @return The header comments for the file configuration controlled by this
+     *         file configuration options.
      */
     @NotNull
     @UnmodifiableView
@@ -122,22 +120,25 @@ public class FileConfigurationOptions extends MemoryConfigurationOptions {
     }
     
     /**
-     * Sets the header that will be applied to the top of the saved output.
+     * Assigns the given header comments to these file configuration options. If
+     * the given list is {@code null}, an empty list will be assigned.
      * <p>
-     * This header will be commented out and applied directly at the top of
-     * the generated output of the {@link FileConfiguration}. It is not
-     * required to include a newline at the end of the header as it will
-     * automatically be applied, but you may include one if you wish for extra
-     * spacing.
+     * For the individual string entries in the list; a {@code null} entry
+     * represents an empty line, whereas an empty string entry represents an
+     * empty header comment line ({@code #} and nothing else). Each entry in the
+     * list represents 1 line of header comments.
      * <p>
-     * If no comments exist, an empty {@link List} will be returned. A
-     * {@code null} entry represents an empty line, and an empty {@link String}
-     * represents an empty comment line.
+     * The given list will not be directly saved; instead, a snapshot will be
+     * taken and used to create an unmodifiable copy internally. Further updates
+     * to the given list will not result in changes to the inline comments
+     * stored in these file configuration options after this method completes.
      * <p>
-     * The default header is no header.
+     * Any existing header comments will be replaced, regardless of their
+     * value(s) compared to the new header comments.
      * 
-     * @param header The new header, where every entry represents one line.
-     * @return This {@link FileConfigurationOptions}, for chaining.
+     * @param header The header comments to assign to these file configuration
+     *               options.
+     * @return These file configuration options, for chaining.
      */
     @NotNull
     public FileConfigurationOptions setHeader(@Nullable final List<String> header) {
@@ -146,21 +147,21 @@ public class FileConfigurationOptions extends MemoryConfigurationOptions {
     }
     
     /**
-     * Gets the footer that will be applied to the bottom of the saved output.
+     * Gets the footer comments that will be saved at the top of the output file
+     * configuration. If no footer comments exist, an empty list will be
+     * returned.
      * <p>
-     * This footer will be commented out and applied directly at the bottom of
-     * the generated output of the {@link FileConfiguration}. It is not required
-     * to include a newline at the beginning of the footer as it will
-     * automatically be applied, but you may include one if you wish for extra
-     * spacing.
+     * For the individual string entries in the list; a {@code null} entry
+     * represents an empty line, whereas an empty string entry represents an
+     * empty footer comment line ({@code #} and nothing else). Each entry in the
+     * list represents 1 line of footer comments.
      * <p>
-     * If no comments exist, an empty {@link List} will be returned. A
-     * {@code null} entry represents an empty line and an empty
-     * {@link String} represents an empty comment line.
-     * <p>
-     * The default footer is no footer.
+     * The list cannot be modified. The returned list represents a snapshot of
+     * the footer comments at the time the list was returned; any changes to the
+     * actual footer comments will not be reflected in this list.
      * 
-     * @return An unmodifiable footer, where every entry represents one line.
+     * @return The footer comments for the file configuration controlled by this
+     *         file configuration options.
      */
     @NotNull
     @UnmodifiableView
@@ -169,22 +170,25 @@ public class FileConfigurationOptions extends MemoryConfigurationOptions {
     }
     
     /**
-     * Sets the footer that will be applied to the bottom of the saved output.
+     * Assigns the given footer comments to these file configuration options. If
+     * the given list is {@code null}, an empty list will be assigned.
      * <p>
-     * This footer will be commented out and applied directly at the bottom of
-     * the generated output of the {@link FileConfiguration}. It is not required
-     * to include a newline at the beginning of the footer as it will
-     * automatically be applied, but you may include one if you wish for extra
-     * spacing.
+     * For the individual string entries in the list; a {@code null} entry
+     * represents an empty line, whereas an empty string entry represents an
+     * empty footer comment line ({@code #} and nothing else). Each entry in the
+     * list represents 1 line of footer comments.
      * <p>
-     * If no comments exist, an empty {@link List} will be returned. A {@code null}
-     * entry represents an empty line and an empty {@link String} represents an
-     * empty comment line.
+     * The given list will not be directly saved; instead, a snapshot will be
+     * taken and used to create an unmodifiable copy internally. Further updates
+     * to the given list will not result in changes to the inline comments
+     * stored in these file configuration options after this method completes.
      * <p>
-     * The default footer is no footer.
+     * Any existing footer comments will be replaced, regardless of their
+     * value(s) compared to the new footer comments.
      * 
-     * @param footer The new footer, where every entry represents one line.
-     * @return This {@link FileConfigurationOptions}, for chaining.
+     * @param footer The footer comments to assign to these file configuration
+     *               options.
+     * @return These file configuration options, for chaining.
      */
     @NotNull
     public FileConfigurationOptions setFooter(@Nullable final List<String> footer) {
@@ -193,19 +197,17 @@ public class FileConfigurationOptions extends MemoryConfigurationOptions {
     }
     
     /**
-     * Gets whether the comments in a {@link FileConfiguration} should be loaded
-     * and saved.
+     * Gets whether the comments (header, block, inline, and/or footer) in a
+     * file configuration should be loaded and saved.
      * <p>
-     * If this is {@code true}, and if a default {@link FileConfiguration} is
+     * If this returns {@code true}, and if a default file configuration is
      * passed to {@link Configuration#setDefaults(Configuration)}, then upon
-     * saving, the default comments will be parsed from the passed default
-     * {@link FileConfiguration}, instead of the ones provided in here.
+     * saving, the default comments will be parsed from the passed default file
+     * configuration, instead of the ones provided in here.
      * <p>
-     * If no default is set on the {@link Configuration}, or the default is not
-     * a {@link FileConfiguration}, or that {@link Configuration} has no
-     * comments ({@link FileConfigurationOptions#getHeader()} returns an empty
-     * {@link List}), then the header specified in this {@link Configuration}
-     * will be used.
+     * If no default is set on the configuration, or the default is not a file
+     * configuration, or that configuration has no comments, then the comments
+     * specified in the original configuration will be used.
      * <p>
      * The default value is {@code true}.
      * 
@@ -217,25 +219,23 @@ public class FileConfigurationOptions extends MemoryConfigurationOptions {
     }
     
     /**
-     * Sets whether the comments in a {@link FileConfiguration} should be loaded
-     * and saved.
+     * Sets whether the comments (header, block, inline, and/or footer) in a
+     * file configuration should be loaded and saved.
      * <p>
-     * If this is {@code true}, and if a default {@link FileConfiguration} is
-     * passed to {@link Configuration#setDefaults(Configuration)}, then upon
-     * saving, the default comments will be parsed from the passed default
-     * {@link FileConfiguration}, instead of the ones provided in here.
+     * If this is {@code true}, and if a default file configuration is passed to
+     * {@link Configuration#setDefaults(Configuration)}, then upon saving, the
+     * default comments will be parsed from the passed default file
+     * configuration, instead of the ones provided in here.
      * <p>
-     * If no default is set on the {@link Configuration}, or the default is not
-     * a {@link FileConfiguration}, or that {@link Configuration} has no
-     * comments ({@link FileConfigurationOptions#getHeader()} returns an empty
-     * {@link List}), then the header specified in this {@link Configuration}
-     * will be used.
+     * If no default is set on the configuration, or the default is not a file
+     * configuration, or that configuration has no comments, then the comments
+     * specified in the original configuration will be used.
      * <p>
      * The default value is {@code true}.
      * 
      * @param parseComments {@code true} if the comments are to be parsed,
      *                      {@code false} otherwise.
-     * @return This {@link FileConfigurationOptions}, for chaining.
+     * @return This file configuration options, for chaining.
      */
     @NotNull
     public FileConfigurationOptions setParseComments(final boolean parseComments) {

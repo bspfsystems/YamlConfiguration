@@ -5,7 +5,7 @@
  * 
  * Copyright (C) 2010-2014 The Bukkit Project (https://bukkit.org/)
  * Copyright (C) 2014-2023 SpigotMC Pty. Ltd. (https://www.spigotmc.org/)
- * Copyright (C) 2020-2023 BSPF Systems, LLC (https://bspfsystems.org/)
+ * Copyright (C) 2020-2024 BSPF Systems, LLC (https://bspfsystems.org/)
  * 
  * Many of the files in this project are sourced from the Bukkit API as
  * part of The Bukkit Project (https://bukkit.org/), now maintained by
@@ -36,18 +36,19 @@ import java.lang.annotation.Target;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * Represents an "alias" that a {@link ConfigurationSerializable} may be
- * stored as.
- * If this is not present on a {@link ConfigurationSerializable} {@link Class},
- * it will use the fully qualified name of the {@link Class}.
+ * Represents an "alias" that a configuration serializable may be known as.
  * <p>
- * This value will be stored in the {@link ConfigurationSerialization} so that
- * the {@link ConfigurationSerialization} can determine what type it is.
+ * If this annotation is no present on a configuration serializable class, the
+ * class's fully-qualified name ({@link Class#getName()}) will be used.
  * <p>
- * Using this annotation on any other {@link Class} than a
- * {@link ConfigurationSerializable} will have no effect.
+ * This value will be stored in the configuration serialization so that it can
+ * determine what type it is during serialization and deserialization
+ * operations.
  * <p>
- * * Synchronized with the commit on 23-April-2019.
+ * Using this annotation on a class that does not extend or implement a
+ * configuration serializable will have no effect.
+ * <p>
+ * Synchronized with the commit on 23-April-2019.
  * 
  * @see ConfigurationSerialization#registerClass(Class, String)
  */
@@ -56,13 +57,12 @@ import org.jetbrains.annotations.NotNull;
 public @interface SerializableAs {
     
     /**
-     * This is the name your {@link ConfigurationSerialization} {@link Class}
-     * will be stored and retrieved as.
+     * This is the name the configuration serializable class will be known by.
      * <p>
-     * This name MUST be unique. We recommend using names such as
-     * "MyPluginThing" instead of "Thing".
+     * This name MUST be unique. It is recommended to use names such as
+     * "MyApplicationThing" instead of "Thing".
      * 
-     * @return The name to serialize the {@link Class} as.
+     * @return The name to serialize the class as.
      */
     @NotNull
     String value();

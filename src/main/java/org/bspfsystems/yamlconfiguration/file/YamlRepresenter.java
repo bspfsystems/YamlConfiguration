@@ -4,8 +4,8 @@
  * Implementation of SnakeYAML to be easy to use with files.
  * 
  * Copyright (C) 2010-2014 The Bukkit Project (https://bukkit.org/)
- * Copyright (C) 2014-2022 SpigotMC Pty. Ltd. (https://www.spigotmc.org/)
- * Copyright (C) 2020-2022 BSPF Systems, LLC (https://bspfsystems.org/)
+ * Copyright (C) 2014-2023 SpigotMC Pty. Ltd. (https://www.spigotmc.org/)
+ * Copyright (C) 2020-2024 BSPF Systems, LLC (https://bspfsystems.org/)
  * 
  * Many of the files in this project are sourced from the Bukkit API as
  * part of The Bukkit Project (https://bukkit.org/), now maintained by
@@ -40,22 +40,20 @@ import org.yaml.snakeyaml.nodes.Node;
 import org.yaml.snakeyaml.representer.Representer;
 
 /**
- * A {@link Representer} that can work with
- * {@link ConfigurationSection ConfigurationSections} and
- * {@link ConfigurationSerializable ConfigurationSerializables}.
+ * Represents a representer that can work with configuration sections and
+ * configuration serializables.
  * <p>
  * Synchronized with the commit on 14-March-2023.
  */
 public final class YamlRepresenter extends Representer {
     
     /**
-     * A {@link RepresentMap} that works with
-     * {@link ConfigurationSection ConfigurationSections}.
+     * Represents a represent map that works with configuration sections.
      */
     private final class RepresentConfigurationSection extends RepresentMap {
     
         /**
-         * Creates a new {@link RepresentConfigurationSection}.
+         * Constructs a basic represent configuration section.
          * 
          * @see RepresentMap#RepresentMap()
          */
@@ -64,11 +62,11 @@ public final class YamlRepresenter extends Representer {
         }
     
         /**
-         * Translates the given {@link Object} (known to be a
-         * {@link ConfigurationSection} in this instance) into a {@link Node}.
+         * Converts the given object (known to be a configuration section) into
+         * a node.
          * 
-         * @param object The {@link Object} to represent.
-         * @return The {@link Node} representing the {@link Object}.
+         * @param object The object to represent.
+         * @return The node converted from the given object.
          * @see RepresentMap#representData(Object)
          */
         @NotNull
@@ -79,13 +77,12 @@ public final class YamlRepresenter extends Representer {
     }
     
     /**
-     * A {@link RepresentMap} that works with
-     * {@link ConfigurationSerializable ConfigurationSerializables}.
+     * Represents a represent map that works with configuration serializables.
      */
     private class RepresentConfigurationSerializable extends RepresentMap {
     
         /**
-         * Creates a new {@link RepresentConfigurationSerializable}.
+         * Constructs a basic represent configuration serializable.
          * 
          * @see RepresentMap#RepresentMap()
          */
@@ -94,12 +91,11 @@ public final class YamlRepresenter extends Representer {
         }
     
         /**
-         * Translates the given {@link Object} (known to be a
-         * {@link ConfigurationSerializable} in this instance) into a
-         * {@link Node}.
-         *
-         * @param object The {@link Object} to represent.
-         * @return The {@link Node} representing the {@link Object}.
+         * Converts the given object (known to be a configuration serializable)
+         * into a node.
+         * 
+         * @param object The object to represent.
+         * @return The node converted from the given object.
          * @see RepresentMap#representData(Object)
          */
         @NotNull
@@ -117,13 +113,11 @@ public final class YamlRepresenter extends Representer {
     }
     
     /**
-     * Creates a new {@link YamlRepresenter} that can represent
-     * {@link ConfigurationSection ConfigurationSections} and
-     * {@link ConfigurationSerializable ConfigurationSerializables}, while
-     * disallowing {@link Enum Enums}.
+     * Constructs a YAML representer that can represent configuration sections
+     * and configuration serializables, while disallowing enums.
      * 
-     * @param dumperOptions The {@link DumperOptions} used to initialize the
-     *                      {@link YamlRepresenter}.
+     * @param dumperOptions The dumper options used while dumping YAML via the
+     *                      new representer.
      */
     YamlRepresenter(@NotNull final DumperOptions dumperOptions) {
         super(dumperOptions);

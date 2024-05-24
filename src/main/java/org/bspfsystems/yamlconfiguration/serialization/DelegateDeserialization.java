@@ -5,7 +5,7 @@
  * 
  * Copyright (C) 2010-2014 The Bukkit Project (https://bukkit.org/)
  * Copyright (C) 2014-2023 SpigotMC Pty. Ltd. (https://www.spigotmc.org/)
- * Copyright (C) 2020-2023 BSPF Systems, LLC (https://bspfsystems.org/)
+ * Copyright (C) 2020-2024 BSPF Systems, LLC (https://bspfsystems.org/)
  * 
  * Many of the files in this project are sourced from the Bukkit API as
  * part of The Bukkit Project (https://bukkit.org/), now maintained by
@@ -36,8 +36,8 @@ import java.lang.annotation.Target;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * Applies to a {@link ConfigurationSerializable} that will delegate all
- * deserialization to another {@link ConfigurationSerializable}.
+ * Applies to a configuration serializable that will delegate all
+ * deserialization to another configuration serializable.
  * <p>
  * Synchronized with the commit on 23-April-2019.
  */
@@ -46,10 +46,9 @@ import org.jetbrains.annotations.NotNull;
 public @interface DelegateDeserialization {
     
     /**
-     * Gets the {@link ConfigurationSerializable} {@link Class} that is
-     * delegated to.
+     * Gets the configuration serializable class that is delegated to.
      * 
-     * @return The delegate {@link ConfigurationSerializable}.
+     * @return The delegated configuration serializable class.
      */
     @NotNull
     Class<? extends ConfigurationSerializable> value();

@@ -236,7 +236,7 @@ public interface ConfigurationSection {
      */
     @NotNull
     @UnmodifiableView
-    List<String> getInLineComments(@NotNull final String path);
+    List<String> getInlineComments(@NotNull final String path);
     
     /**
      * Sets the comments at the given path.
@@ -274,7 +274,7 @@ public interface ConfigurationSection {
      *                       {@code null} to remove any existing inline
      *                       comments.
      */
-    void setInLineComments(@NotNull final String path, @Nullable final List<String> inLineComments);
+    void setInlineComments(@NotNull final String path, @Nullable final List<String> inLineComments);
     
     /**
      * Creates an empty configuration section at the given path.
