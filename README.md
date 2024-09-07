@@ -7,7 +7,7 @@ It is based off of [SpigotMC's Bukkit](https://hub.spigotmc.org/stash/projects/S
 ## Obtaining YamlConfiguration
 
 You can obtain a copy of YamlConfiguration via the following methods:
-- Download a pre-built copy from the [Releases page](https://github.com/bspfsystems/YamlConfiguration/releases/latest/). The latest version is release 2.0.2.
+- Download a pre-built copy from the [Releases page](https://github.com/bspfsystems/YamlConfiguration/releases/latest/). The latest version is release 3.0.0.
 - Build from source (see below).
 - Include it as a dependency in your project (see the Development API section).
 - 
@@ -17,7 +17,7 @@ YamlConfiguration uses [Apache Maven](https://maven.apache.org/) to build and ha
 
 #### Requirements
 
-- Java Development Kit (JDK) 8 or higher
+- Java Development Kit (JDK) 17 or higher
 - Git
 - Apache Maven
 
@@ -52,7 +52,7 @@ Include the following in your `pom.xml` file:<br />
     <dependency>
         <groupId>org.bspfsystems</groupId>
         <artifactId>yamlconfiguration</artifactId>
-        <version>2.0.2</version>
+        <version>3.0.0</version>
         <scope>compile</scope>
     </dependency>
 </dependencies>
@@ -68,7 +68,7 @@ repositories {
 }
 
 dependencies {
-    implementation "org.bspfsystems:yamlconfiguration:2.0.2"
+    implementation "org.bspfsystems:yamlconfiguration:3.0.0"
 }
 ```
 

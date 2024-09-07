@@ -1,4 +1,4 @@
 include:
   - project: bspfsystems/cicd-templates
     ref: main
-    file: maven/maven-build-8.yml
+    file: maven/maven-build-17.yml
