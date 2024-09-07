@@ -70,9 +70,9 @@
     </developers>
     
     <scm>
-        <connection>scm:git:git@github.com:bspfsystems/YamlConfiguration.git</connection>
-        <developerConnection>scm:git:git@github.com:bspfsystems/YamlConfiguration.git</developerConnection>
-        <url>git@github.com:bspfsystems/YamlConfiguration.git</url>
+        <connection>scm:git:https://github.com/bspfsystems/YamlConfiguration.git</connection>
+        <developerConnection>scm:git:https://github.com/bspfsystems/YamlConfiguration.git</developerConnection>
+        <url>https://github.com/bspfsystems/YamlConfiguration.git</url>
     </scm>
     
     <issueManagement>
@@ -137,6 +137,14 @@
             <id>apache-maven-snapshots</id>
             <url>https://repository.apache.org/content/repositories/snapshots/</url>
         </pluginRepository>
+        <pluginRepository>
+            <id>oss-sonatype-releases</id>
+            <url>https://oss.sonatype.org/content/repositores/releases/</url>
+        </pluginRepository>
+        <pluginRepository>
+            <id>oss-sonatype-snapshots</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+        </pluginRepository>
     </pluginRepositories>
     
     <build>
@@ -167,6 +175,9 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <version>3.10.0</version>
+                <configuration>
+                    <sourcepath>src/main/java</sourcepath>
+                </configuration>
                 <executions>
                     <execution>
                         <id>attach-javadocs</id>
@@ -226,6 +237,17 @@
                 <version>3.1.3</version>
                 <configuration>
                     <skip>false</skip>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.sonatype.plugins</groupId>
+                <artifactId>nexus-staging-maven-plugin</artifactId>
+                <version>1.7.0</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <serverId>ossrh</serverId>
+                    <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+                    <autoReleaseAfterClose>true</autoReleaseAfterClose>
                 </configuration>
             </plugin>
         </plugins>
