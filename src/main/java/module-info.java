@@ -35,6 +35,7 @@ module org.bspfsystems.yamlconfiguration {
     // Requirements
     requires org.jetbrains.annotations;
     requires org.slf4j;
+    requires org.yaml.snakeyaml;
     
     // Full Exports
     exports org.bspfsystems.yamlconfiguration.configuration;
