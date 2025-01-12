@@ -4,8 +4,8 @@
  * Implementation of SnakeYAML to be easy to use with files.
  * 
  * Copyright (C) 2010-2014 The Bukkit Project (https://bukkit.org/)
- * Copyright (C) 2014-2023 SpigotMC Pty. Ltd. (https://www.spigotmc.org/)
- * Copyright (C) 2020-2024 BSPF Systems, LLC (https://bspfsystems.org/)
+ * Copyright (C) 2014-2024 SpigotMC Pty. Ltd. (https://www.spigotmc.org/)
+ * Copyright (C) 2020-2025 BSPF Systems, LLC (https://bspfsystems.org/)
  * 
  * Many of the files in this project are sourced from the Bukkit API as
  * part of The Bukkit Project (https://bukkit.org/), now maintained by
@@ -44,7 +44,7 @@ import org.yaml.snakeyaml.nodes.Tag;
 /**
  * Represents a custom safe constructor for use with a YAML configuration.
  * <p>
- * Synchronized with the commit on 14-March-2023.
+ * Synchronized with the commit on 24-November-2024.
  */
 public final class YamlConstructor extends SafeConstructor {
     

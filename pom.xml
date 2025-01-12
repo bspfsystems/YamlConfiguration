@@ -4,8 +4,8 @@
   ~ Implementation of SnakeYAML to be easy to use with files.
   ~ 
   ~ Copyright (C) 2010-2014 The Bukkit Project (https://bukkit.org/)
-  ~ Copyright (C) 2014-2023 SpigotMC Pty. Ltd. (https://www.spigotmc.org/)
-  ~ Copyright (C) 2020-2024 BSPF Systems, LLC (https://bspfsystems.org/)
+  ~ Copyright (C) 2014-2024 SpigotMC Pty. Ltd. (https://www.spigotmc.org/)
+  ~ Copyright (C) 2020-2025 BSPF Systems, LLC (https://bspfsystems.org/)
   ~ 
   ~ Many of the files in this project are sourced from the Bukkit API as
   ~ part of The Bukkit Project (https://bukkit.org/), now maintained by
@@ -32,7 +32,7 @@
     
     <groupId>org.bspfsystems</groupId>
     <artifactId>yamlconfiguration</artifactId>
-    <version>3.0.1</version>
+    <version>3.0.2</version>
     <packaging>jar</packaging>
     
     <name>YamlConfiguration</name>
@@ -106,7 +106,7 @@
         <dependency>
             <groupId>org.jetbrains</groupId>
             <artifactId>annotations</artifactId>
-            <version>24.1.0</version>
+            <version>26.0.1</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
@@ -174,7 +174,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>3.10.0</version>
+                <version>3.11.2</version>
                 <configuration>
                     <sourcepath>src/main/java</sourcepath>
                 </configuration>
@@ -190,7 +190,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-gpg-plugin</artifactId>
-                <version>3.2.5</version>
+                <version>3.2.7</version>
                 <executions>
                     <execution>
                         <id>sign-artifacts</id>
