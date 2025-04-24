@@ -29,6 +29,7 @@
 
 package org.bspfsystems.yamlconfiguration.configuration;
 
+import java.io.Serial;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -37,7 +38,8 @@ import org.jetbrains.annotations.NotNull;
  * Synchronized with the commit on 15-December-2013.
  */
 public final class InvalidConfigurationException extends Exception {
-
+    
+    @Serial
     private static final long serialVersionUID = 685592388091335686L;
     
     /**
