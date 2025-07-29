@@ -1,4 +1,0 @@
-include:
-  - project: cicd-templates/common-templates
-    ref: main
-    file: maven/maven-build-17.yml
