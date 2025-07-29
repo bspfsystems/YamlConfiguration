@@ -8,7 +8,7 @@ on:
 
 jobs:
   compile:
-    runs-on: linux_amd64
+    runs-on: linux_amd64:host
     steps:
       - uses: actions/checkout@v4.2.2
       - name: Set Up JDK 17
